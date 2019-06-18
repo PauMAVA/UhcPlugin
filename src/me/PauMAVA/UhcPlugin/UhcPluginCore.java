@@ -1,5 +1,7 @@
 package me.PauMAVA.UhcPlugin;
 
-public class UhcPluginCore {
+import org.bukkit.plugin.java.JavaPlugin;
 
+public class UhcPluginCore extends JavaPlugin {
+	
 }
