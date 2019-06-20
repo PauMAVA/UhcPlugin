@@ -1,0 +1,9 @@
+name: UhcPlugin
+version: Alpha 0.1
+main: me.PauMAVA.UhcPlugin.UhcPluginCore
+description: A Uhc Plugin for Bukkit 1.14.2 to play Uhc.
+api-version: 1.14
+
+commands:
+ uhcstart:
+  description: This command is used to begin the Uhc game.

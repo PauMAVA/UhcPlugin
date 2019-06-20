@@ -15,10 +15,34 @@
             		<manifest>
                			<addClasspath>true</addClasspath>
                			<classpathPrefix>lib/</classpathPrefix>
-               			<mainClass>me.PauMAVA.EconomyPlugin.EconomyPluginCore</mainClass>
+               			<mainClass>me.PauMAVA.UhcPlugin.UhcPluginCore</mainClass>
              		</manifest>
            		</archive>
 			</configuration>
+  		</plugin>
+  		<plugin>
+  			<artifactId>maven-antrun-plugin</artifactId>
+  			<version>1.8</version>
+  			<executions>
+  				<execution>
+            		<id>copy</id>
+            		<phase>package</phase>
+            		<goals>
+              			<goal>run</goal>
+            		</goals>
+           			<inherited>false</inherited>
+            		<configuration>
+            			<target>
+            				<echo>Copying .jar to Development Server....</echo>
+            				<copy todir="C:/Users/Pau/Desktop/DevServer/plugins" overwrite="true"> 
+            					<fileset dir="target" includes="*.jar">
+            						<include name="UhcPluginDevRelease.jar"/>
+            					</fileset>
+            				</copy>
+            			</target>            		
+            		</configuration>
+          		</execution>
+  			</executions>
   		</plugin>
   	</plugins>
   </build>
@@ -29,15 +53,21 @@
   		<id>spigot-repo</id>
         <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
   	</repository>
+  	<repository>
+  		<id>PauMAVen</id>
+        <url>https://raw.githubusercontent.com/PauMAVA/PauMAVen/master</url>
+  	</repository>
   </repositories>
   <!-- REPO IMPORTS -->
   <!-- DEPENDENCIES IMPORTS -->
   <dependencies>	
   	<!-- Importing Bukkit API -->
-  	<dependency>
-  		<groupId>org.bukkit</groupId>
-        <artifactId>bukkit</artifactId>
-        <version>1.14.2-R0.1-SNAPSHOT</version>
+
+ 	<!-- Importing craftbukkit from github (includes io.netty) -->
+	<dependency>
+  		<groupId>me.PauMAVA</groupId>
+        <artifactId>craftbukkit</artifactId>
+        <version>1.14.2</version>
         <scope>provided</scope>
   	</dependency>
   </dependencies>
