@@ -5,5 +5,7 @@ description: A Uhc Plugin for Bukkit 1.14.2 to play Uhc.
 api-version: 1.14
 
 commands:
- uhcstart:
-  description: This command is used to begin the Uhc game.
+ uhc:
+  description: This is the basic command of the plugin.
+  start:
+    description: Initialize the UHC.

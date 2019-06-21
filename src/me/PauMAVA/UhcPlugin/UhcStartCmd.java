@@ -3,26 +3,16 @@ package me.PauMAVA.UhcPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class UhcStartCmd implements CommandExecutor {
-	
-	/*Use constructors only for command execution*/
-	UhcPluginCore directPlugin;
-	public UhcStartCmd(UhcPluginCore passedPlugin) {
-		this.directPlugin = passedPlugin;
-	}
-	
+public class UhcStartCmd {
 	private static long counter;
 	private static int taskID;
 	
 	/*Main command method*/
-	public boolean onCommand(CommandSender theSender, Command cmd, String label, String[] args) {
-		counter = Integer.parseInt(args[0]);
-		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(directPlugin, new Runnable() {
+	public static void start(String[] args) {
+		counter = Integer.parseInt(args[1]);
+		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(UhcPluginCore.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				ChatColor numberColor;
@@ -61,6 +51,6 @@ public class UhcStartCmd implements CommandExecutor {
 				}
 			}
 		}, 0L, 20L);
-		return true;
+		return;
 	}
 }

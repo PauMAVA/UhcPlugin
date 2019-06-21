@@ -10,12 +10,14 @@ public class UhcPluginCore extends JavaPlugin {
 		
 		/*Logger to handle plugin's output*/
 		public static final Logger UhcLogger = Bukkit.getServer().getLogger();
-	
+		private static UhcPluginCore instance;
+		
 		@Override
 		public void onEnable() {
+			instance = this;
 			UhcLogger.info("Enabled UhcPlugin!");
 			this.getServer().getPluginManager().registerEvents(new EventsRegister(), this);
-			this.getCommand("uhcstart").setExecutor(new UhcStartCmd(this));
+			this.getCommand("uhc").setExecutor(new UhcCmdHub(this));
 			this.getCommand("abort").setExecutor(new AbortCmd(this));
 			
 		}
@@ -24,4 +26,9 @@ public class UhcPluginCore extends JavaPlugin {
 		public void onDisable() {
 			UhcLogger.info("Disabled UhcPlugin!");
 		}
+		
+		public static UhcPluginCore getInstance() {
+			return instance;
+		}
+		
 }
