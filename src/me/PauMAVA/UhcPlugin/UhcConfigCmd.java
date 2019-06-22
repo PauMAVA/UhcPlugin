@@ -7,8 +7,10 @@ import org.bukkit.entity.Player;
 public class UhcConfigCmd {
 	
 	private static UhcPluginCore plugin = UhcPluginCore.getInstance();
+	private static CommandSender staticSender;
 	
 	public static void config(CommandSender theSender, String[] args) {
+		staticSender = theSender;
 		boolean legalArgs = checkForValidArgs(theSender, args.length);
 		if(legalArgs == false) {
 			return;
@@ -47,14 +49,16 @@ public class UhcConfigCmd {
 		try {
 			int value = Integer.parseInt(data);
 			if(value < 0) {
-				//TODO WARNING
+				sendMessage(staticSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "You've set a negative " + path + " value! (This shouldn't cause any errors).");
 			}
 			plugin.getConfig().set(path, value);
 			plugin.saveConfig();
 		} catch(NumberFormatException e) {
-				//TODO MESSAGE
+				sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "the parameter " + path + " only accepts integer values!");
+				return;
 		} catch(NullPointerException e) {
-				//TODO MESSAGE
+				sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "you must provide a value for the parameter " + path);
+				return;
 		}
 		
 		return;
