@@ -7,5 +7,3 @@ api-version: 1.14
 commands:
  uhc:
   description: This is the basic command of the plugin.
-  start:
-    description: Initialize the UHC.

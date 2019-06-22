@@ -1,5 +1,6 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -16,8 +17,10 @@ public class UhcPluginCore extends JavaPlugin {
 		public void onEnable() {
 			instance = this;
 			UhcLogger.info("Enabled UhcPlugin!");
+			this.saveDefaultConfig();
 			this.getServer().getPluginManager().registerEvents(new EventsRegister(), this);
-			this.getCommand("uhc").setExecutor(new UhcCmdHub(this));
+			this.getCommand("uhc").setExecutor(new UhcCmdHub());
+			this.getCommand("uhc").setTabCompleter(new UhcCompleteTab());
 			this.getCommand("abort").setExecutor(new AbortCmd(this));
 			
 		}

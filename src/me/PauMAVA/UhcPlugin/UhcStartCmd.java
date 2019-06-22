@@ -1,5 +1,7 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -43,6 +45,11 @@ public class UhcStartCmd {
 				}
 				counter--;
 				if(counter <= 0) {
+					try {
+						TimeUnit.SECONDS.sleep(1);
+					} catch(InterruptedException e) {
+						UhcPluginCore.UhcLogger.warning("An error ocurred on Uhc Countdown task!");
+					}
 					for(Player player: Bukkit.getOnlinePlayers()) {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
 						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC Tx",ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);

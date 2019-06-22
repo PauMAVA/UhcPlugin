@@ -8,11 +8,9 @@ import org.bukkit.entity.Player;
 
 public class UhcCmdHub implements CommandExecutor {
 
-	public final UhcPluginCore directPlugin;
-	public UhcCmdHub(UhcPluginCore passedPlugin) {
-		directPlugin = passedPlugin;
-	}
+	public static UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
+	@Override
 	public boolean onCommand(CommandSender theSender, Command cmd, String label, String[] args) {
 		/*Handle the situation when the player doesn't provide a subcommand*/
 		try {
@@ -25,7 +23,7 @@ public class UhcCmdHub implements CommandExecutor {
 					break;
 				}
 				case "config": {
-					/*TODO Redirect to config class*/
+					UhcConfigCmd.config(theSender,args);
 					break;
 				}
 				case "permissions": {
@@ -47,6 +45,5 @@ public class UhcCmdHub implements CommandExecutor {
 			return false;
 		}
 	}
-	
 	
 }
