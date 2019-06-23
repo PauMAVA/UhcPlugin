@@ -15,13 +15,15 @@ public class UhcScoreboard {
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	static final ScoreboardManager scManager = plugin.getServer().getScoreboardManager();
 	static Scoreboard uhcScoreboard = scManager.getNewScoreboard();
+	static String sPrefix,mPrefix = "";
+	private static int chapterLength = plugin.getConfig().getInt("chapter_length");
 	
 	public static void setUp() {
-		timerSidebar();
-		lifeList();
-		for(Player player: Bukkit.getOnlinePlayers()) {
-			player.setScoreboard(uhcScoreboard);
-		}
+			timerSidebar();
+			lifeList();
+			for(Player player: Bukkit.getOnlinePlayers()) {
+				player.setScoreboard(uhcScoreboard);
+			}
 		return;
 	}
 	
@@ -30,17 +32,17 @@ public class UhcScoreboard {
 		//TODO CONFIG NUMBER OF CHAPTERS AND DURATION OF EACH ONE BEFORE SCHEDULING THE ASYNC TASK
 		Bukkit.getServer().getScheduler().runTaskTimerAsynchronously(plugin, new Runnable() {
 			int seconds = 59;
-			int minutes = 24;
+			int minutes = chapterLength - 1;
 			int episode = 1;
 			
 			@Override
 			public void run() {
-				if(seconds < 0) {
+				if(seconds <= 0) {
 					seconds = 59;
 					minutes --;
 					if(minutes < 0) {
-						minutes = 24;
-						episode --;
+						minutes =  chapterLength - 1;
+						episode ++;
 						refresh(seconds,minutes,episode);
 						return;
 					}
@@ -74,9 +76,19 @@ public class UhcScoreboard {
 	}
 	
 	public static void refresh(int seconds, int minutes, int episode) {
+		if(seconds < 10) {
+			sPrefix = "0";
+		} else {
+			sPrefix = "";
+		}
+		if(minutes < 10) {
+			mPrefix = "0";
+		} else {
+			mPrefix = "";
+		}
 		uhcScoreboard = scManager.getNewScoreboard();
 		Objective timerObjective = uhcScoreboard.registerNewObjective("timer", "dummy", ChatColor.BOLD + "" + ChatColor.UNDERLINE + ChatColor.GOLD + "UHC T" + plugin.getConfig().getInt("season"));
-		Score timerScore = timerObjective.getScore(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Time left: " + ChatColor.RESET + "" + ChatColor.DARK_RED + minutes + ":" + seconds);
+		Score timerScore = timerObjective.getScore(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Time left: " + ChatColor.RESET + "" + ChatColor.DARK_RED + mPrefix + minutes + ":" + sPrefix + seconds);
 		timerScore.setScore(0);
 		timerObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		lifeList();

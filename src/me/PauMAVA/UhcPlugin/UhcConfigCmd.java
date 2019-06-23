@@ -1,5 +1,8 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,6 +11,8 @@ public class UhcConfigCmd {
 	
 	private static UhcPluginCore plugin = UhcPluginCore.getInstance();
 	private static CommandSender staticSender;
+	private static final List<String> canBeNegative = Arrays.asList("season");
+	private static final List<String> allConfigOptions = Arrays.asList("season","chapter_length");
 	
 	public static void config(CommandSender theSender, String[] args) {
 		staticSender = theSender;
@@ -20,6 +25,14 @@ public class UhcConfigCmd {
 		switch(option) {
 			case "season": {
 				setInt("season", value);
+				break;
+			}
+			case "chapter_length": {
+				setInt("chapter_length", value);
+				break;
+			}
+			default: {
+				sendMessage(staticSender,ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option you introduced does not exist! Please use one of this configuration options: " + allConfigOptions);
 				break;
 			}
 		}
@@ -48,8 +61,11 @@ public class UhcConfigCmd {
 	private static void setInt(String path, String data) {
 		try {
 			int value = Integer.parseInt(data);
-			if(value < 0) {
+			if(value < 0 && canBeNegative.contains(path) == true) {
 				sendMessage(staticSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "You've set a negative " + path + " value! (This shouldn't cause any errors).");
+			} 
+			if(value < 0 && canBeNegative.contains(path) == false) {
+				sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "You've set a negative " + path + " value, which is not supported. No changes were made!");
 			}
 			plugin.getConfig().set(path, value);
 			plugin.saveConfig();

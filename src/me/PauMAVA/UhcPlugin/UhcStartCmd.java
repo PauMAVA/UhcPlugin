@@ -6,17 +6,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 public class UhcStartCmd {
 	private static long counter;
-	private static int taskID;
+	private static BukkitTask task;
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
 	/*Main command method*/
 	public static void start(String[] args) {
 		counter = Integer.parseInt(args[1]);
-		taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(UhcPluginCore.getInstance(), new Runnable() {
+		task = Bukkit.getScheduler().runTaskTimer(UhcPluginCore.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				ChatColor numberColor;
@@ -56,12 +57,12 @@ public class UhcStartCmd {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
 						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC T" + plugin.getConfig().getInt("season"),ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);
 					}
-					Bukkit.getScheduler().cancelTask(taskID);
+					UhcScoreboard.setUp();
+					//TODO WORLD BORDER AND RANDOM TELEPORT
+					Bukkit.getScheduler().cancelTask(task.getTaskId());
 				}
 			}
 		}, 0L, 20L);
-		UhcScoreboard.setUp();
-		//TODO WORLD BORDER AND RANDOM TELEPORT
 		return;
 	}
 }
