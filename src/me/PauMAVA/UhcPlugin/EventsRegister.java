@@ -4,8 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -34,22 +32,6 @@ public class EventsRegister implements Listener {
 	public void onDeath(PlayerDeathEvent event) {
 		//NOT WORKING
 		UhcPluginCore.UhcLogger.info("DIED");
-	}
-	
-	@EventHandler
-	public void onDamage(EntityDamageEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			UhcScoreboard.updateHealth(player);
-		}
-	}
-	
-	@EventHandler
-	public void onRegen(EntityRegainHealthEvent event) {
-		if(event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
-			UhcScoreboard.updateHealth(player);
-		}
 	}
 	
 }
