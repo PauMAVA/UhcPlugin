@@ -88,8 +88,10 @@ public class UhcScoreboard {
 		}
 		uhcScoreboard = scManager.getNewScoreboard();
 		Objective timerObjective = uhcScoreboard.registerNewObjective("timer", "dummy", ChatColor.BOLD + "" + ChatColor.UNDERLINE + ChatColor.GOLD + "UHC T" + plugin.getConfig().getInt("season"));
-		Score timerScore = timerObjective.getScore(ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Time left: " + ChatColor.RESET + "" + ChatColor.DARK_RED + mPrefix + minutes + ":" + sPrefix + seconds);
-		timerScore.setScore(0);
+		Score timerScore = timerObjective.getScore(ChatColor.RED + "Time left: " + ChatColor.RESET + "" + ChatColor.GREEN + mPrefix + minutes + ":" + sPrefix + seconds);
+		Score episodeScore = timerObjective.getScore(ChatColor.BLUE + "Episode: " + episode);
+		timerScore.setScore(1);
+		episodeScore.setScore(0);
 		timerObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		lifeList();
 		for(Player player: Bukkit.getOnlinePlayers()) {

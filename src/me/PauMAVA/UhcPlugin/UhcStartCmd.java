@@ -58,7 +58,8 @@ public class UhcStartCmd {
 						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC T" + plugin.getConfig().getInt("season"),ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);
 					}
 					UhcScoreboard.setUp();
-					//TODO WORLD BORDER AND RANDOM TELEPORT
+					UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
+					//TODO RANDOM TELEPORT
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
 				}
 			}
