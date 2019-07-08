@@ -1,5 +1,9 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,11 +34,18 @@ public class UhcCmdHub implements CommandExecutor {
 					/*TODO Redirect to permission class*/
 					break;
 				}
+				case "teams": {
+					List<String> argsList = new ArrayList<String>(Arrays.asList(args));
+					argsList.remove(0);
+					args = argsList.toArray(new String[0]);
+					UhcTeamsManager.cmdReciever(theSender, args);
+					break;
+				}
 				default: {
 					if(theSender instanceof Player) {
 						((Player) theSender).getPlayer().sendMessage(ChatColor.RED + subCmd + " is not  a vaild option for /uhc <subCmd> [args]");
 					} else {
-						UhcPluginCore.UhcLogger.warning(ChatColor.RED + subCmd + " is not  a vaild option for /uhc <subCmd> [args]");
+						plugin.getPluginLogger().warning(ChatColor.RED + subCmd + " is not  a vaild option for /uhc <subCmd> [args]");
 					}
 					return false;
 				}

@@ -10,28 +10,30 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class EventsRegister implements Listener {
 	
+	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
+	
 	/*Listens for players joining the server and:
 	 * - Injects them to the pipeline*/
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onjoin(PlayerJoinEvent event) {
-		UhcPluginCore.UhcLogger.info("Registered event!");
+		plugin.getPluginLogger().info("Registered event!");
 		Player player = event.getPlayer();
-		PacketIntercepter.injectPlayer(player);
+		//PacketIntercepter.injectPlayer(player);
 	}
 	
 	/*Listens for players quitting the game and:
 	 * - Removes them of the pipeline*/
 	@EventHandler(priority=EventPriority.HIGH)
 	public void onleave(PlayerQuitEvent event) {
-		UhcPluginCore.UhcLogger.info("Registered event!");
+		plugin.getPluginLogger().info("Registered event!");
 		Player player = event.getPlayer();
-		PacketIntercepter.rmPlayer(player);
+		//PacketIntercepter.rmPlayer(player);
 	}
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		//NOT WORKING
-		UhcPluginCore.UhcLogger.info("DIED");
+		plugin.getPluginLogger().info("DIED");
 	}
 	
 }

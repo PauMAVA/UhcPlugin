@@ -3,43 +3,75 @@ package me.PauMAVA.UhcPlugin;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.configuration.file.FileConfiguration;
+import javax.annotation.Nullable;
+
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class TeamsFile {
 	
-	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
-	private static FileConfiguration teamsConfig;
-	private static File theFile;
-	
-	public TeamsFile() throws IOException{
-		theFile = new File(plugin.getDataFolder(), "teams.yml");
-		if(!theFile.exists()) {
-			theFile.createNewFile();
+	private static UhcPluginCore plugin = UhcPluginCore.getInstance();
+	private static File file;
+	private static YamlConfiguration teamsConfig;
+
+	public TeamsFile(@Nullable String fileName) {
+		if(!plugin.getDataFolder().exists()) {
+			plugin.getDataFolder().mkdirs();
 		}
-		teamsConfig = YamlConfiguration.loadConfiguration(theFile);
+		if(fileName == null) {
+			fileName = "teams";
+		}
+		file = new File(plugin.getDataFolder() + "\\" + fileName + ".yml");
+		teamsConfig = YamlConfiguration.loadConfiguration(file);
+		if(!file.exists()) {
+			try {
+				file.createNewFile();
+				plugin.getPluginLogger().info("Generated teams.yml file!");
+				loadDefaults();
+				saveConfig();
+			} catch(IOException e) {
+				e.printStackTrace();
+				plugin.getPluginLogger().severe("Could not create/save Teams file!");
+			}
+		}
 	}
 	
-	public TeamsFile(String fileName) throws IOException {
-		String ymlName = fileName + ".yml";
-		theFile = new File(plugin.getDataFolder(), ymlName);
-		if(!theFile.exists()) {
-			theFile.createNewFile();
-		}
-		teamsConfig = YamlConfiguration.loadConfiguration(theFile);
-	}
-	
-	void loadDefaults() {
+	private static void loadDefaults() {
 		teamsConfig.addDefault("solo", false);
 		teamsConfig.addDefault("teamSize", 2);
-		teamsConfig.addDefault("teams", null);
-		UhcPluginCore.UhcLogger.info("Added defaults!");
+		teamsConfig.options().copyDefaults(true);
+		plugin.getPluginLogger().info("Added defaults!");
 	}
 	
-	void saveConfig() throws IOException {
-		teamsConfig.save(theFile);
-		UhcPluginCore.UhcLogger.info("Saved!");
+	public void saveConfig() {
+		try {
+			teamsConfig.save(file);
+		} catch (IOException e) {
+			plugin.getPluginLogger().severe("Couldn't save config file! IOException.");
+			e.printStackTrace();
+		}
+		plugin.getPluginLogger().info("Saved TeamsConfig!");
 	}
 	
+	public boolean registerTeam(String teamName) {
+		if(!teamsConfig.isSet("teams." + teamName)) {
+			teamsConfig.createSection("teams." + teamName);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean deleteTeam(String teamName) {
+		if(teamsConfig.getConfigurationSection("teams." + teamName) == null) {
+			return false;
+		} else {
+			teamsConfig.set("teams." + teamName, null);
+			return true;
+		}
+	}
+	
+	public int addPlayer(String teamName, String playerName) {
+		return 0;
+	}
 
 }

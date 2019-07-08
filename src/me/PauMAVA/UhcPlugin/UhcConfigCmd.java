@@ -69,7 +69,7 @@ public class UhcConfigCmd {
 			Player p = ((Player) theSender).getPlayer();
 			p.sendMessage(msg);
 		} else {
-			UhcPluginCore.UhcLogger.info(msg);
+			plugin.getPluginLogger().info(msg);
 		}
 		return;
 	}

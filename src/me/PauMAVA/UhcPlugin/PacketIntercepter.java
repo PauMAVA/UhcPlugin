@@ -14,6 +14,8 @@ import io.netty.channel.ChannelPromise;
 
 public class PacketIntercepter {
 	
+	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
+	
 	public static void rmPlayer(Player player) {
 		Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
 		channel.eventLoop().submit(() -> {
@@ -25,7 +27,7 @@ public class PacketIntercepter {
 	
 	public static void injectPlayer(Player player) {
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
-			/*Create method to print all packets before letting the client/server to read them
+			/*Override parent method to print all packets before letting the client/server to read them
 			 * This enables to block any packet or modify it before sending it to the client or server*/
 			@Override
 			public void channelRead(ChannelHandlerContext context, Object packet) {
@@ -33,7 +35,7 @@ public class PacketIntercepter {
 				try {
 					super.channelRead(context, packet);
 				} catch (Exception e) {
-					UhcPluginCore.UhcLogger.warning(ChatColor.DARK_RED + "An error occurred while reading a packet!");
+					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occurred while reading a packet!");
 					e.printStackTrace();
 				}
 			}
@@ -44,7 +46,7 @@ public class PacketIntercepter {
 				try {
 					super.write(context, packet, promise);
 				} catch(Exception e) {
-					UhcPluginCore.UhcLogger.warning(ChatColor.DARK_RED + "An error occured whilw writing a packet!");			
+					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occured whilw writing a packet!");			
 				}
 			}
 			

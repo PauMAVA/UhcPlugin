@@ -16,6 +16,7 @@ public class UhcStartCmd {
 	
 	/*Main command method*/
 	public static void start(String[] args) {
+		Bukkit.getScheduler().cancelTasks(plugin);
 		counter = Integer.parseInt(args[1]);
 		task = Bukkit.getScheduler().runTaskTimer(UhcPluginCore.getInstance(), new Runnable() {
 			@Override
@@ -51,7 +52,7 @@ public class UhcStartCmd {
 					try {
 						TimeUnit.SECONDS.sleep(1);
 					} catch(InterruptedException e) {
-						UhcPluginCore.UhcLogger.warning("An error ocurred on Uhc Countdown task!");
+						plugin.getPluginLogger().warning("An error ocurred on Uhc Countdown task!");
 					}
 					for(Player player: Bukkit.getOnlinePlayers()) {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
