@@ -20,7 +20,7 @@ public class UhcTeamsManager {
 		if(!legalArgs) {
 			return;
 		}
-		switch(args[0]) {
+		switch(args[0].toLowerCase()) {
 			case "register": {
 				boolean exists = !teamsConfig.registerTeam(args[1]);
 				teamsConfig.saveConfig();
@@ -32,6 +32,9 @@ public class UhcTeamsManager {
 				break;
 			} 
 			case "add": {
+				int code = teamsConfig.addPlayer(args[1], args[2]);
+				plugin.getPluginLogger().info("Exit Code is: " + code);
+				teamsConfig.saveConfig();
 				break;
 			}
 			case "kick": {
@@ -46,6 +49,16 @@ public class UhcTeamsManager {
 					sendMessage(theSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "The team '" + args[1] + "' couldn't be deleted! Perhaps it didn't exist.");
 				}
 				break;
+			}	
+			case "setmaxsize": {
+				boolean check = teamsConfig.setMaxTeamSize(args[1]);
+				teamsConfig.saveConfig();
+				if(check == true) {
+					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team size has been succesfully set to " + args[1] + ".");
+				} else {
+					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The team size value couldn't be updated dueto an unexpected error. Maybe the file is not reachable!");
+				}
+				break;
 			}
 		}
 		return;
@@ -55,10 +68,11 @@ public class UhcTeamsManager {
 	 * register <teamName>
 	 * add <player> <teamName>
 	 * kick <player> <teamName>
-	 * delete <teamName>*/
+	 * delete <teamName>
+	 * setMaxSize <number> */
 	private static boolean checkForLegalArgs(CommandSender theSender, String[] args) {
 		int length = args.length;
-		switch(args[0]) {
+		switch(args[0].toLowerCase()) {
 			case "register": {
 				if(length != 2) {
 					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option register in the command /uhc teams <option>!");
@@ -91,9 +105,17 @@ public class UhcTeamsManager {
 				}
 				break;
 			}
+			case "setmaxsize": {
+				if(length != 2 || isNotInt(args[1])) {
+					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option setMaxSize in the command /uhc teams <option>!");
+					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option setMaxSize: /uhc teams setMaxSize <number>");
+					return false;
+				}
+				break;
+			}
 			default: {
 				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "No such option available for the command /uhc teams <option>!");
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Available options are: register, add, kick, and delete.");
+				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Available options are: register, add, kick, delete, setMaxSize.");
 				return false;
 			}
 		}
@@ -108,6 +130,15 @@ public class UhcTeamsManager {
 			plugin.getPluginLogger().info(message);
 		}
 		return;
+	}
+	
+	private static boolean isNotInt(String s) {
+		try {
+			int i = Integer.parseInt(s);
+			return false;
+		} catch(NumberFormatException e) {
+			return true;
+		}
 	}
 
 	
