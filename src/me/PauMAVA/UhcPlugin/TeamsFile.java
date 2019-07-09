@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class TeamsFile {
@@ -93,8 +94,7 @@ public class TeamsFile {
 				teamsConfig.getConfigurationSection("teams." + teamName).set("members", ls);
 			} else {
 				plugin.getPluginLogger().info("List exists!");
-				@SuppressWarnings("unchecked")
-				List<String> ls = (List<String>) teamsConfig.getConfigurationSection("teams." + teamName).getList("members");
+				List<String> ls = teamsConfig.getConfigurationSection("teams." + teamName).getStringList("members");
 				if(ls.size() == teamsConfig.getInt("teamSize")) {
 					/* Error Code 3 == Team is full! */
 					return 3;
@@ -111,7 +111,40 @@ public class TeamsFile {
 		}
 	}
 	
-	//DELETE FUNCTION
+	public int kickPlayer(String playerName, String teamName) {
+		if(!teamsConfig.isSet("teams." + teamName)) {
+			/* Error Code 1 == No such team exists! */ 
+			return 1;
+		} else {
+			ConfigurationSection section = teamsConfig.getConfigurationSection("teams." + teamName);
+			if(section.getList("members") == null || !section.getList("members").contains(playerName)) {
+				/* The player is not registered on that team */
+				return 2;
+			}
+			List<String> ls = section.getStringList("members");
+			ls.remove(playerName);
+			section.set("members", ls);
+			/* Nominal method return code */
+			return 0;
+		}
+
+	}
+	
+	public List<String> getTeamMembers(String teamName) {
+		if(!teamsConfig.isSet("teams." + teamName) || teamsConfig.getConfigurationSection("teams." + teamName).getString("members") == null) {
+			return null;
+		} else {
+			return teamsConfig.getConfigurationSection("teams." + teamName).getStringList("members"); 
+		}
+	}
+	
+	public List<String> getTeams() {
+		if(teamsConfig.getStringList("teams") == null) {
+			return null;
+		} else {
+			return teamsConfig.getStringList("teams");
+		}
+	}
 	
 	public boolean setMaxTeamSize(String value) {
 		int valueInt;

@@ -10,6 +10,7 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
+import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
 
 
 public class PacketIntercepter {
@@ -44,9 +45,13 @@ public class PacketIntercepter {
 			public void write(ChannelHandlerContext context, Object packet, ChannelPromise promise) {
 				Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + packet.toString());
 				try {
+					if(packet instanceof PacketPlayOutChat) {
+						PacketPlayOutChat chatPacket = (PacketPlayOutChat) packet;
+						chatPacket = UhcChatManager.manageOutPacket(chatPacket);
+					}
 					super.write(context, packet, promise);
 				} catch(Exception e) {
-					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occured whilw writing a packet!");			
+					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occured while writing a packet!");			
 				}
 			}
 			
