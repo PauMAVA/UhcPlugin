@@ -1,4 +1,4 @@
-/* FUTURE IMPLEMENTATIONS
+ /* FUTURE IMPLEMENTATIONS
  * - Command: /uhc teams get [arg].
  *   if(arg == "ALL") then display all teams and its integrants.
  *   if(arg == String) then String = teamName and if(teamsConfig exists) then display teamName.
@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -22,7 +24,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class TeamsFile {
 	
 	private static UhcPluginCore plugin = UhcPluginCore.getInstance();
-	private static File file;
+	private File file;
 	private static YamlConfiguration teamsConfig;
 
 	public TeamsFile(@Nullable String fileName) {
@@ -47,10 +49,14 @@ public class TeamsFile {
 		}
 	}
 	
+	public File getFile() {
+		return this.file;
+	}
+	
 	private static void loadDefaults() {
 		teamsConfig.addDefault("solo", false);
-		teamsConfig.addDefault("teamSize", 2);
 		teamsConfig.options().copyDefaults(true);
+		teamsConfig.createSection("teams");
 		plugin.getPluginLogger().info("Added defaults!");
 	}
 	
@@ -60,13 +66,15 @@ public class TeamsFile {
 		} catch (IOException e) {
 			plugin.getPluginLogger().severe("Couldn't save config file! IOException.");
 			e.printStackTrace();
+			return;
 		}
 		plugin.getPluginLogger().info("Saved TeamsConfig!");
 	}
 	
 	public boolean registerTeam(String teamName) {
 		if(!teamsConfig.isSet("teams." + teamName)) {
-			teamsConfig.createSection("teams." + teamName).set("members", null);;
+			teamsConfig.createSection("teams." + teamName).set("members", null);
+			teamsConfig.getConfigurationSection("teams." + teamName).set("teamSize", 3);
 			return true;
 		} else {
 			return false;
@@ -95,7 +103,7 @@ public class TeamsFile {
 			} else {
 				plugin.getPluginLogger().info("List exists!");
 				List<String> ls = teamsConfig.getConfigurationSection("teams." + teamName).getStringList("members");
-				if(ls.size() == teamsConfig.getInt("teamSize")) {
+				if(ls.size() == teamsConfig.getConfigurationSection("teams." + teamName).getInt("teamSize")) {
 					/* Error Code 3 == Team is full! */
 					return 3;
 				} else {
@@ -117,7 +125,7 @@ public class TeamsFile {
 			return 1;
 		} else {
 			ConfigurationSection section = teamsConfig.getConfigurationSection("teams." + teamName);
-			if(section.getList("members") == null || !section.getList("members").contains(playerName)) {
+			if(section.getStringList("members") == null || !section.getStringList("members").contains(playerName)) {
 				/* The player is not registered on that team */
 				return 2;
 			}
@@ -130,23 +138,48 @@ public class TeamsFile {
 
 	}
 	
+	public boolean checkTeamExistance(String teamName) {
+		return teamsConfig.isSet("teams." + teamName);
+	}
+	
 	public List<String> getTeamMembers(String teamName) {
 		if(!teamsConfig.isSet("teams." + teamName) || teamsConfig.getConfigurationSection("teams." + teamName).getString("members") == null) {
-			return null;
+			return new ArrayList<String>(); /* If the team is empty return an empty List instead of null to avoid NullPointerException */
 		} else {
 			return teamsConfig.getConfigurationSection("teams." + teamName).getStringList("members"); 
 		}
 	}
 	
-	public List<String> getTeams() {
-		if(teamsConfig.getStringList("teams") == null) {
-			return null;
+	public Collection<String> getTeams() {
+		if(teamsConfig.getConfigurationSection("teams").getKeys(false) == null) {
+			return new ArrayList<String>();
 		} else {
-			return teamsConfig.getStringList("teams");
+			return teamsConfig.getConfigurationSection("teams").getKeys(false);
 		}
 	}
 	
-	public boolean setMaxTeamSize(String value) {
+	public int getTeamMaxSize(String teamName) {
+		if(teamsConfig.getConfigurationSection("teams." + teamName) == null) {
+			/* Then the team doesn't exist. Return negative integer */
+			return -1;
+		}
+		return teamsConfig.getConfigurationSection("teams." + teamName).getInt("teamSize");
+	}
+	
+	public List<String> settleNewSize(String teamName, int excedent) {
+		List<String> originalList = getTeamMembers(teamName); 
+		int teamSize = originalList.size();
+		Integer newTeamSize = teamSize - excedent;
+		Collections.reverse(originalList);
+		List<String> removedList = originalList.subList(0, excedent);
+		for(String player: removedList) {
+			kickPlayer(player, teamName);
+		}
+		setMaxTeamSize(teamName, newTeamSize.toString());
+		return removedList;
+	}
+	
+	public boolean setMaxTeamSize(String teamName, String value) {
 		int valueInt;
 		try {
 			valueInt = Integer.parseInt(value);
@@ -154,7 +187,7 @@ public class TeamsFile {
 			e.printStackTrace();
 			return false;
 		}
-		teamsConfig.set("teamSize", valueInt);
+		teamsConfig.getConfigurationSection("teams." + teamName).set("teamSize", valueInt);
 		return true;
 	}
 
