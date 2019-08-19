@@ -17,7 +17,11 @@ public class UhcStartCmd {
 	/*Main command method*/
 	public static void start(String[] args) {
 		Bukkit.getScheduler().cancelTasks(plugin);
-		counter = Integer.parseInt(args[1]);
+		try {
+			counter = Integer.parseInt(args[1]);
+		} catch(ArrayIndexOutOfBoundsException e) {
+			counter = 10;
+		}
 		task = Bukkit.getScheduler().runTaskTimer(UhcPluginCore.getInstance(), new Runnable() {
 			@Override
 			public void run() {

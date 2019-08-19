@@ -21,8 +21,9 @@ public class UhcChatManager {
 	
 	public static void dispatchAdvancementEvent(String advancement) {
 		plugin.getPluginLogger().info("THE ADVANCEMENT IS " + advancement);
+		String random = randomString();
 		for(Player p: Bukkit.getOnlinePlayers()) {
-			p.sendMessage(ChatColor.GRAY + "" + ChatColor.MAGIC + "SampleString " + ChatColor.RESET + "has made the advancement " + ChatColor.GREEN + "[" + advancement + "]");
+			p.sendMessage(ChatColor.GRAY + "" + ChatColor.MAGIC + random + ChatColor.RESET + "has made the advancement " + ChatColor.GREEN + "[" + advancement + "]");
 		}
 	}
 	

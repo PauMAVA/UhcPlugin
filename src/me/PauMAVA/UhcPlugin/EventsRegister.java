@@ -1,5 +1,7 @@
 package me.PauMAVA.UhcPlugin;
 
+import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -34,16 +36,19 @@ public class EventsRegister implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		plugin.getPluginLogger().info("DIED");
+		UhcDeathManager dManager = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld());
+		dManager.setTotem(dManager.getPlayerCoords(), dManager.getPlayer(), Material.BLACK_STAINED_GLASS_PANE);
+		dManager.setPlayerGamemode(event.getEntity(), GameMode.SPECTATOR);
+		dManager.displayDeathMsgAndUpdateTeam(event.getEntity());
 	}
 	
 	@EventHandler
 	public void onAdvancement(PlayerAdvancementDoneEvent event) {
 		Advancement advancement = event.getAdvancement();
-		String advancementName = advancement.getKey().toString();
-		if(advancementName.contains("story")) {
-			//TODO Take Advancement name from a database key-value?
-			//TODO Make the name be a random string
+		String advancementID = advancement.getKey().toString();
+		if(advancementID.contains("story") || advancementID.contains("nether")) {
+			AdvancementsDatabase db = new AdvancementsDatabase();
+			String advancementName = db.getCanonicalName(advancementID);
 			UhcChatManager.dispatchAdvancementEvent(advancementName);
 		}
 	}
