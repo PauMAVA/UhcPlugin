@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Difficulty;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
@@ -15,7 +16,7 @@ public class UhcStartCmd {
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
 	/*Main command method*/
-	public static void start(String[] args) {
+	public static <T> void start(String[] args) {
 		Bukkit.getScheduler().cancelTasks(plugin);
 		try {
 			counter = Integer.parseInt(args[1]);
@@ -64,6 +65,9 @@ public class UhcStartCmd {
 					}
 					UhcScoreboard.setUp();
 					UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
+					/* THIS IS ARBITRAY NOW, BUT IT IS ECPECTED TO BE ADDED TO THE CONFIG.YML FILE SO THAT THE USER CAN SPECIFY THE CUSTOM SETTIGNS FOR THEIR MATCH */
+					UhcWorldConfig.setRules(UhcWorldConfig.getRules());
+					UhcWorldConfig.setDifficulty(Difficulty.HARD);
 					//TODO RANDOM TELEPORT
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
 				}

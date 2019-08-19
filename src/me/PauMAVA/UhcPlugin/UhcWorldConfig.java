@@ -1,26 +1,53 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
+import org.bukkit.Location;
 import org.bukkit.World;
 
 public class UhcWorldConfig {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
-	private static final GameRule<Boolean> naturalRegeneration = GameRule.NATURAL_REGENERATION;
+	private static final List<World> dimensions = plugin.getServer().getWorlds();
 	
 	public static void setBorder(double radius) {
 		double diameter = radius * 2;
-		World overworld = plugin.getServer().getWorlds().get(0);
-		World nether = plugin.getServer().getWorlds().get(1);
-		World end = plugin.getServer().getWorlds().get(2);
-		overworld.getWorldBorder().setCenter(0, 0);
-		overworld.getWorldBorder().setSize(diameter);
-		nether.getWorldBorder().setCenter(0.0, 0.0);
-		nether.getWorldBorder().setSize(diameter);
-		overworld.setGameRule(naturalRegeneration, false);
-		nether.setGameRule(naturalRegeneration, false);
-		end.setGameRule(naturalRegeneration, false);
+		for(World dimension: dimensions) {
+			dimension.getWorldBorder().setCenter(new Location(dimension, 0, 0, 0));
+			dimension.getWorldBorder().setSize(diameter);
+		}
 		return;
+	}
+	
+	public static <T> void setRules(HashMap<GameRule<T>, T> rules) {
+		Set<GameRule<T>> gameRuleList = rules.keySet();
+		for(GameRule<T> gm: gameRuleList) {
+			T value = rules.get(gm);
+			for(World dimension: dimensions) {
+				dimension.setGameRule(gm, value);
+			}
+		}
+	}
+	
+	public static void setDifficulty(Difficulty d) {
+		for(World dimension: dimensions) {
+			dimension.setDifficulty(d);
+		}
+		return;
+	} 
+	
+	public static HashMap<GameRule<Boolean>, Boolean> getRules() {
+		HashMap<GameRule<Boolean>, Boolean> rulesMap = new HashMap<>();
+		rulesMap.put(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+		rulesMap.put(GameRule.DO_DAYLIGHT_CYCLE, true);
+		rulesMap.put(GameRule.DO_MOB_SPAWNING, true);
+		rulesMap.put(GameRule.SHOW_DEATH_MESSAGES, false);
+		rulesMap.put(GameRule.NATURAL_REGENERATION, false);
+		return rulesMap;
 	}
 	
 }

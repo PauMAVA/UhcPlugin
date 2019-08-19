@@ -6,6 +6,7 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class UhcConfigCmd {
@@ -16,6 +17,10 @@ public class UhcConfigCmd {
 	private static final List<String> allConfigOptions = Arrays.asList("season","chapter_length","border_radius");
 	private static final List<String> canHandleAutoValues = Arrays.asList("border_radius");
 	private static final List<String> legalDifficulties = Arrays.asList("peaceful","easy","normal","hard");
+	
+	public static FileConfiguration getConfig() {
+		return plugin.getConfig();
+	}
 	
 	public static void config(CommandSender theSender, String[] args) {
 		staticSender = theSender;
@@ -40,7 +45,7 @@ public class UhcConfigCmd {
 			}
 			//TODO .CONTAINS(STRING) LIST DOES NOT WORK PROPERLY
 			case "difficulty": {
-				if(legalDifficulties.contains(option.toString()) == true) {
+				if(legalDifficulties.contains(option) == true) {
 					setString(option, value);
 				} else {
 					sendMessage(staticSender,ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option " + option + " cannot handle the value \"" + value + "\". It only accepts the following values: " + legalDifficulties);

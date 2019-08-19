@@ -43,6 +43,7 @@ public class UhcScoreboard {
 					if(minutes < 0) {
 						minutes =  chapterLength - 1;
 						episode ++;
+						UhcWorldBorder.refreshBorder(episode);
 						refresh(seconds,minutes,episode);
 						return;
 					}

@@ -17,7 +17,7 @@ public class UhcCompleteTab implements TabCompleter {
 	public List<String> onTabComplete(CommandSender theSender, Command cmd, String label, String[] args) {
 		if(theSender instanceof Player && label.equalsIgnoreCase("uhc")) {
 			ArrayList<String> subCommands = new ArrayList<String>();
-			subCommands.addAll(Arrays.asList("start","config","permissions"));
+			subCommands.addAll(Arrays.asList("start","config","teams"));
 			return subCommands;
 		} 
 		if(args[0].equalsIgnoreCase("config")) {

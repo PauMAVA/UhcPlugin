@@ -1,2 +1,7 @@
 season: 1
 lang: en
+chapter_length: 1
+border_radius: 1500
+closable_border: true
+final_radius: 150
+border_closing_episode: 3

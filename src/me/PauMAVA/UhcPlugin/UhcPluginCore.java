@@ -1,4 +1,4 @@
-package me.PauMAVA.UhcPlugin;
+ package me.PauMAVA.UhcPlugin;
 
 import java.util.logging.Logger;
 
