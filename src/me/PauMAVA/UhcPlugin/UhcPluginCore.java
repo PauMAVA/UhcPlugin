@@ -22,7 +22,7 @@ public class UhcPluginCore extends JavaPlugin {
 			this.getCommand("uhc").setExecutor(new UhcCmdHub());
 			this.getCommand("uhc").setTabCompleter(new UhcCompleteTab());
 			//this.getCommand("abort").setExecutor(new AbortCmd(this));
-			
+			CustomRecipes recipes = new CustomRecipes(true);
 		}
 		
 		@Override

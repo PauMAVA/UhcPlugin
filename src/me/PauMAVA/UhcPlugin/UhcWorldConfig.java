@@ -40,6 +40,13 @@ public class UhcWorldConfig {
 		return;
 	} 
 	
+	public static void setTime(Long time) {
+		for(World dimension: dimensions) {
+			dimension.setTime(time);
+		}
+		return;
+	}
+	
 	public static HashMap<GameRule<Boolean>, Boolean> getRules() {
 		HashMap<GameRule<Boolean>, Boolean> rulesMap = new HashMap<>();
 		rulesMap.put(GameRule.ANNOUNCE_ADVANCEMENTS, false);

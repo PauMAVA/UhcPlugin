@@ -1,7 +1,8 @@
 season: 1
 lang: en
-chapter_length: 1
+difficulty: hard
+chapter_length: 25
 border_radius: 1500
 closable_border: true
 final_radius: 150
-border_closing_episode: 3
+border_closing_episode: 8
