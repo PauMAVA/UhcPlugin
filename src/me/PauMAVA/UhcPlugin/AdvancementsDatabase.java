@@ -37,6 +37,35 @@ public class AdvancementsDatabase {
 			put("minecraft:nether/all_potions", "A Furious Cocktail");
 			put("minecraft:nether/create_full_beacon", "Beaconator");
 			put("minecraft:nether/all_effects", "How Did We Get Here?");
+			put("minecraft:adventure/adventuring_time", "Adventuring Time");
+			put("minecraft:adventure/kill_a_mob", "Monster Hunter");
+			put("minecraft:adventure/kill_all_mobs", "Monsters Hunted");
+			put("minecraft:adventure/root", "Adventure Advancement");
+			put("minecraft:adventure/shoot_arrow", "Take Aim");
+			put("minecraft:adventure/sleep_in_bed", "Sweet dreams");
+			put("minecraft:adventure/sniper_duel", "Sniper duel");
+			put("minecraft:adventure/summon_iron_golem", "Hired Help");
+			put("minecraft:adventure/throw_trident", "A Throwaway Joke"); 	
+			put("minecraft:adventure/totem_of_undying", "Postmortal"); 
+			put("minecraft:adventure/trade", "What a Deal"); 	
+			put("minecraft:adventure/very_very_frightening", "Very Very Frightening"); 	
+			put("minecraft:end/dragon_breath", "You Need a Mint"); 	
+			put("minecraft:end/dragon_egg", "The Next Generation"); 	
+			put("minecraft:end/elytra", "Sky\'s the Limit"); 	
+			put("minecraft:end/enter_end_gateway", "Remote Getaway"); 	
+			put("minecraft:end/find_end_city", "End Advancement"); 	
+			put("minecraft:end/kill_dragon", "Free the End"); 	
+			put("minecraft:end/levitate", "Great View From Up Here"); 	
+			put("minecraft:end/respawn_dragon", "The End... Again..."); 	
+			put("minecraft:end/root", "End Advancement"); 	
+			put("minecraft:husbandry/balanced_diet", "A Balanced Diet"); 	
+			put("minecraft:husbandry/break_diamond_hoe", "Serious Dedication"); 	
+			put("minecraft:husbandry/bred_all_animals", "Two by Two"); 	
+			put("minecraft:husbandry/breed_an_animal", "Husbandry Advancement"); 	
+			put("minecraft:husbandry/plant_seed", "A Seedy Place"); 	
+			put("minecraft:husbandry/root Husbandry", "Advancement");	
+			put("minecraft:husbandry/tactical_fishing", "Tactical Fishing"); 	
+			put("minecraft:husbandry/tame_an_animal", "Best Friends Forever");	
 		}
 	};
 	

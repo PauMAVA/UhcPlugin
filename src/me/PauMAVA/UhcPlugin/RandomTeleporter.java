@@ -141,6 +141,7 @@ public class RandomTeleporter {
 		return true;
 	}
 
+	/* TODO Alterative to Bukkit.getServer().getPlayer(String name) */
 	@SuppressWarnings("deprecation")
 	private static void teleportAndSetup(String teamName, Integer[] coords) {
 		List<String> teamMembers = teamsConfig.getTeamMembers(teamName);

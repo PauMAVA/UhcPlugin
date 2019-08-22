@@ -2,6 +2,7 @@ package me.PauMAVA.UhcPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -37,12 +38,18 @@ public class UhcScoreboard {
 			
 			@Override
 			public void run() {
+				if(seconds == 40 && minutes == 0) {
+					for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+						p.playSound(p.getLocation(), Sound.MUSIC_DISC_FAR, 20.0F, 1.0F);
+					}
+				}
 				if(seconds <= 0) {
 					seconds = 59;
 					minutes --;
 					if(minutes < 0) {
 						minutes =  chapterLength - 1;
 						episode ++;
+						Bukkit.broadcastMessage(ChatColor.GOLD + "[Game] " + ChatColor.YELLOW + "The episode " + episode + " begins now!");
 						UhcWorldBorder.refreshBorder(episode);
 						refresh(seconds,minutes,episode);
 						return;

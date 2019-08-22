@@ -1,5 +1,6 @@
 package me.PauMAVA.UhcPlugin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -21,10 +22,12 @@ import org.bukkit.entity.Player;
 public class UhcDeathManager {
 	private Player player;
 	private World playerWorld;
+	private String dCause;
 	
-	public UhcDeathManager(Player player, World world) {
+	public UhcDeathManager(Player player, World world, String dCause) {
 		this.player = player;
 		this.playerWorld = world;
+		this.dCause = dCause;
 	}
 	
 	public Player getPlayer() {
@@ -39,6 +42,10 @@ public class UhcDeathManager {
 		return this.playerWorld;
 	}
 	
+	public String getDeathCause() {
+		return this.dCause;
+	}
+	
 	public List<Integer> getPlayerCoords() {
 		Player p = this.player;
 		Location location = p.getLocation();
@@ -51,14 +58,26 @@ public class UhcDeathManager {
 	}
 	
 	public void displayDeathMsgAndUpdateTeam(Player player) {
+		/* If the player already died do nothing! */
+		if(UhcTeamsManager.getPlayerTeam(getPlayerName()) == null) {
+			return;
+		}
+		Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[Death] " + ChatColor.LIGHT_PURPLE + "The player " + this.dCause);
 		Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[Death] " + ChatColor.LIGHT_PURPLE + "The player " + player.getName() + " has been eliminated!");
 		String playerTeamName = UhcTeamsManager.getPlayerTeam(player.getName());
 		UhcTeamsManager.getTeamsManagementFile().kickPlayer(player.getName(), playerTeamName);
+		UhcTeamsManager.getTeamsManagementFile().saveConfig();
 		Integer integrantsLeft = UhcTeamsManager.getTeamMembers(playerTeamName).size();
 		if(integrantsLeft == 0) {
 			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + player.getName() + " was the last member of the team " + playerTeamName + "!" );
 			Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + "The team " + playerTeamName + " has been eliminated!" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
 			UhcTeamsManager.getTeamsManagementFile().deleteTeam(playerTeamName);
+			UhcTeamsManager.getTeamsManagementFile().saveConfig();
+			if(UhcTeamsManager.getTeamsManagementFile().getTeams().size() == 1) {
+				/* A TEAM HAS WON */
+				List<String> team = new ArrayList<String>(UhcTeamsManager.getTeamsManagementFile().getTeams());
+				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + team.get(0),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+			}
 		} else {
 			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + integrantsLeft + " players left!");
 		}

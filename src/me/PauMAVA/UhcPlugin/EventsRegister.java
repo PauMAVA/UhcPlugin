@@ -36,17 +36,17 @@ public class EventsRegister implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-		UhcDeathManager dManager = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld());
-		dManager.setTotem(dManager.getPlayerCoords(), dManager.getPlayer(), Material.BLACK_STAINED_GLASS_PANE);
-		dManager.setPlayerGamemode(event.getEntity(), GameMode.SPECTATOR);
-		dManager.displayDeathMsgAndUpdateTeam(event.getEntity());
+			UhcDeathManager dManager = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld(), event.getDeathMessage());
+			dManager.setTotem(dManager.getPlayerCoords(), dManager.getPlayer(), Material.BLACK_STAINED_GLASS_PANE);
+			dManager.setPlayerGamemode(event.getEntity(), GameMode.SPECTATOR);
+			dManager.displayDeathMsgAndUpdateTeam(event.getEntity());
 	}
 	
 	@EventHandler
 	public void onAdvancement(PlayerAdvancementDoneEvent event) {
 		Advancement advancement = event.getAdvancement();
 		String advancementID = advancement.getKey().toString();
-		if(advancementID.contains("story") || advancementID.contains("nether")) {
+		if(advancementID.contains("story") || advancementID.contains("nether") || advancementID.contains("husbandry") || advancementID.contains("end")|| advancementID.contains("adventure")) {
 			AdvancementsDatabase db = new AdvancementsDatabase();
 			String advancementName = db.getCanonicalName(advancementID);
 			UhcChatManager.dispatchAdvancementEvent(advancementName);
