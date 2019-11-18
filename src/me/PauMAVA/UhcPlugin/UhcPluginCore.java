@@ -11,10 +11,12 @@ public class UhcPluginCore extends JavaPlugin {
 		/*Logger to handle plugin's output*/
 		private static final Logger UhcLogger = Bukkit.getServer().getLogger();
 		private static UhcPluginCore instance;
-		
+		private Boolean matchStatus;
+
 		@Override
 		public void onEnable() {
 			instance = this;
+			this.matchStatus = false;
 			UhcLogger.info("Enabled UhcPlugin!");
 			this.saveDefaultConfig();
 			UhcTeamsManager.createTeamsFile();
@@ -37,4 +39,16 @@ public class UhcPluginCore extends JavaPlugin {
 		public Logger getPluginLogger() {
 			return UhcLogger;
 		}
+
+		public Boolean getMatchStatus() {
+			return this.matchStatus;
+		}
+
+		public void setMatchStatus(Boolean status) {
+			this.matchStatus = status;
+		}
+
+
 }
+
+
