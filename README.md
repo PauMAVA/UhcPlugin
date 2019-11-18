@@ -1,3 +1,5 @@
+[![Build Status](https://dev.azure.com/pmachetti/pmachetti/_apis/build/status/PauMAVA.UhcPlugin?branchName=master)](https://dev.azure.com/pmachetti/pmachetti/_build/latest?definitionId=1&branchName=master)
+
 # UhcPlugin
 With this plugin you will be able to host UHC matches with your friends.
 
