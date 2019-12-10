@@ -1,6 +1,6 @@
 /*
  * UhcPlugin
- * Copyright (c) 2019  Pau Machetti Vallverdu
+ * Copyright (c) 2019  Pau Machetti Vallverdú
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package me.PauMAVA.UhcPlugin.gameplay;
+package me.PauMAVA.UhcPlugin.match;
 
 import java.util.ArrayList;
 import java.util.Arrays;

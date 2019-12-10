@@ -20,7 +20,7 @@ package me.PauMAVA.UhcPlugin.util;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
-import me.PauMAVA.UhcPlugin.gameplay.UhcDeathManager;
+import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;

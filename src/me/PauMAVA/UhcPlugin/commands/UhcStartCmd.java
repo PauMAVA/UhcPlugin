@@ -18,25 +18,24 @@
 
 package me.PauMAVA.UhcPlugin.commands;
 
-import java.util.concurrent.TimeUnit;
-
-import me.PauMAVA.UhcPlugin.gameplay.RandomTeleporter;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
-import me.PauMAVA.UhcPlugin.gameplay.UhcScoreboard;
-import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
+import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-public class UhcStartCmd {
+import java.util.concurrent.TimeUnit;
+
+class UhcStartCmd {
 	private static long counter;
 	private static BukkitTask task;
 
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
-	/*Main command method*/
+	/* initiates uhc start countdown
+	* @param args - the command arguments */
 	public static <T> void start(String[] args) {
 		Bukkit.getScheduler().cancelTasks(plugin);
 		try {
@@ -84,19 +83,11 @@ public class UhcStartCmd {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
 						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC T" + plugin.getConfig().getInt("season"),ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);
 					}
-					UhcScoreboard.setUp();
-					UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
-					plugin.setMatchStatus(true);
-					/* THIS IS ARBITRAY NOW, BUT IT IS EXPECTED TO BE ADDED TO THE CONFIG.YML FILE IN THE NEAR FUTURE SO THAT THE USER CAN SPECIFY THE CUSTOM SETTIGNS FOR THEIR MATCH */
-					UhcWorldConfig.setRules(UhcWorldConfig.getRules());
-					UhcWorldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
-					UhcWorldConfig.setTime(0L);
-					RandomTeleporter.teleportPlayers();
+					UhcMatchHandler match = new UhcMatchHandler(UhcPluginCore.getInstance());
+					match.start();
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
-					plugin.setMatchStatus(true);
 				}
 			}
 		}, 0L, 20L);
-		return;
 	}
 }
