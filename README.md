@@ -1,5 +1,4 @@
-[![Build Status](https://api.travis-ci.com/PauMAVA/UhcPlugin.svg?branch=master)]
-
+[![Build Status](https://travis-ci.com/PauMAVA/UhcPlugin.svg?branch=master)](https://travis-ci.com/PauMAVA/UhcPlugin)
 # UhcPlugin
 With this plugin you will be able to host UHC matches with your friends.
 
