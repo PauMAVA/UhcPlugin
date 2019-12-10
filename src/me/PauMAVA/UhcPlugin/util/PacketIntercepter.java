@@ -1,6 +1,25 @@
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-package me.PauMAVA.UhcPlugin;
+package me.PauMAVA.UhcPlugin.util;
 
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
@@ -17,11 +36,11 @@ import net.minecraft.server.v1_14_R1.PacketPlayOutAdvancements;
 import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
 
 
-public class PacketIntercepter {
+class PacketIntercepter {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
-	public static void rmPlayer(Player player) {
+	static void rmPlayer(Player player) {
 		Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
 		channel.eventLoop().submit(() -> {
 			channel.pipeline().remove(player.getName());
@@ -30,7 +49,7 @@ public class PacketIntercepter {
 	}
 	
 	
-	public static void injectPlayer(Player player) {
+	static void injectPlayer(Player player) {
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			/* Override parent method to print all packets before letting the client/server to read them
 			 This enables to block any packet or modify it before sending it to the client or server */
@@ -39,19 +58,19 @@ public class PacketIntercepter {
 				try {
 					if(packet instanceof PacketPlayInChat) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
-						String stringMsg= ((PacketPlayInChat) packet).b();
-						if(stringMsg.charAt(0) == '/') {
-							plugin.getPluginLogger().info("Chat packet block override! User prompted command: " + stringMsg);
+						String stringMsg = ((PacketPlayInChat) packet).b();
+						if(stringMsg.charAt(0) == '/' || !plugin.getMatchStatus()) {
+							plugin.getLogger().info("Packet override!");
 							super.channelRead(context, packet);
 							return;
 						}
+						plugin.getLogger().info("No packet override");
 						UhcChatManager.dispatchPlayerMessage(stringMsg, player);
 						return;
 					}
 					if(packet instanceof PacketPlayInAdvancements) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
 						String key = ((PacketPlayInAdvancements) packet).d().getKey();
-						plugin.getPluginLogger().info("Advancement made: " + key);
 						
 					}
 					super.channelRead(context, packet);
@@ -66,20 +85,6 @@ public class PacketIntercepter {
 				try {
 					if(packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + packet.toString());
-					}
-					if(packet instanceof PacketPlayOutAdvancements) {
-						PacketPlayOutAdvancements advancementPacket = (PacketPlayOutAdvancements) packet;
-						//TODO Solve the We need to go deeper advancement bug. Only happens when a player enters the nether for the first time. It is unloaded!
-						/* TEST ZONE */
-						String a;
-						if(advancementPacket.a()) {
-							a = "true";
-						} else {
-							a = "false";
-						}
-						Bukkit.getServer().getConsoleSender().sendMessage("The a() method on " + advancementPacket.toString() + " returns " + a);
-						Bukkit.getServer().getConsoleSender().sendMessage("The has code is: " + advancementPacket.hashCode());
-						/* TEST ZONE */
 					}
 					super.write(context, packet, promise);
 				} catch(Exception e) {

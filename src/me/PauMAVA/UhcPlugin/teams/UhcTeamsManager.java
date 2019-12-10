@@ -1,4 +1,22 @@
-package me.PauMAVA.UhcPlugin;
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package me.PauMAVA.UhcPlugin.teams;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,6 +24,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.teams.TeamsFile;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -92,7 +112,7 @@ public class UhcTeamsManager {
 			/* If the user provides no argument to the command get, then list all teamNames and integrants + teamSize. If he provides a string arg then print all users in team + the teamSize*/
 			case "get": {
 				/* If args[1] is null then it will raise ArrayIndexOutOfBoundsException so we better handle that using a try-catch statement. 
-				 * If the exception is raised, then we will send null as an argument as getTeamCm() method accepts null arguments (@Nullable) */
+				 * If the ArrayIndexOutOfBoundsException is raised, then we will send null as an argument as getTeamCm() method accepts null arguments (@Nullable) */
 				int exitCode;
 				try {
 					String teamName = args[1];

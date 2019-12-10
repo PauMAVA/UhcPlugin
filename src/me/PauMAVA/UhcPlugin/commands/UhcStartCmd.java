@@ -1,7 +1,29 @@
-package me.PauMAVA.UhcPlugin;
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package me.PauMAVA.UhcPlugin.commands;
 
 import java.util.concurrent.TimeUnit;
 
+import me.PauMAVA.UhcPlugin.gameplay.RandomTeleporter;
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.gameplay.UhcScoreboard;
+import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -64,9 +86,9 @@ public class UhcStartCmd {
 					}
 					UhcScoreboard.setUp();
 					UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
+					plugin.setMatchStatus(true);
 					/* THIS IS ARBITRAY NOW, BUT IT IS EXPECTED TO BE ADDED TO THE CONFIG.YML FILE IN THE NEAR FUTURE SO THAT THE USER CAN SPECIFY THE CUSTOM SETTIGNS FOR THEIR MATCH */
 					UhcWorldConfig.setRules(UhcWorldConfig.getRules());
-					/* Difficulty parameter is taken from the config! */
 					UhcWorldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
 					UhcWorldConfig.setTime(0L);
 					RandomTeleporter.teleportPlayers();

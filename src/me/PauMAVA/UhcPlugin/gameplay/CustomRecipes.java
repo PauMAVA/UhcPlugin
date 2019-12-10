@@ -1,9 +1,28 @@
-package me.PauMAVA.UhcPlugin;
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package me.PauMAVA.UhcPlugin.gameplay;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -45,7 +64,7 @@ public class CustomRecipes {
 	
 	private void removeOriginalGoldenMelon() {
 		Iterator<Recipe> recipes = Bukkit.recipeIterator();
-		List<Recipe> backupList = new ArrayList<>();
+		List<Recipe> backupList = new ArrayList<Recipe>();
 		while(recipes.hasNext()) {
 			Recipe nextRecipe = recipes.next();
 			if(!(nextRecipe.getResult().getType().equals(Material.GLISTERING_MELON_SLICE))) {

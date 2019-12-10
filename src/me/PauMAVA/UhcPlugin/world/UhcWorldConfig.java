@@ -1,9 +1,28 @@
-package me.PauMAVA.UhcPlugin;
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package me.PauMAVA.UhcPlugin.world;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
@@ -48,7 +67,7 @@ public class UhcWorldConfig {
 	}
 	
 	public static HashMap<GameRule<Boolean>, Boolean> getRules() {
-		HashMap<GameRule<Boolean>, Boolean> rulesMap = new HashMap<>();
+		HashMap<GameRule<Boolean>, Boolean> rulesMap = new HashMap<GameRule<Boolean>, Boolean>();
 		rulesMap.put(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 		rulesMap.put(GameRule.DO_DAYLIGHT_CYCLE, true);
 		rulesMap.put(GameRule.DO_MOB_SPAWNING, true);

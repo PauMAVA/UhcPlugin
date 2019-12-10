@@ -1,5 +1,5 @@
 name: UhcPlugin
-version: Alpha 0.1
+version: 1.0
 main: me.PauMAVA.UhcPlugin.UhcPluginCore
 description: A Uhc Plugin for Bukkit 1.14.2 to play Uhc.
 api-version: 1.14
@@ -7,3 +7,5 @@ api-version: 1.14
 commands:
  uhc:
   description: This is the basic command of the plugin.
+ changeskin:
+  description: TESTING CMD that changes the skin of the sender

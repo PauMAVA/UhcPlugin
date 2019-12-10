@@ -1,4 +1,22 @@
-package me.PauMAVA.UhcPlugin;
+/*
+ * UhcPlugin
+ * Copyright (c) 2019  Pau Machetti Vallverdú
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package me.PauMAVA.UhcPlugin.gameplay;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +25,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -77,6 +97,7 @@ public class UhcDeathManager {
 				/* A TEAM HAS WON */
 				List<String> team = new ArrayList<String>(UhcTeamsManager.getTeamsManagementFile().getTeams());
 				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + team.get(0),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+				UhcPluginCore.getInstance().setMatchStatus(false);
 			}
 		} else {
 			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + integrantsLeft + " players left!");
