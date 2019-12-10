@@ -33,7 +33,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class UhcStartCmd {
 	private static long counter;
 	private static BukkitTask task;
-	
+
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
 	/*Main command method*/
@@ -93,6 +93,7 @@ public class UhcStartCmd {
 					UhcWorldConfig.setTime(0L);
 					RandomTeleporter.teleportPlayers();
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
+					plugin.setMatchStatus(true);
 				}
 			}
 		}, 0L, 20L);

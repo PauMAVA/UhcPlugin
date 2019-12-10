@@ -56,7 +56,7 @@ class PacketIntercepter {
 			@Override
 			public void channelRead(ChannelHandlerContext context, Object packet) {
 				try {
-					if(packet instanceof PacketPlayInChat) {
+					if(packet instanceof PacketPlayInChat && plugin.getMatchStatus()) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
 						String stringMsg = ((PacketPlayInChat) packet).b();
 						if(stringMsg.charAt(0) == '/' || !plugin.getMatchStatus()) {
@@ -83,7 +83,7 @@ class PacketIntercepter {
 			@Override
 			public void write(ChannelHandlerContext context, Object packet, ChannelPromise promise) {
 				try {
-					if(packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) {
+					if((packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) && plugin.getMatchStatus()) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + packet.toString());
 					}
 					super.write(context, packet, promise);
