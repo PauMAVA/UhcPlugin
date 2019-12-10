@@ -2,6 +2,11 @@
 
 import java.util.logging.Logger;
 
+import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
+import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
+import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
+import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
+import me.PauMAVA.UhcPlugin.util.EventsRegister;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
