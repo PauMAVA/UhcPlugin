@@ -1,5 +1,4 @@
-[![Build Status](https://dev.azure.com/pmachetti/pmachetti/_apis/build/status/PauMAVA.UhcPlugin?branchName=master)](https://dev.azure.com/pmachetti/pmachetti/_build/latest?definitionId=1&branchName=master)
-
+[![Build Status](https://travis-ci.com/PauMAVA/UhcPlugin.svg?branch=master)](https://travis-ci.com/PauMAVA/UhcPlugin)
 # UhcPlugin
 With this plugin you will be able to host UHC matches with your friends.
 
@@ -67,3 +66,5 @@ Kick a player from a team: /uhc teams kick <playerName> <teamName>
 Set a team maximum size: /uhc teams setMaxSize <teamName> <newSize>
 
 Note: the setMaxSize option will kick players from a team if the old team doesn't fit in the new size. It will do this by kicking the players that were added the latest first.
+
+## License (GNU v3)
