@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>me.PauMAVA</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.14.4</version>
+			<version>1.15</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
