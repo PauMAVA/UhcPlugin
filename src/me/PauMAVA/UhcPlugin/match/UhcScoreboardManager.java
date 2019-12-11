@@ -1,6 +1,6 @@
 /*
  * UhcPlugin
- * Copyright (c) 2019  Pau Machetti Vallverdú
+ * Copyright (c) 2019  Pau Machetti Vallverdu
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -22,7 +22,7 @@ import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import io.netty.channel.Channel;
@@ -30,10 +30,10 @@ import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_14_R1.PacketPlayInAdvancements;
-import net.minecraft.server.v1_14_R1.PacketPlayInChat;
-import net.minecraft.server.v1_14_R1.PacketPlayOutAdvancements;
-import net.minecraft.server.v1_14_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_15_R1.PacketPlayInAdvancements;
+import net.minecraft.server.v1_15_R1.PacketPlayInChat;
+import net.minecraft.server.v1_15_R1.PacketPlayOutAdvancements;
+import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 
 
 class PacketIntercepter {
