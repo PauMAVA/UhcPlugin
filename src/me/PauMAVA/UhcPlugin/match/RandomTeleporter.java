@@ -49,7 +49,8 @@ public class RandomTeleporter {
 	 * - 2 --> East
 	 * - 3 --> South
 	 * - 4 --> West */
-	
+
+	/* Teleports the players */
 	public static void teleportPlayers() {
 		for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 1000, 1));
@@ -68,7 +69,10 @@ public class RandomTeleporter {
 			teleportAndSetup(teamName, teamCoordsRelation.get(teamName));
 		}
 	}
-	
+
+	/* Assigns one side to every team
+	* @param teams - a @link java.lang.Collection of @link java.lang.String containing the names of the teams
+	* @returns - a @link java.lang.HashMap of with @link java.lang.String as the key representing the team name and a @link java.lang.Integer ranging from 1 to 4 */
 	private static HashMap<String, Integer> assignSides(Collection<String> teams) {
 		HashMap<String, Integer> teamSideRelation = new HashMap<String, Integer>();
 		List<Integer> sidesList = Arrays.asList(1,2,3,4);

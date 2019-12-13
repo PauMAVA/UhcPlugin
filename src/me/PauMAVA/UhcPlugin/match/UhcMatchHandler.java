@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.match;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class UhcMatchHandler {
 
     private UhcPluginCore plugin;
     private Boolean isRunning = false;
+    private Integer timerTaskID;
     private List<Player> matchPlayers = new ArrayList<>();
 
     /* UhcMatchHandler constructor
@@ -45,10 +47,12 @@ public class UhcMatchHandler {
         UhcWorldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
         UhcWorldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
+        UhcScoreboardManager.setUp();
+        this.timerTaskID = new UhcMatchTimer().runTaskTimer(plugin, 0L, 20L).getTaskId();
     }
 
     public void end() {
-
+        Bukkit.getScheduler().cancelTask(this.timerTaskID);
     }
 
     /* Adds a player to the match

@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.util;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
+import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
@@ -28,6 +29,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -71,6 +74,20 @@ public class EventsRegister implements Listener {
 			AdvancementsDatabase db = new AdvancementsDatabase();
 			String advancementName = db.getCanonicalName(advancementID);
 			UhcChatManager.dispatchAdvancementEvent(advancementName);
+		}
+	}
+
+	@EventHandler
+	public void onPlayerDamage(EntityDamageEvent event) {
+		if(event.getEntity() instanceof Player) {
+			UhcScoreboardManager.updateHealth();
+		}
+	}
+
+	@EventHandler
+	public void onPlayerHeal(EntityRegainHealthEvent event) {
+		if(event.getEntity() instanceof Player) {
+			UhcScoreboardManager.updateHealth();
 		}
 	}
 	
