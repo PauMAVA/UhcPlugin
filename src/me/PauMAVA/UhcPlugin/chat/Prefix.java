@@ -18,9 +18,22 @@
 
 package me.PauMAVA.UhcPlugin.chat;
 
+import org.bukkit.ChatColor;
+
 public enum Prefix {
 
-    INGAME_UHC("");
+    INGAME_UHC(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "UHC" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET),
+    GLOBAL_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.RED + "" + ChatColor.BOLD + "GLOBAL" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET),
+    TEAM_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "TEAM" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET);
 
-    Prefix(String prefix) {}
+    private final String value;
+
+    Prefix(String prefix) {
+        this.value = prefix;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
 }

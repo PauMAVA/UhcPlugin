@@ -56,15 +56,13 @@ class PacketIntercepter {
 			@Override
 			public void channelRead(ChannelHandlerContext context, Object packet) {
 				try {
-					if(packet instanceof PacketPlayInChat && plugin.getMatchStatus()) {
+					if(packet instanceof PacketPlayInChat && plugin.getMatchHandler().getMatchStatus()) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
 						String stringMsg = ((PacketPlayInChat) packet).b();
-						if(stringMsg.charAt(0) == '/' || !plugin.getMatchStatus()) {
-							plugin.getLogger().info("Packet override!");
+						if(stringMsg.charAt(0) == '/' || !plugin.getMatchHandler().getMatchStatus()) {
 							super.channelRead(context, packet);
 							return;
 						}
-						plugin.getLogger().info("No packet override");
 						UhcChatManager.dispatchPlayerMessage(stringMsg, player);
 						return;
 					}
@@ -83,7 +81,7 @@ class PacketIntercepter {
 			@Override
 			public void write(ChannelHandlerContext context, Object packet, ChannelPromise promise) {
 				try {
-					if((packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) && plugin.getMatchStatus()) {
+					if((packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) && plugin.getMatchHandler().getMatchStatus()) {
 						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + packet.toString());
 					}
 					super.write(context, packet, promise);

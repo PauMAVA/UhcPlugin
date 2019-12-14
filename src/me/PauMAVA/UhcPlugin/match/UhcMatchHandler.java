@@ -19,9 +19,11 @@
 package me.PauMAVA.UhcPlugin.match;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -52,6 +54,7 @@ public class UhcMatchHandler {
     }
 
     public void end() {
+        this.isRunning = false;
         Bukkit.getScheduler().cancelTask(this.timerTaskID);
     }
 
@@ -75,6 +78,19 @@ public class UhcMatchHandler {
     * @return the actual list of players */
     public List<Player> getMatchPlayers() {
         return this.matchPlayers;
+    }
+
+    /* Prints the episode change announcement on the chat */
+    public void episodeAnnouncement(Integer episode) {
+        Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.GRAY + "Episode " + episode + " begins now!");
+    }
+
+    public Boolean getMatchStatus() {
+        return this.isRunning;
+    }
+
+    public void setMatchStatus(Boolean matchStatus) {
+        this.isRunning = matchStatus;
     }
 
 }

@@ -83,8 +83,7 @@ class UhcStartCmd {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
 						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC T" + plugin.getConfig().getInt("season"),ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);
 					}
-					UhcMatchHandler match = new UhcMatchHandler(UhcPluginCore.getInstance());
-					match.start();
+					UhcPluginCore.getInstance().getMatchHandler().start();
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
 				}
 			}

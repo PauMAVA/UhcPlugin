@@ -40,7 +40,6 @@ public class UhcChatManager {
 	}
 	
 	public static void dispatchAdvancementEvent(String advancement) {
-		plugin.getPluginLogger().info("THE ADVANCEMENT IS " + advancement);
 		String random = randomString();
 		for(Player p: Bukkit.getOnlinePlayers()) {
 			p.sendMessage(ChatColor.GRAY + "" + ChatColor.MAGIC + random + ChatColor.RESET + "has made the advancement " + ChatColor.GREEN + "[" + advancement + "]");
@@ -61,7 +60,7 @@ public class UhcChatManager {
 	private static void globalDispatcher(String msg) {
 		String random = randomString();
 		msg = msg.substring(1);
-		msg = ChatColor.GRAY + "" + ChatColor.MAGIC + random + ChatColor.RESET + msg;
+		msg = Prefix.GLOBAL_CHAT + ""+ ChatColor.GRAY + "" + ChatColor.MAGIC + random + ChatColor.RESET + msg;
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			p.sendMessage(msg);
 		}
@@ -71,7 +70,7 @@ public class UhcChatManager {
 	private static void teamDispatcher(String msg, Player player) {
 		String playerName = player.getName();
 		String playersTeam = UhcTeamsManager.getPlayerTeam(playerName);
-		msg = ChatColor.YELLOW + playerName + " " + ChatColor.RESET + msg;
+		msg = Prefix.TEAM_CHAT + ""+ ChatColor.YELLOW + playerName + " " + ChatColor.RESET + msg;
 		/* Checks if the player doesn't belong to a team */
 		if(playersTeam == null) {
 			for(Player checkPlayer: Bukkit.getServer().getOnlinePlayers()) {

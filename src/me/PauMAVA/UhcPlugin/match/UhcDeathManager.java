@@ -97,7 +97,7 @@ public class UhcDeathManager {
 				/* A TEAM HAS WON */
 				List<String> team = new ArrayList<String>(UhcTeamsManager.getTeamsManagementFile().getTeams());
 				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + team.get(0),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
-				UhcPluginCore.getInstance().setMatchStatus(false);
+				UhcPluginCore.getInstance().getMatchHandler().end();
 			}
 		} else {
 			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + integrantsLeft + " players left!");

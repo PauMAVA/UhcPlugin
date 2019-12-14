@@ -25,6 +25,10 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class UhcScoreboardManager {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
@@ -32,7 +36,8 @@ public class UhcScoreboardManager {
 	static Scoreboard uhcScoreboard = scManager.getNewScoreboard();
 	private static Objective infoObjective;
 	private static Objective lifeObjective;
-	private static Score timer, totalTime, episodeScore, blankLine1, blankLine2, blankLine3, blankLine4;
+	private static Score timer, totalTime, episodeScore, fullLine;
+	private static List<Score> blankLines = new ArrayList<Score>();
 
 	static String sPrefix,mPrefix = "";
 	private static int chapterLength = plugin.getConfig().getInt("chapter_length");
@@ -71,17 +76,17 @@ public class UhcScoreboardManager {
 		timer = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "Time left: " + ChatColor.GRAY + minutes + ":" + seconds);
 		totalTime = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.GREEN + ChatColor.BOLD + "Total time: " + ChatColor.GRAY + total);
 		episodeScore = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.RED + ChatColor.BOLD + "Episode: " + ChatColor.GRAY + episode);
-		blankLine1 = infoObjective.getScore("");
-		blankLine2 = infoObjective.getScore(" ");
-		blankLine3 = infoObjective.getScore("  ");
-		blankLine4 = infoObjective.getScore("   ");
-		blankLine4.setScore(6);
+		fullLine = infoObjective.getScore(ChatColor.GRAY + "§m                                ");
+		blankLines.addAll(Arrays.asList(infoObjective.getScore(""), infoObjective.getScore(" "), infoObjective.getScore("  "), infoObjective.getScore("   "), infoObjective.getScore("    "), infoObjective.getScore("     ")));
+		blankLines.get(0).setScore(8);
+		episodeScore.setScore(7);
+		blankLines.get(1).setScore(6);
 		timer.setScore(5);
-		blankLine3.setScore(4);
-		episodeScore.setScore(3);
-		blankLine2.setScore(2);
+		blankLines.get(2).setScore(4);
+		fullLine.setScore(3);
+		blankLines.get(3).setScore(2);
 		totalTime.setScore(1);
-		blankLine1.setScore(0);
+		blankLines.get(3).setScore(0);
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			p.setScoreboard(uhcScoreboard);
 		}

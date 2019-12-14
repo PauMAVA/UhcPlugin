@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
+import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.util.EventsRegister;
 import org.bukkit.Bukkit;
@@ -35,10 +36,12 @@ public class UhcPluginCore extends JavaPlugin {
 		private static final Logger UhcLogger = Bukkit.getServer().getLogger();
 		private static UhcPluginCore instance;
 		private Boolean matchStatus = false;
+		private UhcMatchHandler matchHandler;
 		
 		@Override
 		public void onEnable() {
 			instance = this;
+			this.matchHandler = new UhcMatchHandler(this);
 			UhcLogger.info("Enabled UhcPlugin!");
 			this.saveDefaultConfig();
 			UhcTeamsManager.createTeamsFile();
@@ -62,11 +65,7 @@ public class UhcPluginCore extends JavaPlugin {
 			return UhcLogger;
 		}
 
-		public Boolean getMatchStatus() {
-			return this.matchStatus;
-		}
-
-		public void setMatchStatus(Boolean matchStatus) {
-			this.matchStatus = matchStatus;
+		public UhcMatchHandler getMatchHandler() {
+			return this.matchHandler;
 		}
 }
