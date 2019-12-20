@@ -22,9 +22,10 @@ import org.bukkit.ChatColor;
 
 public enum Prefix {
 
-    INGAME_UHC(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "UHC" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET),
-    GLOBAL_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.RED + "" + ChatColor.BOLD + "GLOBAL" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET),
-    TEAM_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "TEAM" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET);
+    INGAME_UHC(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "UHC" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
+    GLOBAL_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.RED + "" + ChatColor.BOLD + "GLOBAL" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
+    TEAM_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "TEAM" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
+    DEVELOPER(ChatColor.GOLD + "" + ChatColor.BOLD + "[" + ChatColor.YELLOW + "" + ChatColor.BOLD + "TEAM" + ChatColor.GOLD + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "");
 
     private final String value;
 

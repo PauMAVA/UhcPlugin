@@ -20,6 +20,7 @@ package me.PauMAVA.UhcPlugin.teams;
 
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +36,10 @@ public class UhcTeam {
         for(Player player: this.originalPlayers) {
             this.alivePlayers.put(player, true);
         }
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public List<Player> integrants() {
@@ -59,6 +64,35 @@ public class UhcTeam {
         if(isInTeam(player)) {
             this.alivePlayers.put(player, true);
         }
+    }
+
+    public List<Player> alive() {
+        List<Player> players = new ArrayList<Player>();
+        for(Player p: this.alivePlayers.keySet()) {
+            if(this.alivePlayers.get(p)) {
+                players.add(p);
+            }
+        }
+        return players;
+    }
+
+    public List<Player> dead() {
+        List<Player> players = new ArrayList<Player>();
+        for(Player p: this.alivePlayers.keySet()) {
+            if(!this.alivePlayers.get(p)) {
+                players.add(p);
+            }
+        }
+        return players;
+    }
+
+    public boolean isEliminated() {
+        for(Player p: this.alivePlayers.keySet()) {
+            if(this.alivePlayers.get(p)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

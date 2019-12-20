@@ -26,6 +26,7 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -73,41 +74,25 @@ public class UhcDeathManager {
 		return Arrays.asList(arr);
 	}
 	
-	public void setPlayerGamemode(Player player, GameMode gMode) {
+	public void setPlayerGamemode(GameMode gMode) {
 		player.setGameMode(gMode);
 	}
 	
-	public void displayDeathMsgAndUpdateTeam(Player player) {
+	public void displayDeathMsgAndUpdateTeam() {
 		/* If the player already died do nothing! */
 		if(UhcTeamsManager.getPlayerTeam(getPlayerName()) == null) {
 			return;
 		}
-		Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[Death] " + ChatColor.LIGHT_PURPLE + "The player " + this.dCause);
-		Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "[Death] " + ChatColor.LIGHT_PURPLE + "The player " + player.getName() + " has been eliminated!");
-		String playerTeamName = UhcTeamsManager.getPlayerTeam(player.getName());
-		UhcTeamsManager.getTeamsManagementFile().kickPlayer(player.getName(), playerTeamName);
-		UhcTeamsManager.getTeamsManagementFile().saveConfig();
-		Integer integrantsLeft = UhcTeamsManager.getTeamMembers(playerTeamName).size();
-		if(integrantsLeft == 0) {
-			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + player.getName() + " was the last member of the team " + playerTeamName + "!" );
-			Bukkit.getServer().broadcastMessage(ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + "The team " + playerTeamName + " has been eliminated!" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
-			UhcTeamsManager.getTeamsManagementFile().deleteTeam(playerTeamName);
-			UhcTeamsManager.getTeamsManagementFile().saveConfig();
-			if(UhcTeamsManager.getTeamsManagementFile().getTeams().size() == 1) {
-				/* A TEAM HAS WON */
-				List<String> team = new ArrayList<String>(UhcTeamsManager.getTeamsManagementFile().getTeams());
-				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + team.get(0),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
-				UhcPluginCore.getInstance().getMatchHandler().end();
-			}
-		} else {
-			Bukkit.broadcastMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + integrantsLeft + " players left!");
-		}
-		player.sendMessage(ChatColor.DARK_PURPLE + "[Death] " + ChatColor.LIGHT_PURPLE + "You have died and you have been kicked from the team!. Please use the global chat to communicate with people.");
-		player.sendMessage(ChatColor.GOLD + "[Developer] " + ChatColor.YELLOW + "Thank you for participating in this UHC. Hope you had a great time!");
-		player.sendMessage(ChatColor.GOLD + "[Developer] " + ChatColor.YELLOW + "Thanks for using UhcPlugin by PauMava! More info at https://github.com/PauMAVA/UhcPlugin");
+		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" +ChatColor.LIGHT_PURPLE + "The player " + this.dCause);
+		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.LIGHT_PURPLE + "The player " + player.getName() + " has been eliminated!");
+		UhcTeamsManager.eliminate(player);
+		player.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.LIGHT_PURPLE + "You have died and you have been kicked from the team!. Please use the global chat to communicate with people.");
+		player.sendMessage(Prefix.DEVELOPER + "" + ChatColor.YELLOW + "Thank you for participating in this UHC. Hope you had a great time!");
+		player.sendMessage(Prefix.DEVELOPER + "" + ChatColor.YELLOW + "Thanks for using UhcPlugin by PauMAVA! More info at https://github.com/PauMAVA/UhcPlugin");
 	}
 	
-	public void setTotem(List<Integer> coords, Player player, @Nullable Material material) {
+	public void setTotem(@Nullable Material material) {
+		List<Integer> coords = getPlayerCoords();
 		Location baseLocation = new Location(this.playerWorld, coords.get(0), coords.get(1), coords.get(2));
 		Location skullLocation = new Location(this.playerWorld, coords.get(0), coords.get(1) + 1, coords.get(2));
 		Block baseBlock = baseLocation.getBlock();
@@ -119,7 +104,6 @@ public class UhcDeathManager {
         UUID uuid = player.getUniqueId();
         skull.setOwningPlayer(Bukkit.getServer().getOfflinePlayer(uuid));
         skull.update();
-		return;
 	}
 	
 }

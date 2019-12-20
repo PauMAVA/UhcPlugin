@@ -21,10 +21,13 @@ package me.PauMAVA.UhcPlugin.match;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
+import me.PauMAVA.UhcPlugin.teams.UhcTeam;
+import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +38,8 @@ public class UhcMatchHandler {
     private Boolean isRunning = false;
     private Integer timerTaskID;
     private List<Player> matchPlayers = new ArrayList<>();
+    private List<UhcTeam> teams = new ArrayList<UhcTeam>();
+
 
     /* UhcMatchHandler constructor
     * @param plugin - the instance of the plugin core */
@@ -44,6 +49,9 @@ public class UhcMatchHandler {
 
     public void start() {
         this.isRunning = true;
+        for(String teamName: UhcTeamsManager.getTeamsManagementFile().getTeams()) {
+            teams.add(UhcTeamsManager.getTeamObject(teamName));
+        }
         UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
         UhcWorldConfig.setRules(UhcWorldConfig.getRules());
         UhcWorldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
@@ -91,6 +99,33 @@ public class UhcMatchHandler {
 
     public void setMatchStatus(Boolean matchStatus) {
         this.isRunning = matchStatus;
+    }
+
+    public UhcTeam getUhcTeam(Player player) {
+        for(UhcTeam team: this.teams) {
+            if(team.isInTeam(player)) {
+                return team;
+            }
+        }
+        return null;
+    }
+
+    public int remainingTeams() {
+        int i = 0;
+        for(UhcTeam team: teams) {
+            if(!team.isEliminated()) {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    public List<UhcTeam> getRemainingTeams() {
+        List<UhcTeam> teams = new ArrayList<UhcTeam>();
+        for(UhcTeam team: this.teams) {
+            teams.add(team);
+        }
+        return teams;
     }
 
 }

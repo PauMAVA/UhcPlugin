@@ -75,11 +75,10 @@ public class TeamsFile {
 		try {
 			teamsConfig.save(file);
 		} catch (IOException e) {
-			plugin.getPluginLogger().severe("Couldn't save config file! IOException.");
+			plugin.getPluginLogger().severe("Couldn't save config file!");
 			e.printStackTrace();
 			return;
 		}
-		plugin.getPluginLogger().info("Saved TeamsConfig!");
 	}
 	
 	public boolean registerTeam(String teamName) {
@@ -149,7 +148,7 @@ public class TeamsFile {
 
 	}
 	
-	public boolean checkTeamExistance(String teamName) {
+	public boolean teamExists(String teamName) {
 		return teamsConfig.isSet("teams." + teamName);
 	}
 	
@@ -200,6 +199,10 @@ public class TeamsFile {
 		}
 		teamsConfig.getConfigurationSection("teams." + teamName).set("teamSize", valueInt);
 		return true;
+	}
+
+	public boolean isSolo() {
+		return teamsConfig.getBoolean("solo");
 	}
 
 }

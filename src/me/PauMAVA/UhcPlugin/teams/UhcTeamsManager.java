@@ -25,7 +25,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.teams.TeamsFile;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -234,7 +236,7 @@ public class UhcTeamsManager {
 			}
 			return 0;
 		}
-		if(!teamsConfig.checkTeamExistance(teamName)) {
+		if(!teamsConfig.teamExists(teamName)) {
 			return 1;
 		}
 		printTeamInfo(theSender, teamName);
@@ -287,5 +289,29 @@ public class UhcTeamsManager {
 			}
 		}
 		return;
+	}
+
+	public static UhcTeam getTeamObject(String teamName) {
+		List<Player> players = new ArrayList<Player>();
+		for(String playerName: getTeamMembers(teamName)) {
+			players.add(Bukkit.getServer().getPlayer(playerName));
+		}
+		return new UhcTeam(teamName, players);
+	}
+
+	public static void eliminate(Player player) {
+		UhcTeam playerTeam = plugin.getMatchHandler().getUhcTeam(player);
+		String playerTeamName = playerTeam.getName();
+		if(plugin.getMatchHandler().getUhcTeam(player).alive().size() == 0) {
+			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" +  ChatColor.AQUA + player.getName() + " was the last member of the team " + playerTeamName + "!" );
+			Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + "The team " + playerTeamName + " has been eliminated!" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
+			playerTeam.markPlayerAsDead(player);
+			if(plugin.getMatchHandler().remainingTeams() <= 1) {
+				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + plugin.getMatchHandler().getRemainingTeams().get(0).getName(),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+				UhcPluginCore.getInstance().getMatchHandler().end();
+			}
+		} else {
+			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + playerTeam.alive().size() + " players left!");
+		}
 	}
 }

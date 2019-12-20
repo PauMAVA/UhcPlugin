@@ -60,10 +60,10 @@ public class EventsRegister implements Listener {
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
-			UhcDeathManager dManager = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld(), event.getDeathMessage());
-			dManager.setTotem(dManager.getPlayerCoords(), dManager.getPlayer(), Material.BLACK_STAINED_GLASS_PANE);
-			dManager.setPlayerGamemode(event.getEntity(), GameMode.SPECTATOR);
-			dManager.displayDeathMsgAndUpdateTeam(event.getEntity());
+			UhcDeathManager death = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld(), event.getDeathMessage());
+			death.setTotem(Material.BLACK_STAINED_GLASS_PANE);
+			death.setPlayerGamemode(GameMode.SPECTATOR);
+			death.displayDeathMsgAndUpdateTeam();
 	}
 	
 	@EventHandler
