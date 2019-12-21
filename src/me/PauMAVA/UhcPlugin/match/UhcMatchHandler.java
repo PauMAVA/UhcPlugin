@@ -31,6 +31,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class UhcMatchHandler {
 
@@ -39,7 +40,7 @@ public class UhcMatchHandler {
     private Integer timerTaskID;
     private List<Player> matchPlayers = new ArrayList<>();
     private List<UhcTeam> teams = new ArrayList<UhcTeam>();
-
+    private UhcMatchTimer timer;
 
     /* UhcMatchHandler constructor
     * @param plugin - the instance of the plugin core */
@@ -58,7 +59,8 @@ public class UhcMatchHandler {
         UhcWorldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
-        this.timerTaskID = new UhcMatchTimer().runTaskTimer(plugin, 0L, 20L).getTaskId();
+        this.timer = new UhcMatchTimer();
+        this.timerTaskID = timer.runTaskTimer(plugin, 0L, 20L).getTaskId();
     }
 
     public void end() {
@@ -126,6 +128,10 @@ public class UhcMatchHandler {
             teams.add(team);
         }
         return teams;
+    }
+
+    public UhcMatchTimer getTimer() {
+        return this.timer;
     }
 
 }

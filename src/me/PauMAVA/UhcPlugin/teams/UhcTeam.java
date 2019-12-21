@@ -29,6 +29,7 @@ public class UhcTeam {
     private String name;
     private List<Player> originalPlayers;
     private HashMap<Player, Boolean> alivePlayers = new HashMap<Player, Boolean>();
+    private List<Player> revived = new ArrayList<Player>();
 
     public UhcTeam(String name, List<Player> players) {
         this.name = name;
@@ -58,6 +59,10 @@ public class UhcTeam {
         if(isInTeam(player)) {
             this.alivePlayers.put(player, false);
         }
+    }
+
+    public void markPlayerAsRevived(Player player) {
+        this.revived.add(player);
     }
 
     public void markPlayerAsAlive(Player player) {
@@ -93,6 +98,10 @@ public class UhcTeam {
             }
         }
         return true;
+    }
+
+    public boolean hasBeenRevived(Player player) {
+        return this.revived.contains(player);
     }
 
 }

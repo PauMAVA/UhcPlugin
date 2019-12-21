@@ -24,7 +24,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class UhcMatchTimer extends BukkitRunnable {
 
-    private Integer chapterLength = 1;
+    private Integer chapterLength = UhcPluginCore.getInstance().getConfig().getInt("chapter_length");
     private Integer seconds = 0;
     private Integer minutes = chapterLength;
     private Integer episode = 1;
@@ -103,6 +103,10 @@ public class UhcMatchTimer extends BukkitRunnable {
         UhcScoreboardManager.refreshSidebar(minutesString, secondsString, episode.toString(), totalTimeString);
         i++;
         totalTime++;
+    }
+
+    public int getEpisode() {
+        return this.episode;
     }
 
 }
