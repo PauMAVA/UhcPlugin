@@ -19,17 +19,20 @@
 package me.PauMAVA.UhcPlugin.gameplay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class CustomRecipes {
@@ -39,6 +42,7 @@ public class CustomRecipes {
 			playerHeadGoldenApple();
 			removeOriginalGoldenMelon();
 			newGlisteringMelon();
+			darkCrystal();
 		}
 	}
 	
@@ -75,5 +79,20 @@ public class CustomRecipes {
 		for(Recipe r: backupList) {
 			Bukkit.getServer().addRecipe(r);
 		}
+	}
+
+	private void darkCrystal() {
+		ItemStack darkCrystal = new ItemStack(Material.END_CRYSTAL, 1);
+		ItemMeta meta = darkCrystal.getItemMeta();
+		meta.setDisplayName(ChatColor.GRAY +  "Dark" + ChatColor.AQUA + " Crystal");
+		meta.setLore(new ArrayList<String>(Arrays.asList("From an ancient formula,", "you have forged an artifact containing", "the essence of a soul...")));
+		darkCrystal.setItemMeta(meta);
+		NamespacedKey name = new NamespacedKey(UhcPluginCore.getInstance(), "end_crystal");
+		ShapedRecipe darkCrystalRecipe = new ShapedRecipe(name, darkCrystal);
+		darkCrystalRecipe.shape("*-*", "-%-", "*-*");
+		darkCrystalRecipe.setIngredient('*', Material.DIAMOND);
+		darkCrystalRecipe.setIngredient('-', Material.BLAZE_POWDER);
+		darkCrystalRecipe.setIngredient('%', Material.PLAYER_HEAD);
+		Bukkit.getServer().addRecipe(darkCrystalRecipe);
 	}
 }
