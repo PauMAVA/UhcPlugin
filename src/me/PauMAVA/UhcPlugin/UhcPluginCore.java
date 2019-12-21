@@ -18,16 +18,18 @@
 
 package me.PauMAVA.UhcPlugin;
 
-import java.util.logging.Logger;
-
 import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.util.EventsRegister;
+import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Logger;
 
 public class UhcPluginCore extends JavaPlugin {
 		
@@ -54,6 +56,9 @@ public class UhcPluginCore extends JavaPlugin {
 		
 		@Override
 		public void onDisable() {
+			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+				PacketIntercepter.rmPlayer(p);
+			}
 			UhcLogger.info("Disabled UhcPlugin!");
 		}
 		

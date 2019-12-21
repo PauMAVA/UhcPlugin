@@ -36,11 +36,11 @@ import net.minecraft.server.v1_15_R1.PacketPlayOutAdvancements;
 import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 
 
-class PacketIntercepter {
+public class PacketIntercepter {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	
-	static void rmPlayer(Player player) {
+	public static void rmPlayer(Player player) {
 		Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
 		channel.eventLoop().submit(() -> {
 			channel.pipeline().remove(player.getName());
@@ -49,7 +49,7 @@ class PacketIntercepter {
 	}
 	
 	
-	static void injectPlayer(Player player) {
+	public static void injectPlayer(Player player) {
 		ChannelDuplexHandler channelDuplexHandler = new ChannelDuplexHandler() {
 			/* Override parent method to print all packets before letting the client/server to read them
 			 This enables to block any packet or modify it before sending it to the client or server */

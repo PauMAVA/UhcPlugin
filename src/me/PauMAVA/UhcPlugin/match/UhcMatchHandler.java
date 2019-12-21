@@ -23,6 +23,7 @@ import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
+import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -59,6 +60,9 @@ public class UhcMatchHandler {
         UhcWorldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
+        for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+            PacketIntercepter.injectPlayer(p);
+        }
         this.timer = new UhcMatchTimer();
         this.timerTaskID = timer.runTaskTimer(plugin, 0L, 20L).getTaskId();
     }

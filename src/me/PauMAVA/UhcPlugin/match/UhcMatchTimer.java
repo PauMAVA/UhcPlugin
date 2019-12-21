@@ -19,6 +19,7 @@
 package me.PauMAVA.UhcPlugin.match;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -43,6 +44,7 @@ public class UhcMatchTimer extends BukkitRunnable {
                 minutes = chapterLength - 1;
                 episode++;
                 UhcPluginCore.getInstance().getMatchHandler().episodeAnnouncement(episode);
+                UhcWorldBorder.refreshBorder(episode);
             }
         }
         if(seconds < 10) {

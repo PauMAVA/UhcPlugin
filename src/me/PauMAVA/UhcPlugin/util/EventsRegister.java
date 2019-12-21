@@ -27,18 +27,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.entity.Drowned;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class EventsRegister implements Listener {
 	
@@ -47,8 +52,7 @@ public class EventsRegister implements Listener {
 	/*Listens for players joining the server and:
 	 * - Injects them to the pipeline*/
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onjoin(PlayerJoinEvent event) {
-		plugin.getPluginLogger().info("Registered event!");
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		PacketIntercepter.injectPlayer(player);
 	}
@@ -56,50 +60,68 @@ public class EventsRegister implements Listener {
 	/*Listens for players quitting the game and:
 	 * - Removes them from the pipeline*/
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onleave(PlayerQuitEvent event) {
-		plugin.getPluginLogger().info("Registered event!");
+	public void onPlayerLeave(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		PacketIntercepter.rmPlayer(player);
 	}
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
+		if(plugin.getMatchHandler().getMatchStatus()) {
 			UhcDeathManager death = new UhcDeathManager(event.getEntity(), event.getEntity().getWorld(), event.getDeathMessage());
 			death.setTotem(Material.BLACK_STAINED_GLASS_PANE);
 			death.setPlayerGamemode(GameMode.SPECTATOR);
 			death.displayDeathMsgAndUpdateTeam();
+		}
 	}
 	
 	@EventHandler
 	public void onAdvancement(PlayerAdvancementDoneEvent event) {
-		Advancement advancement = event.getAdvancement();
-		String advancementID = advancement.getKey().toString();
-		if(advancementID.contains("story") || advancementID.contains("nether") || advancementID.contains("husbandry") || advancementID.contains("end")|| advancementID.contains("adventure")) {
-			AdvancementsDatabase db = new AdvancementsDatabase();
-			String advancementName = db.getCanonicalName(advancementID);
-			UhcChatManager.dispatchAdvancementEvent(advancementName);
+		if(plugin.getMatchHandler().getMatchStatus()) {
+			Advancement advancement = event.getAdvancement();
+			String advancementID = advancement.getKey().toString();
+			if(advancementID.contains("story") || advancementID.contains("nether") || advancementID.contains("husbandry") || advancementID.contains("end")|| advancementID.contains("adventure")) {
+				AdvancementsDatabase db = new AdvancementsDatabase();
+				String advancementName = db.getCanonicalName(advancementID);
+				UhcChatManager.dispatchAdvancementEvent(advancementName);
+			}
 		}
 	}
 
 	@EventHandler
 	public void onPlayerDamage(EntityDamageEvent event) {
-		if(event.getEntity() instanceof Player) {
+		if(event.getEntity() instanceof Player && plugin.getMatchHandler().getMatchStatus()) {
 			UhcScoreboardManager.updateHealth();
 		}
 	}
 
 	@EventHandler
 	public void onPlayerHeal(EntityRegainHealthEvent event) {
-		if(event.getEntity() instanceof Player) {
+		if(event.getEntity() instanceof Player && plugin.getMatchHandler().getMatchStatus()) {
 			UhcScoreboardManager.updateHealth();
 		}
 	}
 
 	@EventHandler(priority=EventPriority.MONITOR)
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		if(event.getMaterial() == Material.END_CRYSTAL && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.BEDROCK) {
+		if(event.getMaterial() == Material.END_CRYSTAL && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.BEDROCK && plugin.getMatchHandler().getMatchStatus()) {
 			event.getItem().setType(Material.COAL);
 			UhcTeamsManager.revive(event.getPlayer(), event.getClickedBlock());
+		}
+	}
+
+	@EventHandler
+	public void onEntityKill(EntityDeathEvent event) {
+		if(event.getEntity() instanceof Drowned && event.getEntity().getKiller() != null) {
+			Integer randomNum = new Range(0 , 100).getRandomInteger();
+			if(randomNum > 50) {
+				ItemStack item = new ItemStack(Material.TRIDENT, 1);
+				Damageable meta = (Damageable) item.getItemMeta();
+				meta.setDamage(new Range(100, 250).getRandomInteger());
+				item.setItemMeta((ItemMeta) meta);
+				event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
+			}
+			Bukkit.getServer().broadcastMessage("KILLED Drowned!: " + randomNum);
 		}
 	}
 	

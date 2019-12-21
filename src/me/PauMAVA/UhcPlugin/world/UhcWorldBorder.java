@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.world;
 import java.util.List;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -46,11 +47,11 @@ public class UhcWorldBorder {
 			for(World dimension: dimensions) {
 				dimension.getWorldBorder().setSize(getFinalRadius(), (10 - getBorderClosingEpisode()) * config.getInt("chapter_length") * 60);
 			}
-			float velocity = (getOriginalBorderRadius() - getFinalRadius()) / ((10 - getBorderClosingEpisode())* config.getInt("chapter_length") * 60);
+			float velocity = (getOriginalBorderRadius() - getFinalRadius()) / ((10 - getBorderClosingEpisode())* (float) config.getInt("chapter_length") * 60);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				p.sendMessage(ChatColor.GOLD + "[Game] " + ChatColor.YELLOW + "The border is closing as you have reached episode " + getBorderClosingEpisode() + "!");
-				p.sendMessage(ChatColor.GOLD + "[Game] " + ChatColor.YELLOW + "It is time for you to reach 0,0. Get ready for the fight. Good luck!");
-				p.sendMessage(ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The border is closing at a velocity of " + velocity + " blocks/second.");
+				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.YELLOW + "The border is closing as you have reached episode " + getBorderClosingEpisode() + "!");
+				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.YELLOW + "It is time for you to reach 0,0. Get ready for the fight. Good luck!");
+				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.AQUA + "The border is closing at a velocity of " + velocity + " blocks/second.");
 			}
 		}
 		return;

@@ -329,14 +329,15 @@ public class UhcTeamsManager {
 		new BukkitRunnable(){
 			@Override
 			public void run() {
-				invoker.getWorld().strikeLightningEffect(block.getLocation());
-				invoker.getWorld().spawn(new Location(invoker.getWorld(), block.getX(), block.getY() + 1, block.getZ()), EnderCrystal.class);
-				block.setType(Material.AIR);
 				if(team.dead().size() == 0 || plugin.getMatchHandler().getTimer().getEpisode() >= 10 || team.hasBeenRevived(team.dead().get(0))) {
 					invoker.sendMessage(Prefix.INGAME_UHC + "" + "You just wasted a " + ChatColor.BLACK + "" + ChatColor.BOLD + "DARK " + ChatColor.AQUA + "" + ChatColor.BOLD + "Crystal");
 				} else {
+					invoker.getWorld().strikeLightningEffect(block.getLocation());
+					invoker.getWorld().spawn(new Location(invoker.getWorld(), block.getX(), block.getY() + 1, block.getZ()), EnderCrystal.class);
+					block.setType(Material.AIR);
 					Player revived = team.dead().get(0);
 					team.markPlayerAsAlive(revived);
+					team.markPlayerAsRevived(revived);
 					revived.setGameMode(GameMode.SURVIVAL);
 					revived.setExp(0);
 					revived.setFoodLevel(20);
