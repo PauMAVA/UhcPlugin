@@ -22,6 +22,8 @@ import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
+import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
@@ -29,10 +31,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -88,6 +92,14 @@ public class EventsRegister implements Listener {
 	public void onPlayerHeal(EntityRegainHealthEvent event) {
 		if(event.getEntity() instanceof Player) {
 			UhcScoreboardManager.updateHealth();
+		}
+	}
+
+	@EventHandler(priority=EventPriority.MONITOR)
+	public void onPlayerInteract(PlayerInteractEvent event) {
+		if(event.getMaterial() == Material.END_CRYSTAL && event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.BEDROCK) {
+			event.getItem().setType(Material.COAL);
+			UhcTeamsManager.revive(event.getPlayer(), event.getClickedBlock());
 		}
 	}
 	

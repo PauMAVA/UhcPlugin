@@ -27,10 +27,14 @@ import javax.annotation.Nullable;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.teams.TeamsFile;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EnderCrystal;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class UhcTeamsManager {
 	
@@ -213,7 +217,7 @@ public class UhcTeamsManager {
 	}
 
 	public static String getPlayerTeam(String playerName) {
-		Collection<String> teamsLs = teamsConfig.getTeams(); // returns object of Collection interface so a cast to List child interface is needed
+		Collection<String> teamsLs = teamsConfig.getTeams();
 		for(String teamName: teamsLs) {
 			List<String> localTeamList = teamsConfig.getTeamMembers(teamName);
 			if(localTeamList.contains(playerName)) {
@@ -301,17 +305,49 @@ public class UhcTeamsManager {
 
 	public static void eliminate(Player player) {
 		UhcTeam playerTeam = plugin.getMatchHandler().getUhcTeam(player);
+		playerTeam.markPlayerAsDead(player);
 		String playerTeamName = playerTeam.getName();
 		if(plugin.getMatchHandler().getUhcTeam(player).alive().size() == 0) {
 			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" +  ChatColor.AQUA + player.getName() + " was the last member of the team " + playerTeamName + "!" );
 			Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + "The team " + playerTeamName + " has been eliminated!" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
 			playerTeam.markPlayerAsDead(player);
 			if(plugin.getMatchHandler().remainingTeams() <= 1) {
-				player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + plugin.getMatchHandler().getRemainingTeams().get(0).getName(),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+				/* TODO Winning team name */
+				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
+					p.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + plugin.getMatchHandler().getRemainingTeams().get(0).getName(),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+				}
 				UhcPluginCore.getInstance().getMatchHandler().end();
 			}
 		} else {
 			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + playerTeam.alive().size() + " players left!");
 		}
 	}
+
+	public static void revive(Player invoker, Block block) {
+		UhcTeam team = plugin.getMatchHandler().getUhcTeam(invoker);
+		invoker.getWorld().playEffect(block.getLocation(), Effect.DRAGON_BREATH, 100);
+		new BukkitRunnable(){
+			@Override
+			public void run() {
+				invoker.getWorld().strikeLightningEffect(block.getLocation());
+				invoker.getWorld().spawn(new Location(invoker.getWorld(), block.getX(), block.getY() + 1, block.getZ()), EnderCrystal.class);
+				block.setType(Material.AIR);
+				if(team.dead().size() == 0) {
+					invoker.sendMessage(Prefix.INGAME_UHC + "" + "You just wasted a " + ChatColor.BLACK + "" + ChatColor.BOLD + "DARK " + ChatColor.AQUA + "" + ChatColor.BOLD + "Crystal");
+				} else {
+					Player revived = team.dead().get(0);
+					team.markPlayerAsAlive(revived);
+					revived.setGameMode(GameMode.SURVIVAL);
+					revived.setExp(0);
+					revived.setFoodLevel(20);
+					revived.setHealth(20);
+					revived.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 750, 1));
+					revived.teleport(invoker);
+					Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + "A player used a " + ChatColor.BLACK + "" + ChatColor.BOLD + "DARK " + ChatColor.AQUA + "" + ChatColor.BOLD + "Crystal" + ChatColor.RESET + " and revived " + ChatColor.MAGIC + "aaaaaa");
+				}
+			}
+		}.runTaskLater(plugin, 40L);
+	}
+
+
 }

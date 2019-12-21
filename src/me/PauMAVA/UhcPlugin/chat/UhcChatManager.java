@@ -69,10 +69,10 @@ public class UhcChatManager {
 	
 	private static void teamDispatcher(String msg, Player player) {
 		String playerName = player.getName();
-		String playersTeam = UhcTeamsManager.getPlayerTeam(playerName);
+		String playersTeam = plugin.getMatchHandler().getUhcTeam(player).getName();
 		msg = Prefix.TEAM_CHAT + ""+ ChatColor.YELLOW + playerName + " " + ChatColor.RESET + msg;
 		/* Checks if the player doesn't belong to a team */
-		if(playersTeam == null) {
+		if(playersTeam == null)  {
 			for(Player checkPlayer: Bukkit.getServer().getOnlinePlayers()) {
 				if(checkPlayer.getName().contentEquals(playerName)) {
 					checkPlayer.sendMessage(msg);

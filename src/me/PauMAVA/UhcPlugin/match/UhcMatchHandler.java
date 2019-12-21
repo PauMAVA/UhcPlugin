@@ -107,7 +107,7 @@ public class UhcMatchHandler {
                 return team;
             }
         }
-        return null;
+        return new UhcTeam(null, null);
     }
 
     public int remainingTeams() {
