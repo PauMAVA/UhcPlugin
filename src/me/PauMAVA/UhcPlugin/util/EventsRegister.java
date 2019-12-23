@@ -27,6 +27,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.entity.Drowned;
 import org.bukkit.entity.Player;
@@ -38,10 +39,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerAdvancementDoneEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -121,7 +118,13 @@ public class EventsRegister implements Listener {
 				item.setItemMeta((ItemMeta) meta);
 				event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
 			}
-			Bukkit.getServer().broadcastMessage("KILLED Drowned!: " + randomNum);
+		}
+	}
+
+	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
+		if(plugin.getMatchHandler().getMatchStatus() && event.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
+			event.setCancelled(true);
 		}
 	}
 	

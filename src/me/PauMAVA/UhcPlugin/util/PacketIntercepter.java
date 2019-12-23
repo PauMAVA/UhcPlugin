@@ -94,7 +94,9 @@ public class PacketIntercepter {
 		};
 	
 		ChannelPipeline pipe = ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.pipeline();
-		pipe.addBefore("packet_handler", player.getName(), channelDuplexHandler);
+		try{
+			pipe.addBefore("packet_handler", player.getName(), channelDuplexHandler);
+		} catch (IllegalArgumentException ignored) {}
 	}
 	
 }

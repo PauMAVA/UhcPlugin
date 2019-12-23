@@ -349,6 +349,4 @@ public class UhcTeamsManager {
 			}
 		}.runTaskLater(plugin, 40L);
 	}
-
-
 }

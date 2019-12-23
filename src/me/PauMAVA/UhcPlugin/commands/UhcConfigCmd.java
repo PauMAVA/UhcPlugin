@@ -62,7 +62,7 @@ public class UhcConfigCmd {
 		String value = args[2];
 		switch(option) {
 			case "season": {
-				setInt(option, value);
+				setString(option, value);
 				break;
 			}
 			case "chapter_length": {
@@ -170,9 +170,6 @@ public class UhcConfigCmd {
 			}
 			case "normal": {
 				return Difficulty.NORMAL;
-			}
-			case "hard": {
-				return Difficulty.HARD;
 			}
 			default: {
 				return Difficulty.HARD;

@@ -43,13 +43,14 @@ public class UhcScoreboardManager {
 	private static int chapterLength = plugin.getConfig().getInt("chapter_length");
 	
 	public static void setUp() {
-		 	infoObjective = uhcScoreboard.registerNewObjective("Info", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + plugin.getConfig().get("season"));
-			lifeObjective = uhcScoreboard.registerNewObjective("Health", "health", "health", RenderType.HEARTS);
-			lifeObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
-			updateHealth();
-			for(Player player: Bukkit.getOnlinePlayers()) {
-				player.setScoreboard(uhcScoreboard);
-			}
+		uhcScoreboard = scManager.getNewScoreboard();
+		infoObjective = uhcScoreboard.registerNewObjective("Info", "dummy", ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + plugin.getConfig().get("season"));
+		lifeObjective = uhcScoreboard.registerNewObjective("Health", "health", "health", RenderType.HEARTS);
+		lifeObjective.setDisplaySlot(DisplaySlot.PLAYER_LIST);
+		updateHealth();
+		for(Player player: Bukkit.getOnlinePlayers()) {
+			player.setScoreboard(uhcScoreboard);
+		}
 	}
 	
 	/* Updates the health on the list scoreboard */
@@ -97,4 +98,9 @@ public class UhcScoreboardManager {
 	static void refreshSidebarTitle(String newTitle) {
 		infoObjective.setDisplayName(newTitle);
 	}
+
+	public static void rmPlayer(Player player) {
+		player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+	}
+
 }
