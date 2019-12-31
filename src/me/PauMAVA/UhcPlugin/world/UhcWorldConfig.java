@@ -38,8 +38,8 @@ public class UhcWorldConfig {
 		for(World dimension: dimensions) {
 			dimension.getWorldBorder().setCenter(new Location(dimension, 0, 0, 0));
 			dimension.getWorldBorder().setSize(diameter);
+			UhcWorldBorder.startWarningTask();
 		}
-		return;
 	}
 	
 	public static <T> void setRules(HashMap<GameRule<T>, T> rules) {

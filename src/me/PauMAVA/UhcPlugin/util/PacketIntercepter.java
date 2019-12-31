@@ -57,7 +57,6 @@ public class PacketIntercepter {
 			public void channelRead(ChannelHandlerContext context, Object packet) {
 				try {
 					if(packet instanceof PacketPlayInChat && plugin.getMatchHandler().getMatchStatus()) {
-						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
 						String stringMsg = ((PacketPlayInChat) packet).b();
 						if(stringMsg.charAt(0) == '/' || !plugin.getMatchHandler().getMatchStatus()) {
 							super.channelRead(context, packet);
@@ -67,7 +66,6 @@ public class PacketIntercepter {
 						return;
 					}
 					if(packet instanceof PacketPlayInAdvancements) {
-						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + packet.toString());
 						String key = ((PacketPlayInAdvancements) packet).d().getKey();
 						
 					}
@@ -81,9 +79,6 @@ public class PacketIntercepter {
 			@Override
 			public void write(ChannelHandlerContext context, Object packet, ChannelPromise promise) {
 				try {
-					if((packet instanceof PacketPlayOutChat || packet instanceof PacketPlayOutAdvancements) && plugin.getMatchHandler().getMatchStatus()) {
-						Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + packet.toString());
-					}
 					super.write(context, packet, promise);
 				} catch(Exception e) {
 					plugin.getPluginLogger().warning(e.getMessage());

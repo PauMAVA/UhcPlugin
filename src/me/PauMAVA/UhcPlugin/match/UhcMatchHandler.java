@@ -25,15 +25,14 @@ import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import me.PauMAVA.UhcPlugin.util.UhcTabList;
+import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class UhcMatchHandler {
 
@@ -74,6 +73,7 @@ public class UhcMatchHandler {
         this.isRunning = false;
         Bukkit.getScheduler().cancelTask(this.timerTaskID);
         Bukkit.getScheduler().cancelTask(this.tabTaskID);
+        UhcWorldBorder.stopWarningTask();
     }
 
     /* Adds a player to the match

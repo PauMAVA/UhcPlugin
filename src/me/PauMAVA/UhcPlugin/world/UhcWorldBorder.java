@@ -25,15 +25,19 @@ import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class UhcWorldBorder {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	private static FileConfiguration config = UhcConfigCmd.getConfig();
-	
+	private static int taskID;
+
+
 	public static void refreshBorder(Integer episode) {
 		if(!configIsSet()) {
 			setConfig();
@@ -86,5 +90,23 @@ public class UhcWorldBorder {
 		config.set("final_radius", 150);
 		config.set("border_closing_episode", 8);
 		return;
+	}
+
+	public static void startWarningTask() {
+		new BukkitRunnable(){
+			@Override
+			public void run() {
+				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
+					int distance = (int) (player.getWorld().getWorldBorder().getSize() - player.getLocation().distance(new Location(player.getWorld(), 0, 100, 0)) - getOriginalBorderRadius());
+					if(distance <= 50) {
+						player.sendMessage("The border is " + distance + " blocks away from you!");
+					}
+				}
+			}
+		}.runTaskTimerAsynchronously(UhcPluginCore.getInstance(), 0L, 20L);
+	}
+
+	public static void stopWarningTask() {
+		Bukkit.getScheduler().cancelTask(taskID);
 	}
 }
