@@ -52,7 +52,7 @@ public class UhcConfigCmd {
 			}
 			return;
 		}
-		if(legalArgs == false) {
+		if(!legalArgs) {
 			int newLength = args.length;
 			sendMessage(theSender, ChatColor.RED + "Argument number mismatch! Expected two arguments and recieved " + newLength--);
 			sendMessage(theSender, ChatColor.RED + "Usage: /uhc config <option> <value>");
@@ -65,16 +65,15 @@ public class UhcConfigCmd {
 				setString(option, value);
 				break;
 			}
-			case "chapter_length": {
-				setInt(option, value);
-				break;
-			}
+			case "chapter_length":
+			case "final_radius":
+			case "border_closing_episode":
 			case "border_radius": {
 				setInt(option, value);
 				break;
 			}
 			case "difficulty": {
-				if(legalDifficulties.contains(value.toLowerCase()) == true) {
+				if(legalDifficulties.contains(value.toLowerCase())) {
 					setString(option, value);
 				} else {
 					sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option " + option + " cannot handle the value \'" + value + "\'. It only accepts the following values: " + legalDifficulties.toString());
@@ -82,19 +81,11 @@ public class UhcConfigCmd {
 				break;
 			}
 			case "closable_border": {
-				if(value.equalsIgnoreCase("true") || option.equalsIgnoreCase("false")) {
+				if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 					setBoolean(option, value);
 				} else {
 					sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option " + option + " can only handle boolean values (true or false)! Please introduce a valid value.");
 				}
-				break;
-			}
-			case "final_radius": {
-				setInt(option, value);
-				break;
-			}
-			case "border_closing_episode": {
-				setInt(option, value);
 				break;
 			}
 			default: {
@@ -124,10 +115,10 @@ public class UhcConfigCmd {
 	private static void setInt(String path, String data) {
 		try {
 			int value = Integer.parseInt(data);
-			if(value < 0 && canBeNegative.contains(path) == true) {
+			if(value < 0 && canBeNegative.contains(path)) {
 				sendMessage(staticSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "You've set a negative " + path + " value! (This shouldn't cause any errors).");
 			} 
-			if(value < 0 && canBeNegative.contains(path) == false) {
+			if(value < 0 && !canBeNegative.contains(path)) {
 				sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "You've set a negative " + path + " value, which is not supported. No changes were made!");
 				return;
 			}
@@ -141,14 +132,12 @@ public class UhcConfigCmd {
 		}
 		plugin.saveConfig();
 		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The parameter " + path + " has been assigned the value " + data + " successfully!");
-		return;
 	}
 	
 	private static void setString(String path, String data) {
 		plugin.getConfig().set(path, data);
 		plugin.saveConfig();
 		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "the parameter " + path + " has been assigned the value " + data + " successfully!");
-		return;
 	}
 	
 	private static void setBoolean(String path, String data) {
@@ -156,7 +145,6 @@ public class UhcConfigCmd {
 		plugin.getConfig().set(path, bool);
 		plugin.saveConfig();
 		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "the parameter " + path + " has been assigned the value " + data + " successfully!");
-		return;
 	}
 	
 	public static Difficulty getDifficultyObject() {
