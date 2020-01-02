@@ -74,10 +74,10 @@ public class UhcScoreboardManager {
 			uhcScoreboard.resetScores(totalTime.getEntry());
 		}
 		infoObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		timer = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "Time left: " + ChatColor.GRAY + minutes + ":" + seconds);
-		totalTime = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.GREEN + ChatColor.BOLD + "Total time: " + ChatColor.GRAY + total);
-		episodeScore = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.RED + ChatColor.BOLD + "Episode: " + ChatColor.GRAY + episode);
-		fullLine = infoObjective.getScore(ChatColor.GRAY + "§m                                ");
+		timer = infoObjective.getScore( ChatColor.GRAY + "  Â»  " + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "Time left: " + ChatColor.GRAY + minutes + ":" + seconds);
+		totalTime = infoObjective.getScore( ChatColor.GRAY + "  Â»  " + ChatColor.GREEN + ChatColor.BOLD + "Total time: " + ChatColor.GRAY + total);
+		episodeScore = infoObjective.getScore( ChatColor.GRAY + "  Â»  " + ChatColor.RED + ChatColor.BOLD + "Episode: " + ChatColor.GRAY + episode);
+		fullLine = infoObjective.getScore(ChatColor.GRAY + "Â§m                                ");
 		blankLines.addAll(Arrays.asList(infoObjective.getScore(""), infoObjective.getScore(" "), infoObjective.getScore("  "), infoObjective.getScore("   "), infoObjective.getScore("    "), infoObjective.getScore("     ")));
 		blankLines.get(0).setScore(8);
 		episodeScore.setScore(7);

@@ -18,24 +18,27 @@
 
 package me.PauMAVA.UhcPlugin.world;
 
-import java.util.List;
-
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import net.minecraft.server.v1_15_R1.ChatComponentText;
+import net.minecraft.server.v1_15_R1.ChatMessageType;
+import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UhcWorldBorder {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
 	private static FileConfiguration config = UhcConfigCmd.getConfig();
 	private static int taskID;
+	private static List<Player> warnedPlayers = new ArrayList<Player>();
 
 
 	public static void refreshBorder(Integer episode) {
@@ -97,16 +100,33 @@ public class UhcWorldBorder {
 			@Override
 			public void run() {
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					int distance = (int) (player.getWorld().getWorldBorder().getSize() - player.getLocation().distance(new Location(player.getWorld(), 0, 100, 0)) - getOriginalBorderRadius());
+					int distance = getDistance(player);
 					if(distance <= 50) {
-						player.sendMessage("The border is " + distance + " blocks away from you!");
+						sendActionBarMessage(player, ChatColor.YELLOW + "The border is " + distance + " blocks away from you!");
+						if(!warnedPlayers.contains(player)) {
+							warnedPlayers.add(player);
+							player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);
+						}
+					} else {
+						warnedPlayers.remove(player);
 					}
 				}
 			}
 		}.runTaskTimerAsynchronously(UhcPluginCore.getInstance(), 0L, 20L);
 	}
 
+	private static int getDistance(Player player) {
+		int borderSize = (int) player.getWorld().getWorldBorder().getSize() / 2;
+		Location playerLocation = player.getLocation();
+		return Math.min(Math.min(borderSize - (int) playerLocation.getZ(), (int) playerLocation.getX() + borderSize), Math.min(borderSize - (int) playerLocation.getX(), (int) playerLocation.getZ() + borderSize));
+	}
+
 	public static void stopWarningTask() {
 		Bukkit.getScheduler().cancelTask(taskID);
+	}
+
+	private static void sendActionBarMessage(Player player, String message) {
+		PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(new ChatComponentText(message), ChatMessageType.a((byte) 2));
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetPlayOutChat);
 	}
 }

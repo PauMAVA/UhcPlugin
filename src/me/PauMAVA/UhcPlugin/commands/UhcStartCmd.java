@@ -19,10 +19,15 @@
 package me.PauMAVA.UhcPlugin.commands;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
+import net.minecraft.server.v1_15_R1.ChatComponentText;
+import net.minecraft.server.v1_15_R1.ChatMessageType;
+import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -69,7 +74,7 @@ class UhcStartCmd {
 					}
 				}
 				for(Player player: Bukkit.getOnlinePlayers()) { 
-					player.sendMessage(ChatColor.GOLD + "UHC STARTING IN " + numberColor + counter);
+					sendActionBarMessage(player,  ChatColor.GOLD + "Uhc starting in " + numberColor + "" + ChatColor.BOLD + counter);
 					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, pitch);
 				}
 				counter--;
@@ -88,5 +93,10 @@ class UhcStartCmd {
 				}
 			}
 		}, 0L, 20L);
+	}
+
+	private static void sendActionBarMessage(Player player, String message) {
+		PacketPlayOutChat packetPlayOutChat = new PacketPlayOutChat(new ChatComponentText(message), ChatMessageType.a((byte)2));
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packetPlayOutChat);
 	}
 }

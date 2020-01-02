@@ -61,10 +61,6 @@ public class RandomTeleporter {
 		for(String teamName: teamSideRelation.keySet()) {
 			Integer side = teamSideRelation.get(teamName);
 			Integer[] coords = generateCoordinates(side, teamCoordsRelation.values());
-			Bukkit.getServer().getConsoleSender().sendMessage("Coords for team " + teamName);
-			for(Integer integer: coords) {
-				Bukkit.getServer().getConsoleSender().sendMessage("" + integer.intValue());
-			}
 			teamCoordsRelation.put(teamName, coords);
 			teleportAndSetup(teamName, teamCoordsRelation.get(teamName));
 		}
@@ -116,7 +112,7 @@ public class RandomTeleporter {
 		Range spawnRange = getSpawnRange();
 		Integer[] arr = new Integer[2];
 		do {	
-			switch(side.intValue()) {
+			switch(side) {
 				case 1: {
 					/* North side --> Fixed Y */
 					arr[0] = spawnRange.getRandomInteger();
