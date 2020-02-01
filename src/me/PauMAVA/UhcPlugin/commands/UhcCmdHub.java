@@ -18,17 +18,18 @@
 
 package me.PauMAVA.UhcPlugin.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class UhcCmdHub implements CommandExecutor {
 
@@ -63,9 +64,9 @@ public class UhcCmdHub implements CommandExecutor {
 				}
 				default: {
 					if(theSender instanceof Player) {
-						((Player) theSender).getPlayer().sendMessage(ChatColor.RED + subCmd + " is not  a vaild option for /uhc <subCmd> [args]");
+						((Player) theSender).getPlayer().sendMessage(ChatColor.RED + subCmd + PluginStrings.UNSUPPORTED_CMD.toString());
 					} else {
-						plugin.getPluginLogger().warning(ChatColor.RED + subCmd + " is not  a vaild option for /uhc <subCmd> [args]");
+						plugin.getPluginLogger().warning(ChatColor.RED + subCmd + PluginStrings.UNSUPPORTED_CMD.toString());
 					}
 					return false;
 				}

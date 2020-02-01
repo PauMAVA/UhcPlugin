@@ -18,15 +18,9 @@
 
 package me.PauMAVA.UhcPlugin.teams;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
-import me.PauMAVA.UhcPlugin.teams.TeamsFile;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -36,6 +30,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class UhcTeamsManager {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
@@ -44,7 +43,6 @@ public class UhcTeamsManager {
 	public static void createTeamsFile() {
 			/*Null parameter stands for default FileName (teams.yml)*/
 			teamsConfig = new TeamsFile(null);
-			return;
 	}
 	
 	public static TeamsFile getTeamsManagementFile() {
@@ -60,10 +58,10 @@ public class UhcTeamsManager {
 			case "register": {
 				boolean exists = !teamsConfig.registerTeam(args[1]);
 				teamsConfig.saveConfig();
-				if(exists == true) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The team '" + args[1] + "' already exists! Use the add option to add players to this team.");
+				if(exists) {
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + "\'" + args[1] + "\'" + PluginStrings.TEAMS_ALREADY_EXISTS.toString());
 				} else {
-					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team '" + args[1] + "' was registered successfully!");
+					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() +  PluginStrings.TEAMS_THE_TEAM.toString() + "\'" + args[1] + "\'"  + PluginStrings.TEAMS_REGISTER_SUCCESS.toString());
 				}
 				break;
 			} 
@@ -82,10 +80,10 @@ public class UhcTeamsManager {
 			case "delete": {
 				boolean deleted = teamsConfig.deleteTeam(args[1]);
 				teamsConfig.saveConfig();
-				if(deleted == true) {
-					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team '" + args[1] + "' has been deleted successfully!");
+				if(deleted) {
+					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + "\'" + args[1] + "\'" + PluginStrings.TEAMS_DELETE_SUCCESS.toString());
 				} else {
-					sendMessage(theSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "The team '" + args[1] + "' couldn't be deleted! Perhaps it didn't exist.");
+					sendMessage(theSender, PluginStrings.WARNING_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + "\'" + args[1] + "\'" + PluginStrings.TEAMS_NOT_EXISTS.toString());
 				}
 				break;
 			}	
@@ -93,25 +91,25 @@ public class UhcTeamsManager {
 				int newSize = Integer.parseInt(args[2]);
 				int actualSize = teamsConfig.getTeamMembers(args[1]).size();
 				if(newSize == actualSize) {
-					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team " + args[1] + " already had a size of " + newSize + "players. No changes were made!");
+					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + args[1] + PluginStrings.TEAMS_SAME_SIZE.toString() + newSize + PluginStrings.TEAMS_NO_CHANGES.toString());
 					break;
 				}
 				if(newSize < actualSize) {
 					List<String> ls = teamsConfig.settleNewSize(args[1] , actualSize - newSize);
-					sendMessage(theSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "The team size you specified was smaller than the previous one, so the following players were autokicked: ");
+					sendMessage(theSender, PluginStrings.WARNING_PREFIX.toString() + PluginStrings.TEAMS_AUTOKICK_NOTICE.toString());
 					for(String kickedPlayer: ls) {
 						sendMessage(theSender, ChatColor.YELLOW + "  - " + kickedPlayer);
 					}
-					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team size has been succesfully set to " + args[1] + ".");
+					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS.toString() + args[1] + ".");
 					teamsConfig.saveConfig();
 					break;
 				}
 				boolean check = teamsConfig.setMaxTeamSize(args[1],args[2]);
 				teamsConfig.saveConfig();
-				if(check == true) {
-					sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The team size for " + args[1] +  " has been succesfully set to " + args[2] + ".");
+				if(check) {
+					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + args[1] +  PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS2.toString() + args[2] + ".");
 				} else {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The team size value couldn't be updated due to an unexpected error. Maybe the file is not reachable!");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_UNEXPECTED_ERROR.toString());
 				}
 				break;
 			}
@@ -127,7 +125,7 @@ public class UhcTeamsManager {
 					exitCode = getTeamCmd(theSender, null);
 				}				
 				if(exitCode == 1) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The team you specified doesn't exist! Please register it using the register option!");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_GET_NOT_EXISTS.toString());
 				}
 				break;
 			}
@@ -146,40 +144,40 @@ public class UhcTeamsManager {
 		switch(args[0].toLowerCase()) {
 			case "register": {
 				if(length != 2) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option register in the command /uhc teams <option>!");
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option register: /uhc teams register <teamName>");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_REGISTER_NOTICE.toString());
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_REGISTER_USAGE.toString());
 					return false;
 				}
 				break;
 			} 
 			case "add": {
 				if(length != 3) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option add in the command /uhc teams <option>!");
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option add: /uhc teams add <player> <teamName>");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_ADD_NOTICE.toString());
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_ADD_USAGE.toString());
 					return false;
 				}
 				break;
 			}
 			case "kick": {
 				if(length != 3) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option kick in the command /uhc teams <option>!");
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option kick: /uhc teams kick <player> <teamName>");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_KICK_NOTICE.toString());
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_KICK_USAGE.toString());
 					return false;
 				}
 				break;
 			}
 			case "delete": {
 				if(length != 2) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option delete in the command /uhc teams <option>!");
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option delete: /uhc teams delete <teamName>");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_DELETE_NOTICE.toString());
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_DELETE_USAGE.toString());
 					return false;
 				}
 				break;
 			}
 			case "setmaxsize": {
 				if(length != 3 || isNotInt(args[2])) {
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Invalid arguments for the option setMaxSize in the command /uhc teams <option>!");
-					sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Usage of option setMaxSize: /uhc teams setMaxSize <teamName> <number>");
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_MAXSIZE_NOTICE.toString());
+					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_MAXSIZE_USAGE.toString());
 					return false;
 				}
 				break;
@@ -189,8 +187,8 @@ public class UhcTeamsManager {
 				return true;
 			}
 			default: {
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "No such option available for the command /uhc teams <option>!");
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "Available options are: register, add, kick, delete, setMaxSize.");
+				sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_NO_SUCH_OPTION.toString());
+				sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_AVAILABLE_OPTIONS.toString());
 				return false;
 			}
 		}
@@ -204,7 +202,6 @@ public class UhcTeamsManager {
 		} else {
 			plugin.getPluginLogger().info(message);
 		}
-		return;
 	}
 	
 	private static boolean isNotInt(String s) {
@@ -229,10 +226,10 @@ public class UhcTeamsManager {
 	
 	private static int getTeamCmd(CommandSender theSender, @Nullable String teamName) {
 		if(teamName == null) {
-			sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "You didn't specify the team you want to fetch, so all teams and respective integrants will be printed!");
+			sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_FETCH_ALL.toString());
 			List<String> teamsLs = new ArrayList<String>(teamsConfig.getTeams());
 			if(teamsLs.isEmpty()) {
-				sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "There are no teams registered yet!");
+				sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_NO_REGISTERED_TEAMS.toString());
 				return 0;
 			}
 			for(String name: teamsLs) {
@@ -250,18 +247,17 @@ public class UhcTeamsManager {
 	private static void printTeamInfo(CommandSender theSender, String name) {
 		int localTeamMaxSize = teamsConfig.getTeamMaxSize(name);
 		sendMessage(theSender, ChatColor.BLUE + name + ": ");
-		sendMessage(theSender, ChatColor.AQUA + "\'" + name + "\' maximum size: " + localTeamMaxSize);
+		sendMessage(theSender, ChatColor.AQUA + PluginStrings.TEAMS_MAX_SIZE.toString() + localTeamMaxSize);
 		List<String> playersLs = teamsConfig.getTeamMembers(name);
 		if(playersLs.isEmpty()) {
-			sendMessage(theSender, ChatColor.AQUA + "The team " + name + " is empty!");
+			sendMessage(theSender, ChatColor.AQUA + PluginStrings.TEAMS_THE_TEAM.toString() + name + PluginStrings.TEAMS_IS_EMPTY.toString());
 		} else {
 			int freeSpots = localTeamMaxSize - playersLs.size();
-			sendMessage(theSender, ChatColor.AQUA + "The team " + name + " has " + playersLs.size() + " integrants. There are " + freeSpots + " spots free!");
+			sendMessage(theSender, ChatColor.AQUA + PluginStrings.TEAMS_THE_TEAM.toString() + name + PluginStrings.TEAMS_CONNECTOR + playersLs.size() + PluginStrings.TEAMS_INTEGRANTS.toString() + freeSpots + PluginStrings.TEAMS_FREE_SPOTS.toString());
 			for(String playerName: playersLs) {
 				sendMessage(theSender, ChatColor.AQUA + "  - " + playerName);
 			}
 		}
-		return;
 	}
 	
 	public static List<String> getTeamMembers(String teamName) {
@@ -270,29 +266,28 @@ public class UhcTeamsManager {
 	
 	private static void exitCodesHandler(CommandSender theSender, int code, String[] args, String operation) {
 		/* Exit codes:
-		 * - 0 --> Successfull operation
+		 * - 0 --> Successful operation
 		 * - 1 --> The specified team doesn't exist
 		 * - 2 --> The player doesn't exist in that team
 		 * - 3 --> Operation failed as the team is full */
 		switch(code) {
 			case 0: {
-				sendMessage(theSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The player " + args[1] + " has been "  + operation + "ed to the team " + args[2]);
+				sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_OPERATION_SUCCESS.toString());
 				break;
 			}
 			case 1: {
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The team \'" + args[2] + "\' doesn't exist. register it via the register option!");
+				sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_TEAM_NOT_EXISTS.toString());
 				break;
 			}
 			case 2: {
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The player you specified wasn't found on the team \'" + args[2] + "\'");
+				sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_PLAYER_NOT_FOUND.toString() + "\'" + args[2] + "\'");
 				break;
 			}
 			case 3: {
-				sendMessage(theSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The player couldn't be added to the team as it is full. Please increase its maximum size with the setMaxSize option!");
+				sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_FULL_TEAM.toString());
 				break;
 			}
 		}
-		return;
 	}
 
 	public static UhcTeam getTeamObject(String teamName) {
@@ -308,18 +303,18 @@ public class UhcTeamsManager {
 		playerTeam.markPlayerAsDead(player);
 		String playerTeamName = playerTeam.getName();
 		if(plugin.getMatchHandler().getUhcTeam(player).alive().size() == 0) {
-			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" +  ChatColor.AQUA + player.getName() + " was the last member of the team " + playerTeamName + "!" );
-			Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + "The team " + playerTeamName + " has been eliminated!" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
+			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" +  ChatColor.AQUA + player.getName() + PluginStrings.TEAMS_LAST_MEMBER.toString() + playerTeamName + "!" );
+			Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + PluginStrings.TEAMS_THE_TEAM.toString() + playerTeamName + PluginStrings.TEAMS_ELIMINATED.toString() + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
 			playerTeam.markPlayerAsDead(player);
 			if(plugin.getMatchHandler().remainingTeams() <= 1) {
 				/* TODO Winning team name */
 				for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-					p.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + plugin.getMatchHandler().getRemainingTeams().get(0).getName(),ChatColor.AQUA + "" + ChatColor.BOLD +  "WINS", 0, 5*20, 1*20);
+					p.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + plugin.getMatchHandler().getRemainingTeams().get(0).getName(),PluginStrings.TEAMS_WIN_SUBTITLE.toString(), 0, 5*20, 1*20);
 				}
 				UhcPluginCore.getInstance().getMatchHandler().end();
 			}
 		} else {
-			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.AQUA + "The player " + player.getName() + " was part of the team " + playerTeamName + " which has " + playerTeam.alive().size() + " players left!");
+			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" + PluginStrings.TEAMS_THE_PLAYER.toString() + player.getName() + PluginStrings.TEAMS_PART_OF_TEAM.toString()  + playerTeamName + PluginStrings.TEAMS_CONNECTOR2.toString() + playerTeam.alive().size() + PluginStrings.TEAMS_PLAYERS_LEFT.toString());
 		}
 	}
 
@@ -330,7 +325,7 @@ public class UhcTeamsManager {
 			@Override
 			public void run() {
 				if(team.dead().size() == 0 || plugin.getMatchHandler().getTimer().getEpisode() >= 10 || team.hasBeenRevived(team.dead().get(0))) {
-					invoker.sendMessage(Prefix.INGAME_UHC + "" + "You just wasted a " + ChatColor.BLACK + "" + ChatColor.BOLD + "DARK " + ChatColor.AQUA + "" + ChatColor.BOLD + "Crystal");
+					invoker.sendMessage(Prefix.INGAME_UHC + "" + PluginStrings.TEAMS_DARK_CRYSTAL_WASTE.toString());
 				} else {
 					invoker.getWorld().strikeLightningEffect(block.getLocation());
 					invoker.getWorld().spawn(new Location(invoker.getWorld(), block.getX(), block.getY() + 1, block.getZ()), EnderCrystal.class);
@@ -344,7 +339,7 @@ public class UhcTeamsManager {
 					revived.setHealth(20);
 					revived.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 750, 1));
 					revived.teleport(invoker);
-					Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + "A player used a " + ChatColor.BLACK + "" + ChatColor.BOLD + "DARK " + ChatColor.AQUA + "" + ChatColor.BOLD + "Crystal" + ChatColor.RESET + " and revived " + ChatColor.MAGIC + "aaaaaa");
+					Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + PluginStrings.TEAMS_DARK_CRYSTAL_USE.toString());
 				}
 			}
 		}.runTaskLater(plugin, 40L);

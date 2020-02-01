@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -84,8 +85,8 @@ public class CustomRecipes {
 	private void darkCrystal() {
 		ItemStack darkCrystal = new ItemStack(Material.END_CRYSTAL, 1);
 		ItemMeta meta = darkCrystal.getItemMeta();
-		meta.setDisplayName(ChatColor.GRAY +  "Dark" + ChatColor.AQUA + " Crystal");
-		meta.setLore(new ArrayList<String>(Arrays.asList("From an ancient formula,", "you have forged an artifact containing", "the essence of a soul...")));
+		meta.setDisplayName(PluginStrings.DARK_CRYSTAL_DISPLAYNAME.toString());
+		meta.setLore(new ArrayList<String>(Arrays.asList(PluginStrings.DARK_CRYSTAL_LORE1.toString(), PluginStrings.DARK_CRYSTAL_LORE2.toString(), PluginStrings.DARK_CRYSTAL_LORE3.toString())));
 		darkCrystal.setItemMeta(meta);
 		NamespacedKey name = new NamespacedKey(UhcPluginCore.getInstance(), "end_crystal");
 		ShapedRecipe darkCrystalRecipe = new ShapedRecipe(name, darkCrystal);

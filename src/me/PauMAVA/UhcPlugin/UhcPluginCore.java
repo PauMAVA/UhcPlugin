@@ -21,6 +21,8 @@ package me.PauMAVA.UhcPlugin;
 import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
+import me.PauMAVA.UhcPlugin.lang.LanguageManager;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
@@ -30,6 +32,7 @@ import me.PauMAVA.UhcPlugin.util.UhcTabList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.misc.Launcher;
 
 import java.util.logging.Logger;
 
@@ -41,11 +44,13 @@ public class UhcPluginCore extends JavaPlugin {
 		private static UhcPluginCore instance;
 		private Boolean matchStatus = false;
 		private UhcMatchHandler matchHandler;
+		private LanguageManager languageManager;
 		
 		@Override
 		public void onEnable() {
 			instance = this;
 			this.matchHandler = new UhcMatchHandler(this);
+			this.languageManager = new LanguageManager();
 			UhcLogger.info("Enabled UhcPlugin!");
 			this.saveDefaultConfig();
 			UhcTeamsManager.createTeamsFile();
@@ -76,5 +81,9 @@ public class UhcPluginCore extends JavaPlugin {
 
 		public UhcMatchHandler getMatchHandler() {
 			return this.matchHandler;
+		}
+
+		public LanguageManager getLanguageManager() {
+			return this.languageManager;
 		}
 }

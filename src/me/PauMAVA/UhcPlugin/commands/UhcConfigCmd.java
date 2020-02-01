@@ -18,16 +18,17 @@
 
 package me.PauMAVA.UhcPlugin.commands;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class UhcConfigCmd {
 	
@@ -46,7 +47,7 @@ public class UhcConfigCmd {
 		boolean legalArgs = checkForValidArgs(theSender, args.length);
 		if(args[1].equalsIgnoreCase("get")) {
 			Set<String> keySet = printAllConfig();
-			sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The current config is: ");
+			sendMessage(staticSender, PluginStrings.CURRENT_CONFIG_HEADER.toString());
 			for(String key: keySet) {
 				sendMessage(staticSender, ChatColor.BLUE + " - " + key + ": " + ChatColor.AQUA + plugin.getConfig().get(key));
 			}
@@ -54,8 +55,8 @@ public class UhcConfigCmd {
 		}
 		if(!legalArgs) {
 			int newLength = args.length;
-			sendMessage(theSender, ChatColor.RED + "Argument number mismatch! Expected two arguments and recieved " + newLength--);
-			sendMessage(theSender, ChatColor.RED + "Usage: /uhc config <option> <value>");
+			sendMessage(theSender, PluginStrings.CONFIG_ARGUMENT_NUMBER_MISMATCH.toString() + newLength--);
+			sendMessage(theSender, PluginStrings.CONFIG_USAGE.toString());
 			return;
 		}
 		String option = args[1];
@@ -76,7 +77,7 @@ public class UhcConfigCmd {
 				if(legalDifficulties.contains(value.toLowerCase())) {
 					setString(option, value);
 				} else {
-					sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option " + option + " cannot handle the value \'" + value + "\'. It only accepts the following values: " + legalDifficulties.toString());
+					sendMessage(staticSender, PluginStrings.ERROR_PREFIX.toString() + option + PluginStrings.CONFIG_BAD_VALUE.toString() + "\'" + value + "\'." + PluginStrings.CONFIG_ACCEPTED_VALUE.toString() + legalDifficulties.toString());
 				}
 				break;
 			}
@@ -84,12 +85,12 @@ public class UhcConfigCmd {
 				if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 					setBoolean(option, value);
 				} else {
-					sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option " + option + " can only handle boolean values (true or false)! Please introduce a valid value.");
+					sendMessage(staticSender, PluginStrings.ERROR_PREFIX.toString() + option + PluginStrings.CONFIG_ONLYBOOLEAN.toString());
 				}
 				break;
 			}
 			default: {
-				sendMessage(staticSender,ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The option you introduced does not exist! Please use one of this configuration options: " + allConfigOptions);
+				sendMessage(staticSender,PluginStrings.ERROR_PREFIX.toString() + ChatColor.RED + PluginStrings.CONFIG_NO_OPTION.toString() + allConfigOptions);
 				break;
 			}
 		}
@@ -116,35 +117,35 @@ public class UhcConfigCmd {
 		try {
 			int value = Integer.parseInt(data);
 			if(value < 0 && canBeNegative.contains(path)) {
-				sendMessage(staticSender, ChatColor.GOLD + "[Warning] " + ChatColor.YELLOW + "You've set a negative " + path + " value! (This shouldn't cause any errors).");
+				sendMessage(staticSender, PluginStrings.WARNING_PREFIX.toString() + PluginStrings.CONFIG_THE_VALUE.toString() + path + PluginStrings.CONFIG_NEGATIVE_NO_PROBLEM.toString());
 			} 
 			if(value < 0 && !canBeNegative.contains(path)) {
-				sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "You've set a negative " + path + " value, which is not supported. No changes were made!");
+				sendMessage(staticSender, PluginStrings.ERROR_PREFIX.toString() + ChatColor.RED + PluginStrings.CONFIG_THE_VALUE.toString() + path + PluginStrings.CONFIG_NEGATIVE_PROBLEM.toString());
 				return;
 			}
 			plugin.getConfig().set(path, value);
 		} catch(NumberFormatException e) {
-			sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "The parameter " + path + " only accepts integer values!");
+			sendMessage(staticSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.CONFIG_PARAMETER.toString() + path + PluginStrings.CONFIG_ONLYINT.toString());
 			return;
 		} catch(NullPointerException e) {
-			sendMessage(staticSender, ChatColor.DARK_RED + "[Error] " + ChatColor.RED + "You must provide a value for the parameter " + path);
+			sendMessage(staticSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.CONFIG_NOVALUE.toString() + path);
 			return;
 		}
 		plugin.saveConfig();
-		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "The parameter " + path + " has been assigned the value " + data + " successfully!");
+		sendMessage(staticSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.CONFIG_PARAMETER.toString() + path + PluginStrings.CONFIG_VALUE_ASSIGNED.toString() + data + PluginStrings.CONFIG_SUCCESS.toString());
 	}
 	
 	private static void setString(String path, String data) {
 		plugin.getConfig().set(path, data);
 		plugin.saveConfig();
-		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "the parameter " + path + " has been assigned the value " + data + " successfully!");
+		sendMessage(staticSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.CONFIG_PARAMETER.toString() + path + PluginStrings.CONFIG_VALUE_ASSIGNED.toString() + data + PluginStrings.CONFIG_SUCCESS.toString());
 	}
 	
 	private static void setBoolean(String path, String data) {
 		boolean bool = Boolean.parseBoolean(data);
 		plugin.getConfig().set(path, bool);
 		plugin.saveConfig();
-		sendMessage(staticSender, ChatColor.BLUE + "[Info] " + ChatColor.AQUA + "the parameter " + path + " has been assigned the value " + data + " successfully!");
+		sendMessage(staticSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.CONFIG_PARAMETER.toString() + path + PluginStrings.CONFIG_VALUE_ASSIGNED.toString() + data + PluginStrings.CONFIG_SUCCESS.toString());
 	}
 	
 	public static Difficulty getDifficultyObject() {
@@ -163,6 +164,10 @@ public class UhcConfigCmd {
 				return Difficulty.HARD;
 			}
 		}
+	}
+
+	public static String getLocale() {
+		return plugin.getConfig().getString("lang");
 	}
 	
 	private static Set<String> printAllConfig() {

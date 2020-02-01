@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.match;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
@@ -100,7 +101,7 @@ public class UhcMatchHandler {
 
     /* Prints the episode change announcement on the chat */
     public void episodeAnnouncement(Integer episode) {
-        Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.GRAY + "Episode " + episode + " begins now!");
+        Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + PluginStrings.EPISODE_START1.toString() + episode + PluginStrings.EPISODE_START2.toString());
     }
 
     public Boolean getMatchStatus() {
@@ -117,7 +118,7 @@ public class UhcMatchHandler {
                 return team;
             }
         }
-        return new UhcTeam(null, null);
+        return new UhcTeam("", new ArrayList<>());
     }
 
     public int remainingTeams() {

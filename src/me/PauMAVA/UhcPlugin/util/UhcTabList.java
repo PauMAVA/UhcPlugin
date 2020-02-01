@@ -19,6 +19,7 @@
 package me.PauMAVA.UhcPlugin.util;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import net.minecraft.server.v1_15_R1.ChatComponentText;
 import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerListHeaderFooter;
@@ -35,37 +36,38 @@ public class UhcTabList extends BukkitRunnable {
     private ChatComponentText headerComp;
     private ChatComponentText footerComp;
     private String season = UhcPluginCore.getInstance().getConfig().getString("season");
+    private String seasonPrefix = PluginStrings.SEASON_PREFIX.toString();
     private int i = 1;
 
     @Override
     public void run() {
         switch (i) {
             case 1: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.YELLOW + "" + ChatColor.BOLD + "U" + ChatColor.GOLD + "" + ChatColor.BOLD + "HC S" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.YELLOW + "" + ChatColor.BOLD + "U" + ChatColor.GOLD + "" + ChatColor.BOLD + "HC " + seasonPrefix + season + "\n");
                 break;
             }
             case 2: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "U" + ChatColor.YELLOW + "" + ChatColor.BOLD + "H" + ChatColor.GOLD + "" + ChatColor.BOLD + "C S" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "U" + ChatColor.YELLOW + "" + ChatColor.BOLD + "H" + ChatColor.GOLD + "" + ChatColor.BOLD + "C " + seasonPrefix + season + "\n");
                 break;
             }
             case 3: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UH" + ChatColor.YELLOW + "" + ChatColor.BOLD + "C" + ChatColor.GOLD + "" + ChatColor.BOLD + " S" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UH" + ChatColor.YELLOW + "" + ChatColor.BOLD + "C" + ChatColor.GOLD + "" + ChatColor.BOLD + " " + seasonPrefix + season + "\n");
                 break;
             }
             case 4: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC" + ChatColor.YELLOW + "" + ChatColor.BOLD + " " + ChatColor.GOLD + "" + ChatColor.BOLD + "S" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC" + ChatColor.YELLOW + "" + ChatColor.BOLD + " " + ChatColor.GOLD + "" + ChatColor.BOLD + seasonPrefix + season + "\n");
                 break;
             }
             case 5: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + ChatColor.YELLOW + "" + ChatColor.BOLD + "S" + ChatColor.GOLD + "" + ChatColor.BOLD + "" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + ChatColor.YELLOW + "" + ChatColor.BOLD + seasonPrefix + ChatColor.GOLD + "" + ChatColor.BOLD + "" + season + "\n");
                 break;
             }
             case 6: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + ChatColor.YELLOW + "" + ChatColor.BOLD + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + seasonPrefix + ChatColor.YELLOW + "" + ChatColor.BOLD + season + "\n");
                 break;
             }
             case 7: {
-                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + season + "\n");
+                this.headerComp = new ChatComponentText("\n" + ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + seasonPrefix + season + "\n");
                 i = -20;
                 break;
             }
@@ -75,7 +77,7 @@ public class UhcTabList extends BukkitRunnable {
         for(UhcTeam team: UhcPluginCore.getInstance().getMatchHandler().getRemainingTeams()) {
             alivePlayers += team.alive().size();
         }
-        this.footerComp = new ChatComponentText("\n" + ChatColor.AQUA + "" + ChatColor.BOLD + "Alive Players: " + ChatColor.RESET + "" + alivePlayers + "\n" + ChatColor.LIGHT_PURPLE + "\n(c) 2019 UhcPlugin by PauMAVA\n");
+        this.footerComp = new ChatComponentText("\n" + PluginStrings.TABLIST_ALIVE_PLAYERS.toString() + "" + alivePlayers + "\n" + ChatColor.LIGHT_PURPLE + "\n" + PluginStrings.TABLIST_COPYRIGHT.toString() + "\n");
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
             Field headerField = packet.getClass().getDeclaredField("header");

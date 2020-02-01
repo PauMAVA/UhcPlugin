@@ -27,6 +27,7 @@ import javax.annotation.Nullable;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -83,12 +84,12 @@ public class UhcDeathManager {
 		if(UhcTeamsManager.getPlayerTeam(getPlayerName()) == null) {
 			return;
 		}
-		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" +ChatColor.LIGHT_PURPLE + "The player " + this.dCause);
-		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.LIGHT_PURPLE + "The player " + player.getName() + " has been eliminated!");
+		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + PluginStrings.DEATH_HEADER.toString() + this.dCause);
+		Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + PluginStrings.DEATH_HEADER.toString() + player.getName() + PluginStrings.DEATH_ELIMINATION.toString());
 		UhcTeamsManager.eliminate(player);
-		player.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.LIGHT_PURPLE + "You have died and you have been kicked from the team!. Please use the global chat to communicate with people.");
-		player.sendMessage(Prefix.DEVELOPER + "" + ChatColor.YELLOW + "Thank you for participating in this UHC. Hope you had a great time!");
-		player.sendMessage(Prefix.DEVELOPER + "" + ChatColor.YELLOW + "Thanks for using UhcPlugin by PauMAVA! More info at https://github.com/PauMAVA/UhcPlugin");
+		player.sendMessage(Prefix.INGAME_UHC + "" + PluginStrings.DEATH_INFO.toString());
+		player.sendMessage(Prefix.DEVELOPER + "" + PluginStrings.DEATH_THANKS.toString());
+		player.sendMessage(Prefix.DEVELOPER + "" + PluginStrings.DEATH_GITHUB.toString());
 	}
 	
 	public void setTotem(@Nullable Material material) {

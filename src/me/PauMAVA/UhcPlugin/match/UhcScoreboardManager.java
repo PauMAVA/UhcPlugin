@@ -19,6 +19,7 @@
 package me.PauMAVA.UhcPlugin.match;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -74,9 +75,9 @@ public class UhcScoreboardManager {
 			uhcScoreboard.resetScores(totalTime.getEntry());
 		}
 		infoObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		timer = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.LIGHT_PURPLE + ChatColor.BOLD + "Time left: " + ChatColor.GRAY + minutes + ":" + seconds);
-		totalTime = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.GREEN + ChatColor.BOLD + "Total time: " + ChatColor.GRAY + total);
-		episodeScore = infoObjective.getScore( ChatColor.GRAY + "  »  " + ChatColor.RED + ChatColor.BOLD + "Episode: " + ChatColor.GRAY + episode);
+		timer = infoObjective.getScore( ChatColor.GRAY + "  »  " + PluginStrings.SCOREBOARD_TIME_LEFT.toString() + ChatColor.GRAY + minutes + ":" + seconds);
+		totalTime = infoObjective.getScore( ChatColor.GRAY + "  »  " + PluginStrings.SCOREBOARD_TOTAL_TIME.toString() + ChatColor.GRAY + total);
+		episodeScore = infoObjective.getScore( ChatColor.GRAY + "  »  " + PluginStrings.SCOREBOARD_EPISODE.toString() + ChatColor.GRAY + episode);
 		fullLine = infoObjective.getScore(ChatColor.GRAY + "§m                                ");
 		blankLines.addAll(Arrays.asList(infoObjective.getScore(""), infoObjective.getScore(" "), infoObjective.getScore("  "), infoObjective.getScore("   "), infoObjective.getScore("    "), infoObjective.getScore("     ")));
 		blankLines.get(0).setScore(8);

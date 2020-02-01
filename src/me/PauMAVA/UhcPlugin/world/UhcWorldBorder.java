@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.world;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import net.minecraft.server.v1_15_R1.ChatComponentText;
 import net.minecraft.server.v1_15_R1.ChatMessageType;
 import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
@@ -56,9 +57,9 @@ public class UhcWorldBorder {
 			}
 			float velocity = (getOriginalBorderRadius() - getFinalRadius()) / ((10 - getBorderClosingEpisode())* (float) config.getInt("chapter_length") * 60);
 			for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.YELLOW + "The border is closing as you have reached episode " + getBorderClosingEpisode() + "!");
-				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.YELLOW + "It is time for you to reach 0,0. Get ready for the fight. Good luck!");
-				p.sendMessage(Prefix.INGAME_UHC + "" + ChatColor.AQUA + "The border is closing at a velocity of " + velocity + " blocks/second.");
+				p.sendMessage(Prefix.INGAME_UHC + "" + PluginStrings.WORLD_BORDER_CLOSING1.toString() + getBorderClosingEpisode() + "!");
+				p.sendMessage(Prefix.INGAME_UHC + "" + PluginStrings.WORLD_BORDER_CLOSING2.toString());
+				p.sendMessage(Prefix.INGAME_UHC + "" + PluginStrings.WORLD_BORDER_VELOCITY1.toString() + velocity + PluginStrings.WORLD_BORDER_VELOCITY2.toString());
 			}
 		}
 		return;
@@ -102,7 +103,7 @@ public class UhcWorldBorder {
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
 					int distance = getDistance(player);
 					if(distance <= 50) {
-						sendActionBarMessage(player, ChatColor.YELLOW + "The border is " + distance + " blocks away from you!");
+						sendActionBarMessage(player,PluginStrings.WORLD_BORDER_DISTANCE1.toString() + distance + PluginStrings.WORLD_BORDER_DISTANCE2.toString());
 						if(!warnedPlayers.contains(player)) {
 							warnedPlayers.add(player);
 							player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);

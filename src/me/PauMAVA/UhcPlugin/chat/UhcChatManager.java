@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -42,7 +43,7 @@ public class UhcChatManager {
 	public static void dispatchAdvancementEvent(String advancement) {
 		String random = randomString();
 		for(Player p: Bukkit.getOnlinePlayers()) {
-			p.sendMessage(ChatColor.GRAY + "" + ChatColor.MAGIC + random + ChatColor.RESET + "has made the advancement " + ChatColor.GREEN + "[" + advancement + "]");
+			p.sendMessage(PluginStrings.ADVANCEMENT_MADE.toString() + advancement + "]");
 		}
 	}
 	

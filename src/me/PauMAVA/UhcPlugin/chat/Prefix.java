@@ -18,14 +18,15 @@
 
 package me.PauMAVA.UhcPlugin.chat;
 
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import org.bukkit.ChatColor;
 
 public enum Prefix {
 
-    INGAME_UHC(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "UHC" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
-    GLOBAL_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.RED + "" + ChatColor.BOLD + "GLOBAL" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
-    TEAM_CHAT(ChatColor.GRAY + "" + ChatColor.BOLD + "[" + ChatColor.AQUA + "" + ChatColor.BOLD + "TEAM" + ChatColor.GRAY + "" + ChatColor.BOLD + "] " + ChatColor.RESET + ""),
-    DEVELOPER(ChatColor.GOLD + "" + ChatColor.BOLD + "[" + ChatColor.YELLOW + "" + ChatColor.BOLD + "DEV" + ChatColor.GOLD + "" + ChatColor.BOLD + "] " + ChatColor.RESET + "");
+    INGAME_UHC(PluginStrings.INGAME_PREFIX.toString()),
+    GLOBAL_CHAT(PluginStrings.GLOBAL_PREFIX.toString()),
+    TEAM_CHAT(PluginStrings.TEAM_PREFIX.toString()),
+    DEVELOPER(PluginStrings.DEVELOPER_PREFIX.toString());
 
     private final String value;
 

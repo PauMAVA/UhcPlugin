@@ -1,0 +1,145 @@
+############################
+# UHC PLUGIN LANGUAGE FILE #
+############################
+
+## @@ ENGLISH @@ ##
+
+# Author: PauMAVA
+# Revision: 1.0
+
+###############################################
+lang: en
+###############################################
+
+# Chat related strings
+chat:
+  prefix:
+    ingame: "&7&l[&d&lUHC&7&l]&r "
+    team: "&7&l[&b&lTEAM&7&l]&r "
+    global: "&7&l[&c&lGLOBAL&7&l]&r "
+    developer: "&7&l[&e&lDEV&7&l]&r "
+  advancement: "&7&krandom&rhas made the advancement&a ["
+
+# Command based strings
+commands:
+  unsupported: " is not  a vaild option for /uhc <subCmd> [args]"
+  errorprefix: "&4[Error] &r&c"
+  warningprefix: "&6[Warning] &r&e"
+  infoprefix: "&9[Info] &r&b"
+  config:
+    current:  "&9[Info]&r &bThe current config is: "
+    argmismatch: "&cArgument number mismatch! Expected two arguments and recieved "
+    usage: "&cUsage: /uhc config <option> <value>"
+    novalue: "You must provide a value for the parameter "
+    parameter: "The parameter "
+    onlyint: " only accepts integer values!"
+    valueassigned: " has been assigned the value "
+    success: " successfully!"
+    thevalue: "The value you have introduced for "
+    negativenoproblem: " is negative! (This shouldn't cause any errors)."
+    negativeproblem: " is negative, which is not supported. No changes were made!"
+    badvalue: " cannot handle the value "
+    acceptedvalues: "It only accepts the following values: "
+    onlyboolean: " can only handle boolean values (true or false)! Please introduce a valid value."
+    nooption: "The option you introduced does not exist! Please use one of this configuration options: "
+  start:
+    countdown: "&6Uhc starting in "
+    error: "&cAn error ocurred on Uhc Countdown task!"
+    title: "&6&lUHC S" # S stands for season
+    subtitle: "&b&lSTARTS NOW!"
+
+# Gameplay based strings
+gameplay:
+  recipes:
+    darkcrystal: "&7Dark&r &bCrystal"
+    darkcrystallore1: "From an ancient formula,"
+    darkcrystallore2: "you have forged an artifact containing"
+    darkcrystallore3: "the essence of a soul..."
+
+# Match based strings
+match:
+  death:
+    messageheader: "&dThe player "
+    eliminated: " has been eliminated!"
+    info: "&dYou have died and you have been kicked from the team!. Please use the global chat to communicate with people."
+    thanks: "&eThank you for participating in this UHC. Hope you had a great time!"
+    github: "&eThanks for using UhcPlugin by PauMAVA! More info at https://github.com/PauMAVA/UhcPlugin"
+  episodestart1: "&7Episode "
+  episodestart2: " begins now!"
+  scoreboard:
+    timeleft: "&d&lTime left: "
+    totaltime: "&a&lTotal time: "
+    episode: "&c&lEpisode: "
+  season: "S" # S stands for season
+
+# Teams based strings
+teams:
+  theteam:  "The team "
+  alreadyexists: " already exists! Use the add option to add players to this team."
+  registersuccess: " was registered successfully!"
+  deletesuccess: " has been deleted successfully!"
+  notexists: " couldn't be deleted! Perhaps it didn't exist."
+  samesize: " already had a size of "
+  nochanges: " . No changes were made!"
+  autokick: "The team size you specified was smaller than the previous one, so the following players were autokicked: "
+  sizechangesuccess: "The team size has been succesfully set to "
+  sizechangesuccess2: " team size has been succesfully set to "
+  unexpectederror: "The team size value couldn't be updated due to an unexpected error. Maybe the file is not reachable!"
+  getnotexists: "The team you specified doesn't exist! Please register it using the register option!"
+  noteamsregistered: "There are no teams registered yet!"
+  fetchall: "You didn't specify the team you want to fetch, so all teams and respective integrants will be printed!"
+  isempty: " is empty!"
+  connector: " has "
+  integrants: " integrants. There are "
+  freespots: " spots free!"
+  maxsize: "* maximum size: "
+  errorcodes:
+    success: "The operation was completed successfully!"
+    teamnotexists: "That team doesn't exist. register it via the register option!"
+    playernotfound: "The player you specified wasn't found on the team "
+    fullteam: "The player couldn't be added to the team as it is full. Please increase its maximum size with the setMaxSize option!"
+  darkcrystal:
+    wasted: "You just wasted a &0&lDARK &b&lCrystal"
+    used: "A player used a &0&lDARK &b&lCrystal&r and revived &kaaaaaa"
+  elimination:
+    lastmember: " was the last member of the team "
+    eliminated: " has been eliminated!"
+    winsubtitle: "&b&lWINS"
+    theplayer: "&bThe player "
+    partofteam: " was part of the team "
+    connector2: " which has "
+    playersleft: " players left!"
+  legalargs:
+    add:
+      notice: "Invalid arguments for the option add in the command /uhc teams <option>!"
+      usage: "Usage of option add: /uhc teams add <player> <teamName>"
+    kick:
+      notice: "Invalid arguments for the option kick in the command /uhc teams <option>!"
+      usage: "Usage of option kick: /uhc teams kick <player> <teamName>"
+    delete:
+      notice: "Invalid arguments for the option delete in the command /uhc teams <option>!"
+      usage: "Usage of option delete: /uhc teams delete <teamName>"
+    register:
+      notice: "Invalid arguments for the option register in the command /uhc teams <option>!"
+      usage: "Usage of option register: /uhc teams register <teamName>"
+    setmaxsize:
+      notice: "Invalid arguments for the option setMaxSize in the command /uhc teams <option>!"
+      usage: "Usage of option setMaxSize: /uhc teams setMaxSize <teamName> <number>"
+    nosuchoption: "No such option available for the command /uhc teams <option>!"
+    availableoptions: "Available options are: register, add, kick, delete, setMaxSize."
+
+# Util based strings
+util:
+  tablist:
+    aliveplayers: "&b&lAlive Players: &r"
+    copyright: "&d(c) 2019 UhcPlugin by PauMAVA"
+
+# World based strings
+world:
+  border:
+    closing1: "&eThe border is closing as you have reached episode "
+    closing2: "&eIt is time for you to reach 0,0. Get ready for the fight. Good luck!"
+    velocity1: "&bThe border is closing at a velocity of "
+    velocity2: " &bblocks/second."
+    distance1: "&eThe border is "
+    distance2: " &eblocks away from you!"

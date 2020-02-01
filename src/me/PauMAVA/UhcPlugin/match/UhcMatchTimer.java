@@ -19,6 +19,7 @@
 package me.PauMAVA.UhcPlugin.match;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -33,6 +34,7 @@ public class UhcMatchTimer extends BukkitRunnable {
     private Integer i = -20;
     private String secondsString, minutesString, totalTimeString;
     private String season = UhcPluginCore.getInstance().getConfig().getString("season");
+    private String seasonPrefix = PluginStrings.SEASON_PREFIX.toString();
 
     @Override
     public void run() {
@@ -60,31 +62,31 @@ public class UhcMatchTimer extends BukkitRunnable {
         if(i > 0) {
             switch (i) {
                 case 1: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.YELLOW + "" + ChatColor.BOLD + "U" + ChatColor.GOLD + "" + ChatColor.BOLD + "HC S" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.YELLOW + "" + ChatColor.BOLD + "U" + ChatColor.GOLD + "" + ChatColor.BOLD + "HC " + seasonPrefix + season);
                     break;
                 }
                 case 2: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "U" + ChatColor.YELLOW + "" + ChatColor.BOLD + "H" + ChatColor.GOLD + "" + ChatColor.BOLD + "C S" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "U" + ChatColor.YELLOW + "" + ChatColor.BOLD + "H" + ChatColor.GOLD + "" + ChatColor.BOLD + "C " + seasonPrefix + season);
                     break;
                 }
                 case 3: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UH" + ChatColor.YELLOW + "" + ChatColor.BOLD + "C" + ChatColor.GOLD + "" + ChatColor.BOLD + " S" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UH" + ChatColor.YELLOW + "" + ChatColor.BOLD + "C" + ChatColor.GOLD + "" + ChatColor.BOLD + " " + seasonPrefix + season);
                     break;
                 }
                 case 4: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC" + ChatColor.YELLOW + "" + ChatColor.BOLD + " " + ChatColor.GOLD + "" + ChatColor.BOLD + "S" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC" + ChatColor.YELLOW + "" + ChatColor.BOLD + " " + ChatColor.GOLD + "" + ChatColor.BOLD + seasonPrefix + season);
                     break;
                 }
                 case 5: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + ChatColor.YELLOW + "" + ChatColor.BOLD + "S" + ChatColor.GOLD + "" + ChatColor.BOLD + "" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + ChatColor.YELLOW + "" + ChatColor.BOLD + seasonPrefix + ChatColor.GOLD + "" + ChatColor.BOLD + "" + season);
                     break;
                 }
                 case 6: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + ChatColor.YELLOW + "" + ChatColor.BOLD + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + seasonPrefix + ChatColor.YELLOW + "" + ChatColor.BOLD + season);
                     break;
                 }
                 case 7: {
-                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC S" + season);
+                    UhcScoreboardManager.refreshSidebarTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC " + seasonPrefix + season);
                     i = -20;
                     break;
                 }

@@ -20,6 +20,7 @@ package me.PauMAVA.UhcPlugin.commands;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
+import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import net.minecraft.server.v1_15_R1.ChatComponentText;
 import net.minecraft.server.v1_15_R1.ChatMessageType;
@@ -74,7 +75,7 @@ class UhcStartCmd {
 					}
 				}
 				for(Player player: Bukkit.getOnlinePlayers()) { 
-					sendActionBarMessage(player,  ChatColor.GOLD + "Uhc starting in " + numberColor + "" + ChatColor.BOLD + counter);
+					sendActionBarMessage(player, PluginStrings.START_COUNTDOWN.toString()+ numberColor + "" + ChatColor.BOLD + counter);
 					player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 100, pitch);
 				}
 				counter--;
@@ -82,11 +83,11 @@ class UhcStartCmd {
 					try {
 						TimeUnit.SECONDS.sleep(1);
 					} catch(InterruptedException e) {
-						plugin.getPluginLogger().warning("An error ocurred on Uhc Countdown task!");
+						plugin.getPluginLogger().warning(PluginStrings.START_ERROR.toString());
 					}
 					for(Player player: Bukkit.getOnlinePlayers()) {
 						player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
-						player.sendTitle(ChatColor.GOLD + "" + ChatColor.BOLD + "UHC T" + plugin.getConfig().getInt("season"),ChatColor.AQUA + "" + ChatColor.BOLD +  "STARTS NOW!", 0, 5*20, 1*20);
+						player.sendTitle(PluginStrings.START_TITLE.toString() + plugin.getConfig().getInt("season"), PluginStrings.START_SUBTITLE.toString(), 0, 5*20, 1*20);
 					}
 					UhcPluginCore.getInstance().getMatchHandler().start();
 					Bukkit.getScheduler().cancelTask(task.getTaskId());
