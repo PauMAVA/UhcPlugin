@@ -109,7 +109,9 @@ public class UhcWorldBorder {
 							player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);
 						}
 					} else {
-						warnedPlayers.remove(player);
+						try {
+							warnedPlayers.remove(player);
+						} catch (ArrayIndexOutOfBoundsException ignored) {}
 					}
 				}
 			}

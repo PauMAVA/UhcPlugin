@@ -12,6 +12,9 @@
 					<include>**/*.yml</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>resources/lang-packages</directory>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -51,7 +54,7 @@
 								<echo>Copying .jar to Development Server....</echo>
 								<copy todir="C:/Users/Pau/Desktop/DevServer/plugins" overwrite="true">
 									<fileset dir="target" includes="*.jar">
-										<include name="LeagueCraftSkywars.jar"/>
+										<include name="UhcPlugin.jar"/>
 									</fileset>
 								</copy>
 							</target>

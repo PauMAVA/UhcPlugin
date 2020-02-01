@@ -23,7 +23,8 @@ import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
+import java.io.*;
+import java.util.HashMap;
 
 public class LanguageManager {
 
@@ -35,6 +36,7 @@ public class LanguageManager {
      * to load the default Locale (ENGLISH, en, PauMAVA). On fail reports the error.
      */
     public LanguageManager() {
+        extractLanguageFiles();
         setUpLocales();
         if (!setLocale(LocaleRegistry.getLocaleByShortName(UhcConfigCmd.getLocale()))) {
             UhcPluginCore.getInstance().getLogger().warning("Couldn't load lang " + UhcConfigCmd.getConfig().getString("lang") + "!");
@@ -74,6 +76,29 @@ public class LanguageManager {
         LocaleRegistry.registerLocale(new Locale("CATALAN", "ca", "Crazychemist"));
     }
 
+    private void extractLanguageFiles() {
+        HashMap<File, InputStream> streams = new HashMap<File, InputStream>() {{
+           put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_en.yml"), LanguageManager.class.getResourceAsStream("/lang_en.yml"));
+           put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_ca.yml"), LanguageManager.class.getResourceAsStream("/lang_ca.yml"));
+        }};
+        for (File destination: streams.keySet()) {
+            try {
+                if (!destination.exists()) {
+                    destination.createNewFile();
+                    InputStream in = streams.get(destination);
+                    byte[] buffer = new byte[in.available()];
+                    in.read(buffer);
+                    OutputStream out = new FileOutputStream(destination);
+                    out.write(buffer);
+                    in.close();
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /**
      * Get a string from the locale file.
      * @param string The constant containing the path in the language file.
@@ -83,7 +108,6 @@ public class LanguageManager {
         if (this.languageFile.isSet(string.getPath())) {
             return this.languageFile.getString(string.getPath()).replace("&", "§");
         } else {
-            System.out.println("PATH NOT FOUND TO: " + string.getPath());
             return "";
         }
     }

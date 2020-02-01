@@ -1,0 +1,145 @@
+﻿############################
+# UHC PLUGIN LANGUAGE FILE #
+############################
+
+## @@ CATALAN @@ ##
+
+# Author: ReachForTheDead
+# Revision: 1.0
+
+###############################################
+lang: ca
+###############################################
+
+# Chat related strings
+chat:
+  prefix:
+    ingame: "&7&l[&d&lUHC&7&l]&r "
+    team: "&7&l[&b&lEQUIP&7&l]&r "
+    global: "&7&l[&c&lGLOBAL&7&l]&r "
+    developer: "&7&l[&e&lDEV&7&l]&r "
+  advancement: "&7&krandom&rha conseguit l'assoliment&a ["
+
+# Command based strings
+commands:
+  unsupported: " no és una opció vàlida per a /uhc <subCmd> [args]"
+  errorprefix: "&4[Error] &r&c"
+  warningprefix: "&6[Atenció] &r&e"
+  infoprefix: "&9[Info] &r&b"
+  config:
+    current:  "&9[Info]&r &bLa configuració actual és: "
+    argmismatch: "&cNombre d'arguments incorrecte! Se n'esperaven dos i s'han obtingut "
+    usage: "&cÚs: /uhc config <opció> <valor>"
+    novalue: "Has de proveïr un valor per al paràmetre "
+    parameter: "El paràmetre "
+    onlyint: " únicament accepta valors enters!"
+    valueassigned: " se li ha assignat el valor "
+    success: " correctament!"
+    thevalue: "El valor introduït per a "
+    negativenoproblem: " és negatiu! (No hauria de causar cap error)."
+    negativeproblem: " és negatiu, cosa que no està suportada. No s'ha fet cap canvi!"
+    badvalue: " no es pot processar el valor "
+    acceptedvalues: "Solament accepta els següents valors: "
+    onlyboolean: " sol suporta valors booleans (vertader o fals)! Si us plau, introdueix un valor correcte."
+    nooption: "L'opció introduïda no existeix! Si us plau, fes servir una de les opcions de configuració següents: "
+  start:
+    countdown: "&6L'UHC comença en "
+    error: "&cHi ha hagut un error durant el compte enrere!"
+    title: "&6&lUHC T" # S stands for season
+    subtitle: "&b&lCOMENÇA!"
+
+# Gameplay based strings
+gameplay:
+  recipes:
+    darkcrystal: "&b&lCristall &7&rObscur"
+    darkcrystallore1: "D'una fórmula ancestral,"
+    darkcrystallore2: "has forjat un cristall infusionat amb"
+    darkcrystallore3: "l'essència d'una ànima..."
+
+# Match based strings
+match:
+  death:
+    messageheader: "&dEl jugador "
+    eliminated: " ha estat eliminat!"
+    info: "&dHas mort i has estat expulsat de l'equip! Fes servir el xat global per comunicar-te amb els demés jugadors."
+    thanks: "&eGràcies per haver participat en aquest UHC. Esperem que t'ho hagis passat bé!"
+    github: "&eGràcies per fer servir UHC plugin per PauMAVA. Més informació a https://github.com/PauMAVA/UhcPlugin"
+  episodestart1: "&7L'episodi "
+  episodestart2: " ha començat!"
+  scoreboard:
+    timeleft: "&d&lTemps restant: "
+    totaltime: "&a&lTemps total: "
+    episode: "&c&lEpisodi: "
+  season: "T" # S stands for season
+
+# Teams based strings
+teams:
+  theteam:  "L'equip "
+  alreadyexists: " ja existeix! Fes servir l'opció afegir per a afegir jugadors a l'equip."
+  registersuccess: " ha estat registrat amb èxit!"
+  deletesuccess: " ha estat eliminat amb èxit!"
+  notexists: " no s'ha pogut eliminar! Pot ser que no existeixi."
+  samesize: " ja tenia una quantitat de"
+  nochanges: " . No s'ha fet cap canvi!"
+  autokick: "La mida de l'equip és menor que l'anterior, pel que s'ha expulsat automàticament als següents jugadors: "
+  sizechangesuccess: "La mida de l'equip s'ha canviat correctament a "
+  sizechangesuccess2: " la mida de l'equip s'ha canviat correctament a "
+  unexpectederror: "El valor per a la mida d'equip no s'ha pogut actulitzar degut a un error inesperat. Potser l'arxiu no és accessible!"
+  getnotexists: "L'equip especificat no existeix! Registra'l amb l'opció de registrar."
+  noteamsregistered: "Encara no hi ha equips registrats!"
+  fetchall: "No has especificat l'equip a cercar, pel que tots els equips amb els respectius integrants seran mostrats!"
+  isempty: " està buit!"
+  connector: " té "
+  integrants: " integrants. Hi ha "
+  freespots: " llocs lliures!"
+  maxsize: "* mida màxima: "
+  errorcodes:
+    success: "L'operació s'ha completar amb èxit!"
+    teamnotexists: "Aquest equip no existeix. Registra'l amb l'opció de registrar!"
+    playernotfound: "El jugador especificat no s'ha trobat a l'equip "
+    fullteam: "El jugador no s'ha pogut afegir a l'equip ja que està ple. Incrementa la mida amb l'opció setMaxSize!"
+  darkcrystal:
+    wasted: "Has utilitzat un &b&lCristall &0&lObscur."
+    used: "Un jugador ha utilitzat un &b&lCristall &0&lObscur&r i reviscut a &kaaaaaa"
+  elimination:
+    lastmember: " era l'últim membre de l'equip "
+    eliminated: " ha estat eliminat!"
+    winsubtitle: "&b&lHA GUANYAT"
+    theplayer: "&bEl jugador "
+    partofteam: " era part de l'equip "
+    connector2: " que té "
+    playersleft: " jugadors restants!"
+  legalargs:
+    add:
+      notice: "Arguments invàlids per a l'opció afegir del comandament /uhc teams <opció>!"
+      usage: "Ús de l'opció afegir: /uhc teams add <jugador> <nom de l'equip>"
+    kick:
+      notice: "Arguments invàlids per a l'opció expulsar del comandament /uhc teams <opció>!"
+      usage: "Ús de l'opció expulsar: /uhc teams kick <jugador> <nom de l'equip>"
+    delete:
+      notice: "Arguments invàlids per a l'opció eliminar del comandament /uhc teams <opció>!"
+      usage: "Ús de l'opció eliminar: /uhc teams delete <nom de l'equip>"
+    register:
+      notice: "Arguments invàlids per a l'opció registrar del comandament /uhc teams <opció>!"
+      usage: "Ús de l'opció eliminar: /uhc teams register <nom de l'equip>"
+    setmaxsize:
+      notice: "Arguments invàlids per a l'opció establirMidaMàxima del comandament /uhc teams <opció>!"
+      usage: "Ús de l'opció establirMidaMàxima: /uhc teams setMaxSize <nom de l'equip> <número>"
+    nosuchoption: "No hi ha aquesta opció disponible per al comandament /uhc teams <opció>!"
+    availableoptions: "Les opcions disponibles són: register, add, kick, delete, setMaxSize."
+
+# Util based strings
+util:
+  tablist:
+    aliveplayers: "&b&lJugadors vius: &r"
+    copyright: "&d(c) 2020 UhcPlugin per PauMAVA"
+
+# World based strings
+world:
+  border:
+    closing1: "&eEl límit del món s'ha començat a tancar al haver arribat a l'episodi "
+    closing2: "&eÉs hora d'anar a 0,0. Prepara't per la batalla, i bona sort!"
+    velocity1: "&bEl límit del món s'està tancant a una velocitat de "
+    velocity2: " &bblocs/segon."
+    distance1: "&eEl límit és a "
+    distance2: " &eblocs de tu!"

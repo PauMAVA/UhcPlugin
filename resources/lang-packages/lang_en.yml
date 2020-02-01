@@ -132,7 +132,7 @@ teams:
 util:
   tablist:
     aliveplayers: "&b&lAlive Players: &r"
-    copyright: "&d(c) 2019 UhcPlugin by PauMAVA"
+    copyright: "&d(c) 2020 UhcPlugin by PauMAVA"
 
 # World based strings
 world:

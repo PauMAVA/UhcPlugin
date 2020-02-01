@@ -22,7 +22,6 @@ import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
 import me.PauMAVA.UhcPlugin.lang.LanguageManager;
-import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
@@ -32,13 +31,11 @@ import me.PauMAVA.UhcPlugin.util.UhcTabList;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import sun.misc.Launcher;
 
 import java.util.logging.Logger;
 
 public class UhcPluginCore extends JavaPlugin {
-		
-		
+
 		/*Logger to handle plugin's output*/
 		private static final Logger UhcLogger = Bukkit.getServer().getLogger();
 		private static UhcPluginCore instance;
