@@ -18,7 +18,7 @@ chat:
     team: "&7&l[&b&lEQUIP&7&l]&r "
     global: "&7&l[&c&lGLOBAL&7&l]&r "
     developer: "&7&l[&e&lDEV&7&l]&r "
-  advancement: "&7&krandom&rha conseguit l'assoliment&a ["
+  advancement: "&7&krandom&rha aconseguit l'assoliment&a ["
 
 # Command based strings
 commands:

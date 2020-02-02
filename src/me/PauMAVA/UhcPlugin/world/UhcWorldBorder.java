@@ -101,18 +101,18 @@ public class UhcWorldBorder {
 			@Override
 			public void run() {
 				for(Player player: Bukkit.getServer().getOnlinePlayers()) {
-					int distance = getDistance(player);
-					if(distance <= 50) {
-						sendActionBarMessage(player,PluginStrings.WORLD_BORDER_DISTANCE1.toString() + distance + PluginStrings.WORLD_BORDER_DISTANCE2.toString());
-						if(!warnedPlayers.contains(player)) {
-							warnedPlayers.add(player);
-							player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);
-						}
-					} else {
-						try {
+					try {
+						int distance = getDistance(player);
+						if(distance <= 50) {
+							sendActionBarMessage(player,PluginStrings.WORLD_BORDER_DISTANCE1.toString() + distance + PluginStrings.WORLD_BORDER_DISTANCE2.toString());
+							if(!warnedPlayers.contains(player)) {
+								warnedPlayers.add(player);
+								player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 100, 1);
+							}
+						} else {
 							warnedPlayers.remove(player);
-						} catch (ArrayIndexOutOfBoundsException ignored) {}
-					}
+						}
+					} catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {}
 				}
 			}
 		}.runTaskTimerAsynchronously(UhcPluginCore.getInstance(), 0L, 20L);

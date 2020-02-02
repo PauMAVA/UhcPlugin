@@ -65,7 +65,6 @@ public class UhcChatManager {
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			p.sendMessage(msg);
 		}
-		return;
 	}
 	
 	private static void teamDispatcher(String msg, Player player) {
@@ -87,7 +86,6 @@ public class UhcChatManager {
 			p.sendMessage(msg);
 			}
 		}
- 		return;
 	}
 	
 }

@@ -18,22 +18,14 @@
 
 package me.PauMAVA.UhcPlugin.util;
 
+import io.netty.channel.*;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
-import org.bukkit.Bukkit;
+import net.minecraft.server.v1_15_R1.PacketPlayInAdvancements;
+import net.minecraft.server.v1_15_R1.PacketPlayInChat;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.ChannelPromise;
-import net.minecraft.server.v1_15_R1.PacketPlayInAdvancements;
-import net.minecraft.server.v1_15_R1.PacketPlayInChat;
-import net.minecraft.server.v1_15_R1.PacketPlayOutAdvancements;
-import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
 
 
 public class PacketIntercepter {
@@ -91,7 +83,9 @@ public class PacketIntercepter {
 		ChannelPipeline pipe = ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.pipeline();
 		try{
 			pipe.addBefore("packet_handler", player.getName(), channelDuplexHandler);
-		} catch (IllegalArgumentException ignored) {}
+		} catch (IllegalArgumentException ignored) {
+			System.out.println("EXCEPTION CAUSED WHEN ADDING PLAYER TO PIPELINE");
+		}
 	}
 	
 }

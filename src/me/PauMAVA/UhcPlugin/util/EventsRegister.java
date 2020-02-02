@@ -22,6 +22,7 @@ import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
+import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

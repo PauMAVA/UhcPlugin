@@ -24,12 +24,10 @@ import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
-import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import me.PauMAVA.UhcPlugin.util.UhcTabList;
 import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -45,7 +43,8 @@ public class UhcMatchHandler {
     private List<UhcTeam> teams = new ArrayList<UhcTeam>();
     private UhcMatchTimer timer;
 
-    /* UhcMatchHandler constructor
+    /**
+    * UhcMatchHandler constructor
     * @param plugin - the instance of the plugin core */
     public UhcMatchHandler(UhcPluginCore plugin) {
         this.plugin = plugin;
@@ -62,9 +61,6 @@ public class UhcMatchHandler {
         UhcWorldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
-        for(Player p: Bukkit.getServer().getOnlinePlayers()) {
-            PacketIntercepter.injectPlayer(p);
-        }
         this.timer = new UhcMatchTimer();
         this.timerTaskID = timer.runTaskTimer(plugin, 0L, 20L).getTaskId();
         this.tabTaskID = new UhcTabList().runTaskTimer(plugin, 0L, 20L).getTaskId();
@@ -77,7 +73,8 @@ public class UhcMatchHandler {
         UhcWorldBorder.stopWarningTask();
     }
 
-    /* Adds a player to the match
+    /**
+    * Adds a player to the match
     * @param player - the player to be added to the match
     * @return the actual player list after addition */
     public List<Player> addPlayer(Player player) {
@@ -85,7 +82,8 @@ public class UhcMatchHandler {
         return this.matchPlayers;
     }
 
-    /* Removes a player form the match
+    /**
+    * Removes a player form the match
     * @param player - the player to be removed from the match
     * @return the actual player list after remove */
     public List<Player> removePlayer(Player player) {
@@ -93,7 +91,8 @@ public class UhcMatchHandler {
         return this.matchPlayers;
     }
 
-    /* Gets the players alive in the match
+    /**
+    * Gets the players alive in the match
     * @return the actual list of players */
     public List<Player> getMatchPlayers() {
         return this.matchPlayers;
@@ -114,7 +113,7 @@ public class UhcMatchHandler {
 
     public UhcTeam getUhcTeam(Player player) {
         for(UhcTeam team: this.teams) {
-            if(team.isInTeam(player)) {
+            if(team.isNameInTeam(player.getName())) {
                 return team;
             }
         }

@@ -55,6 +55,15 @@ public class UhcTeam {
         return this.originalPlayers.contains(player);
     }
 
+    public Boolean isNameInTeam(String playerName) {
+        for (Player player: this.originalPlayers) {
+            if (player.getName().equals(playerName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void markPlayerAsDead(Player player) {
         if(isInTeam(player)) {
             this.alivePlayers.put(player, false);
