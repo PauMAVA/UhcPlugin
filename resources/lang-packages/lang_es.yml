@@ -1,0 +1,145 @@
+﻿############################
+# UHC PLUGIN LANGUAGE FILE #
+############################
+
+## @@ Spanish @@ ##
+
+# Author: Laauuu
+# Revision: 1.0
+
+###############################################
+lang: es
+###############################################
+
+# Chat related strings
+chat:
+  prefix:
+    ingame: "&7&l[&d&lUHC&7&l]&r "
+    team: "&7&l[&b&lEQUIPO&7&l]&r "
+    global: "&7&l[&c&lGLOBAL&7&l]&r "
+    developer: "&7&l[&e&lDEV&7&l]&r "
+  advancement: "&7&krandom&rcompletó el logro ["
+
+# Command based strings
+commands:
+  unsupported: " no es una opción válida para /uhc <subCmd> [args]"
+  errorprefix: "&4[Error] &r&c"
+  warningprefix: "&6[Atención] &r&e"
+  infoprefix: "&9[Info] &r&b"
+  config:
+    current:  "&9[Info]&r &bLa configuración actual es: "
+    argmismatch: "&cError en los argumentos! Se esperaba dos argumentos y se recibieron "
+    usage: "&cUso: /uhc config <option> <value>"
+    novalue: "Necesitas especificar una valor para el parámetro "
+    parameter: "El parámetro "
+    onlyint: " solo acepta números!"
+    valueassigned: " fue asignado el valor "
+    success: " correctamente!"
+    thevalue: "El valor que introduciste para "
+    negativenoproblem: " es negativo! (Esto no debería causar errores)."
+    negativeproblem: " es negativo, el cual no es soportado. No se hicieron cambios!"
+    badvalue: " no soporta el valor "
+    acceptedvalues: "Solo acepta los siguientes valoress: "
+    onlyboolean: " solo acepta booleanos (true or false)! Introduzca el correcto."
+    nooption: "La opción introducida no existe! Por favor, usa alguna de estas configuraciones: "
+  start:
+    countdown: "&6El UHC comenzará en "
+    error: "&cOcurrió un error al iniciar la partida!"
+    title: "&6&lUHC T" # S stands for season
+    subtitle: "&b&lEMPIEZA AHORA!"
+
+# Gameplay based strings
+gameplay:
+  recipes:
+    darkcrystal: "&7Dark&r &bCrystal"
+    darkcrystallore1: "De una fórmula antigua,"
+    darkcrystallore2: "has creado un artefacto con"
+    darkcrystallore3: "la esencia de un alma..."
+
+# Match based strings
+match:
+  death:
+    messageheader: "&dEl jugador "
+    eliminated: " fue eliminado!"
+    info: "&dTe han kickeado del equipo por morir!. Utiliza el chat global para comunicarte."
+    thanks: "&eGracias por participar. Esperamos que hayas disfrutado del juego!"
+    github: "&e¡Gracias por usar UhcPlugin by PauMAVA! Más info en https://github.com/PauMAVA/UhcPlugin"
+  episodestart1: "&7El episodio "
+  episodestart2: " ha empezado!"
+  scoreboard:
+    timeleft: "&d&lTiempo restante: "
+    totaltime: "&a&lTiempo total: "
+    episode: "&c&lEpisodio: "
+  season: "T" # S stands for season
+
+# Teams based strings
+teams:
+  theteam:  "El equipo "
+  alreadyexists: " ya existe! Usa la opción add para añadir usuarios al equipo."
+  registersuccess: " fue registrado correctamente!"
+  deletesuccess: " fue eliminado correctamente!"
+  notexists: " no puede ser eliminado! Quizás no existe."
+  samesize: " ya tiene una cantidad de "
+  nochanges: " . No se hicieron cambios!"
+  autokick: "La cantidad de jugadores permitidos es menor a la especificada, los siguientes jugadores serán kickeados: "
+  sizechangesuccess: "La longitud del equipo fue modificada a "
+  sizechangesuccess2: " la longitud del team fue modificada a "
+  unexpectederror: "La longitud del team no pudo ser modificada! Esto puede ser un error del archivo"
+  getnotexists: "El team especificado no existe! Regístralo utilizando la opción register!"
+  noteamsregistered: "No hay equipos registrados actualmente."
+  fetchall: "No especificaste el equipo a mostrar, se mostrará toda la información de los equipos!"
+  isempty: " está vacío!"
+  connector: " tiene "
+  integrants: " integrantes. Son "
+  freespots: " lugares disponibles!"
+  maxsize: "* Longitud máxima: "
+  errorcodes:
+    success: "La operación se completó con éxito!"
+    teamnotexists: "El team especificado no existe! Regístralo utilizando la opción register!"
+    playernotfound: "El jugador especificado no está en el equipo "
+    fullteam: "El jugador no puede ser agregado porque el equipo está lleno. Aúmente la cantidad usando la opción setMaxSize!"
+  darkcrystal:
+    wasted: "Utilizaste un &0&lDARK &b&lCrystal"
+    used: "Un jugador usó un &0&lDARK &b&lCrystal&r y revivió a &kaaaaaa"
+  elimination:
+    lastmember: " era el último miembro del equipo "
+    eliminated: " fue eliminado!"
+    winsubtitle: "&b&lHA GANADO"
+    theplayer: "&bEl jugador "
+    partofteam: " era parte del equipo "
+    connector2: " el cual ahora tiene "
+    playersleft: " jugadores!"
+  legalargs:
+    add:
+      notice: "Argumentos inválidos en el comando /uhc teams <option>!"
+      usage: "Uso correcto: /uhc teams add <player> <teamName>"
+    kick:
+      notice: "Argumentos inválidos para la opción kick en el comando /uhc teams <option>!"
+      usage: "Uso correcto: /uhc teams kick <player> <teamName>"
+    delete:
+      notice: "Argumentos inválidos para la opción delete en el comando /uhc teams <option>!"
+      usage: "Uso correcto: /uhc teams delete <teamName>"
+    register:
+      notice: "Argumentos inválidos para la opción register en el comando /uhc teams <option>!"
+      usage: "Uso correcto: /uhc teams register <teamName>"
+    setmaxsize:
+      notice: "Argumentos inválidos para la opción setMaxSize en el comando /uhc teams <option>!"
+      usage: "Uso correcto: /uhc teams setMaxSize <teamName> <number>"
+    nosuchoption: "No hay opción disponible para /uhc teams <option>!"
+    availableoptions: "Las opciones disponibles son: register, add, kick, delete, setMaxSize."
+
+# Util based strings
+util:
+  tablist:
+    aliveplayers: "&b&lJugadores con vida: &r"
+    copyright: "&d(c) 2020 UhcPlugin POR PauMAVA. Traducción por Lau."
+
+# World based strings
+world:
+  border:
+    closing1: "&eEl borde se cerrará cuando llegues al episodio "
+    closing2: "&eEs hora de ir a 0 0, buena suerte!"
+    velocity1: "&bEl borde se está cerrando a una velocidad de "
+    velocity2: " &bbloques/s."
+    distance1: "&eEl borde está a "
+    distance2: " &ebloques de tí!"

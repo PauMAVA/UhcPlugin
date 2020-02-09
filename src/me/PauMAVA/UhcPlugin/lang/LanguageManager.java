@@ -79,6 +79,7 @@ public class LanguageManager {
     private void extractLanguageFiles() {
         HashMap<File, InputStream> streams = new HashMap<File, InputStream>() {{
            put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_en.yml"), LanguageManager.class.getResourceAsStream("/lang_en.yml"));
+           put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_es.yml"), LanguageManager.class.getResourceAsStream("/lang_es.yml"));
            put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_ca.yml"), LanguageManager.class.getResourceAsStream("/lang_ca.yml"));
         }};
         for (File destination: streams.keySet()) {
