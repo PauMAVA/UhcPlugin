@@ -74,7 +74,7 @@ public class PacketIntercepter {
 					super.write(context, packet, promise);
 				} catch(Exception e) {
 					plugin.getPluginLogger().warning(e.getMessage());
-					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occured while writing a packet!");			
+					plugin.getPluginLogger().warning(ChatColor.DARK_RED + "An error occurred while writing a packet!");
 				}
 			}
 			
