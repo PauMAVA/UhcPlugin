@@ -51,11 +51,7 @@ public class UhcTeam {
         return this.alivePlayers.get(player);
     }
 
-    public Boolean isInTeam(Player player) {
-        return this.originalPlayers.contains(player);
-    }
-
-    public Boolean isNameInTeam(String playerName) {
+    public Boolean isInTeam(String playerName) {
         for (Player player: this.originalPlayers) {
             if (player.getName().equals(playerName)) {
                 return true;
@@ -65,8 +61,17 @@ public class UhcTeam {
     }
 
     public void markPlayerAsDead(Player player) {
-        if(isInTeam(player)) {
+        if(isInTeam(player.getName())) {
+            this.removeAlivePlayerEntry(player);
             this.alivePlayers.put(player, false);
+        }
+    }
+
+    private void removeAlivePlayerEntry(Player player) {
+        for (Player listedPlayer: this.alivePlayers.keySet()) {
+            if (listedPlayer.getName().equals(player.getName())) {
+                this.alivePlayers.remove(listedPlayer);
+            }
         }
     }
 
@@ -75,7 +80,8 @@ public class UhcTeam {
     }
 
     public void markPlayerAsAlive(Player player) {
-        if(isInTeam(player)) {
+        if(isInTeam(player.getName())) {
+            this.removeAlivePlayerEntry(player);
             this.alivePlayers.put(player, true);
         }
     }
@@ -102,7 +108,7 @@ public class UhcTeam {
 
     public boolean isEliminated() {
         for(Player p: this.alivePlayers.keySet()) {
-            if(this.alivePlayers.get(p)) {
+            if (this.alivePlayers.get(p)) {
                 return false;
             }
         }
@@ -110,7 +116,12 @@ public class UhcTeam {
     }
 
     public boolean hasBeenRevived(Player player) {
-        return this.revived.contains(player);
+        for (Player p: this.alivePlayers.keySet()) {
+            if (player.getName().equals(p.getName())) {
+                return this.revived.contains(p);
+            }
+        }
+        return false;
     }
 
 }

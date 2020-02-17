@@ -18,27 +18,19 @@
 
 package me.PauMAVA.UhcPlugin.match;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
-
-import javax.annotation.Nullable;
-
-import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
+
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 
 public class UhcDeathManager {

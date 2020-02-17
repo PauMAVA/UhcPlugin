@@ -113,7 +113,7 @@ public class UhcMatchHandler {
 
     public UhcTeam getUhcTeam(Player player) {
         for(UhcTeam team: this.teams) {
-            if(team.isNameInTeam(player.getName())) {
+            if(team.isInTeam(player.getName())) {
                 return team;
             }
         }

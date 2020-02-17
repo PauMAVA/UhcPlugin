@@ -52,7 +52,7 @@
 						<configuration>
 							<target>
 								<echo>Copying .jar to Development Server....</echo>
-								<copy todir="C:/Users/Pau/Desktop/DevServer/plugins" overwrite="true">
+								<copy todir="C:/Users/Pau/Desktop/TestServer/plugins" overwrite="true">
 									<fileset dir="target" includes="*.jar">
 										<include name="UhcPlugin.jar"/>
 									</fileset>

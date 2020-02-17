@@ -302,7 +302,7 @@ public class UhcTeamsManager {
 		UhcTeam playerTeam = plugin.getMatchHandler().getUhcTeam(player);
 		playerTeam.markPlayerAsDead(player);
 		String playerTeamName = playerTeam.getName();
-		if(plugin.getMatchHandler().getUhcTeam(player).alive().size() == 0) {
+		if(playerTeam.alive().size() == 0) {
 			Bukkit.broadcastMessage(Prefix.INGAME_UHC + "" +  ChatColor.AQUA + player.getName() + PluginStrings.TEAMS_LAST_MEMBER.toString() + playerTeamName + "!" );
 			Bukkit.getServer().broadcastMessage(Prefix.INGAME_UHC + "" + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + "------ " + ChatColor.RESET + ChatColor.GOLD + PluginStrings.TEAMS_THE_TEAM.toString() + playerTeamName + PluginStrings.TEAMS_ELIMINATED.toString() + ChatColor.DARK_PURPLE + "" + ChatColor.MAGIC + " ------");
 			playerTeam.markPlayerAsDead(player);
