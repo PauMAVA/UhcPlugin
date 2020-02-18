@@ -46,6 +46,9 @@ public class UhcPluginCore extends JavaPlugin {
 		@Override
 		public void onEnable() {
 			instance = this;
+			if(!this.getDataFolder().exists()) {
+				this.getDataFolder().mkdirs();
+			}
 			this.matchHandler = new UhcMatchHandler(this);
 			this.languageManager = new LanguageManager();
 			UhcLogger.info("Enabled UhcPlugin!");

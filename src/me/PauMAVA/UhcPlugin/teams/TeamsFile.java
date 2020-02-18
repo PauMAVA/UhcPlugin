@@ -45,7 +45,7 @@ public class TeamsFile {
 		if(fileName == null) {
 			fileName = "teams";
 		}
-		file = new File(plugin.getDataFolder() + "\\" + fileName + ".yml");
+		file = new File(plugin.getDataFolder() + "/" + fileName + ".yml");
 		teamsConfig = YamlConfiguration.loadConfiguration(file);
 		if(!file.exists()) {
 			try {
