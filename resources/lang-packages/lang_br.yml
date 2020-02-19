@@ -1,0 +1,145 @@
+############################
+# UHC PLUGIN LANGUAGE FILE #
+############################
+
+## @@ PORTUGUESE-BRASIL @@ ##
+
+# Author: Cabreira
+# Revision: 1.0
+
+###############################################
+lang: br
+###############################################
+
+# Chat related strings
+chat:
+  prefix:
+    ingame: "&7&l[&d&lUHC&7&l]&r "
+    team: "&7&l[&b&lTIME&7&l]&r "
+    global: "&7&l[&c&lGLOBAL&7&l]&r "
+    developer: "&7&l[&e&lDEV&7&l]&r "
+  advancement: "&7&krandom&rdesbloqueou uma conquista.&a ["
+
+# Command based strings
+commands:
+  unsupported: " não é uma opção disponivel para /uhc <subCmd> [args]"
+  errorprefix: "&4[Erro] &r&c"
+  warningprefix: "&6[Aviso] &r&e"
+  infoprefix: "&9[Info] &r&b"
+  config:
+    current:  "&9[Info]&r &bA configuração atual: "
+    argmismatch: "&cNumero incompativel! É necessário dois numeros. "
+    usage: "&cUso: /uhc configuração <opção> <valor>"
+    novalue: "Você deve providenciar um numero para o parametro."
+    parameter: "O parametro "
+    onlyint: " apenas aceita numeros inteiros!"
+    valueassigned: " foi atribuido um valor "
+    success: " com sucesso!"
+    thevalue: "O valor que voce introduziu para "
+    negativenoproblem: " é negativo! (Isso não deve causar erros)."
+    negativeproblem: " é negativo, o qual não é suportado. Nenhuma mudança foi feita."
+    badvalue: " não consegue lidar com o valor"
+    acceptedvalues: "Apenas aceita numeros dos valores: "
+    onlyboolean: " pode apenas lidar com valores booleans (true ou false)! Por favor, introduza um valor correto."
+    nooption: "A opção que você introduziu não existe! Por favor, use uma das seguintes opções: "
+  start:
+    countdown: "&6UHC começando em "
+    error: "&cUm erro ocorreu na contagem!"
+    title: "&6&lUHC S" # S é a temporada
+    subtitle: "&b&lCOMEÇA AGORA!"
+
+# Gameplay based strings
+gameplay:
+  recipes:
+    darkcrystal: "&7Dark&r &bCrystal"
+    darkcrystallore1: "De uma formula anciente,"
+    darkcrystallore2: "voce criou um artefato que contem"
+    darkcrystallore3: "a essencia de uma alma..."
+
+# Match based strings
+match:
+  death:
+    messageheader: "&dO jogador "
+    eliminated: " morreu!"
+    info: "&dVocê morreu e foi expulso do time. Por favor use o chat global para comunicação com outros."
+    thanks: "&eObrigado por participar! Esperamos que tenha tido uma boa gameplay."
+    github: "&eObrigado por usar o UhcPlugin, feito por PauMAVA! Mais informações em https://github.com/PauMAVA/UhcPlugin"
+  episodestart1: "&7Episodio "
+  episodestart2: " começa agora!"
+  scoreboard:
+    timeleft: "&d&lTempo restante: "
+    totaltime: "&a&lTempo jogado: "
+    episode: "&c&lEpisodio: "
+  season: "S" # S é a temporada
+
+# Teams based strings
+teams:
+  theteam:  "O time "
+  alreadyexists: " já existe! Use a opção de add para adicionar pessoas no time."
+  registersuccess: " foi registrado com sucesso!"
+  deletesuccess: " foi deletado com sucesso!"
+  notexists: " não pode ser deletado! talvez não exista."
+  samesize: " já tem um tamanho de "
+  nochanges: " . Não foram feitas mudanças!"
+  autokick: "O tamanho do time que você especificou foi menor que o anterior, então as seguintes pessoas foram expulsas: "
+  sizechangesuccess: "O tamanho do time mudou com sucesso para "
+  sizechangesuccess2: " tamanho do time mudou com sucesso para "
+  unexpectederror: "O tamanho do time não pode ser alterado por causa de um erro inesperado. Talvez o arquivo não seja alcançável"
+  getnotexists: "O time que você especificou não existe. Por favor, registre usando o comando de registro."
+  noteamsregistered: "Não há times registrados por enquanto."
+  fetchall: "Você não especificou o time que busca, portanto todos times e respectivos integrantes aparecerão."
+  isempty: " está vazio!"
+  connector: " tem "
+  integrants: " integrantes. Tem "
+  freespots: " vagas livres!"
+  maxsize: "* tamanho maximo: "
+  errorcodes:
+    success: "A operação foi completa com sucesso!"
+    teamnotexists: "Esse time não existe. Registre pelo comando de registro!"
+    playernotfound: "O jogador que você especificou não foi encontrado no time."
+    fullteam: "O jogador não pode ser adicionado no time pois está cheio. Aumente o tamanho maximo pela opção de setMaxSize!"
+  darkcrystal:
+    wasted: "Você gastou um &0&lDARK &b&lCrystal"
+    used: "Um jogador usou um &0&lDARK &b&lCrystal&r e reviveu &kaaaaaa"
+  elimination:
+    lastmember: " era o ultimo membro da equipe "
+    eliminated: " foi eliminado!"
+    winsubtitle: "&b&lVENÇE"
+    theplayer: "&bO jogador "
+    partofteam: " era parte da equipe "
+    connector2: " que tem "
+    playersleft: " jogadores restantes!"
+  legalargs:
+    add:
+      notice: "Argumentos invalidos para a opção add no comando /uhc teams <opção>!"
+      usage: "Uso da opção add: /uhc teams add <jogador> <nomeDoTime>"
+    kick:
+      notice: "Argumentos invalidos para a opção kick no comando /uhc teams <opção>!"
+      usage: "Uso da opção kick: /uhc teams kick <jogador> <nomeDoTime>"
+    delete:
+      notice: "Argumentos invalidos para a opção delete no comando /uhc teams <opção>!"
+      usage: "Uso da opção delete: /uhc teams delete <nomeDoTime>"
+    register:
+      notice: "Argumentos invalidos para a opção register no comando /uhc teams <opção>!"
+      usage: "Uso da opção register: /uhc teams register <nomeDoTime>"
+    setmaxsize:
+      notice: "Argumentos invalidos para a opção setMaxSize no comando /uhc teams <opção>!"
+      usage: "Uso da opção setMaxSize: /uhc teams setMaxSize <nomeDoTime> <numero>"
+    nosuchoption: "Nenhuma opção disponivel para o comando /uhc teams <opção>!"
+    availableoptions: "Opções disponiveis são: register, add, kick, delete, setMaxSize."
+
+# Util based strings
+util:
+  tablist:
+    aliveplayers: "&b&lPlayers vivos: &r"
+    copyright: "&d(c) 2020 UhcPlugin por PauMAVA"
+
+# World based strings
+world:
+  border:
+    closing1: "&eA borda esta fechando pois você chegou no episodio "
+    closing2: "&eEstá na hora de ir para o 0,0. Se prepare para luta. Boa sorte!"
+    velocity1: "&bA barreira está fechando em uma velocidade de "
+    velocity2: " &bblocos por segundo"
+    distance1: "&eA borda está "
+    distance2: " &eblocos de distancia de você"

@@ -74,6 +74,7 @@ public class LanguageManager {
         LocaleRegistry.registerLocale(new Locale("ENGLISH", "en", "PauMAVA"));
         LocaleRegistry.registerLocale(new Locale("SPANISH", "es", "Lauuu"));
         LocaleRegistry.registerLocale(new Locale("CATALAN", "ca", "Crazychemist"));
+        LocaleRegistry.registerLocale(new Locale("BRAZILIAN-PORTUGUESE", "br", "Cabreira"));
     }
 
     private void extractLanguageFiles() {
@@ -81,6 +82,7 @@ public class LanguageManager {
            put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_en.yml"), LanguageManager.class.getResourceAsStream("/lang_en.yml"));
            put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_es.yml"), LanguageManager.class.getResourceAsStream("/lang_es.yml"));
            put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_ca.yml"), LanguageManager.class.getResourceAsStream("/lang_ca.yml"));
+           put(new File(UhcPluginCore.getInstance().getDataFolder().getPath() + "/lang_br.yml"), LanguageManager.class.getResourceAsStream("/lang_br.yml"));
         }};
         for (File destination: streams.keySet()) {
             try {
