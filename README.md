@@ -5,11 +5,11 @@ With this plugin you will be able to host UHC matches with your friends.
 Plugin Version: 1.0
 Supported Minecraft Version: 1.14.4
 
-!IMPORTANT NOTE! || The version 1.0 of this plugin may contain bugs that affect the gameplay or produce unexpected exceptions. Please, note that if you found a bug I encourage you to report it in order to improve this plugin. || !IMPORTANT NOTE!
+### IMPORTANT NOTE
+The version 1.1 of this plugin may contain bugs that affect the gameplay or produce unexpected exceptions. Please, note that if you found a bug I encourage you to report it in order to improve this plugin.
 
-[Developer Note]
+### Developer Note
 This plugin was inspired by the series UHC España organized by ElRichMC. If you want to contribute to the code don't doubt to contact me. The project is in its early days, so if you would want to see a new feature added to the plugin please do not doubt to post it. Any kind of constructive criticism is always appreciated in order to improve this project and my coding skills. Hope you like this plugin :).
-[Developer Note]
 
 ## Features:
 This plugin comes along with the following features:
