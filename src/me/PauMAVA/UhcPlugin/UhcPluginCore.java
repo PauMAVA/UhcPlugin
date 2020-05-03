@@ -31,6 +31,7 @@ import me.PauMAVA.UhcPlugin.util.EventsRegister;
 import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import me.PauMAVA.UhcPlugin.util.UhcTabList;
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -74,6 +75,9 @@ public class UhcPluginCore extends JavaPlugin {
 				PacketIntercepter.rmPlayer(p);
 				UhcScoreboardManager.rmPlayer(p);
 				UhcTabList.resetTab(p);
+				p.setHealth(20);
+				p.setHealthScale(20);
+				p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 			}
 			UhcLogger.info("Disabled UhcPlugin!");
 		}
@@ -93,4 +97,5 @@ public class UhcPluginCore extends JavaPlugin {
 		public LanguageManager getLanguageManager() {
 			return this.languageManager;
 		}
+
 }

@@ -20,3 +20,8 @@ custom_ghast_drops:
   enabled: true
   item: gold_ingot # Minecraft item id.
   amount: 1 # Amount of the item
+
+
+# Hyper golden apple settings
+hga:
+  containers: 2 # 1 container = 2 hp (1 heart)

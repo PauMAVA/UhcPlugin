@@ -44,6 +44,8 @@ public class CustomRecipes {
 			removeOriginalGoldenMelon();
 			newGlisteringMelon();
 			darkCrystal();
+			superGoldenApple();
+			hyperGoldenApple();
 		}
 	}
 	
@@ -95,5 +97,23 @@ public class CustomRecipes {
 		darkCrystalRecipe.setIngredient('-', Material.BLAZE_POWDER);
 		darkCrystalRecipe.setIngredient('%', Material.PLAYER_HEAD);
 		Bukkit.getServer().addRecipe(darkCrystalRecipe);
+	}
+
+	private void superGoldenApple() {
+		registerHyperSuperGoldenApples("super_golden_apple");
+	}
+
+	private void hyperGoldenApple() {
+		registerHyperSuperGoldenApples("hyper_golden_apple");
+	}
+
+	private void registerHyperSuperGoldenApples(String key) {
+		ItemStack sga = new ItemStack(Material.GOLDEN_APPLE, 1);
+		NamespacedKey name = new NamespacedKey(UhcPluginCore.getInstance(), key);
+		ShapedRecipe recipe = new ShapedRecipe(name, sga);
+		recipe.shape("***", "*-*", "***");
+		recipe.setIngredient('*', Material.GOLD_INGOT);
+		recipe.setIngredient('-', Material.GOLDEN_APPLE);
+		Bukkit.getServer().addRecipe(recipe);
 	}
 }

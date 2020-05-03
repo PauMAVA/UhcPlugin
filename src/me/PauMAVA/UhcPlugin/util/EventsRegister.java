@@ -18,6 +18,7 @@
 
 package me.PauMAVA.UhcPlugin.util;
 
+import com.mojang.datafixers.kinds.IdF;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
@@ -25,13 +26,13 @@ import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Drowned;
 import org.bukkit.entity.Ghast;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,10 +42,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -132,6 +137,20 @@ public class EventsRegister implements Listener {
 		}
 	}
 
+	@EventHandler
+	public void onPlayerCraft(PrepareItemCraftEvent event) {
+		if (event.getRecipe() != null) {
+			checkGoldenApplesRecipes(event);
+		}
+	}
+
+	@EventHandler
+	public void playerEatEvent(PlayerItemConsumeEvent event) {
+		if (event.getItem().getType() == Material.GOLDEN_APPLE) {
+			onGoldenAppleConsume(event);
+		}
+	}
+
 	private void customizeDrownedDrop(EntityDeathEvent event) {
 		Integer randomNum = new Range(0 , 100).getRandomInteger();
 		if(randomNum > 50) {
@@ -157,6 +176,37 @@ public class EventsRegister implements Listener {
 				event.getDrops().remove(i);
 			}
 		}
+	}
+
+	private void checkGoldenApplesRecipes(PrepareItemCraftEvent event) {
+		ItemStack resultItem = event.getRecipe().getResult();
+		if (resultItem.getType() == Material.GOLDEN_APPLE) {
+			ItemMeta resultMeta = resultItem.getItemMeta();
+			ItemStack centralItem = event.getInventory().getMatrix()[4];
+			if (centralItem.getType() == Material.GOLDEN_APPLE) {
+				if (centralItem.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "Super Golden Apple")) {
+					resultMeta.setDisplayName(ChatColor.DARK_PURPLE + "Hyper Golden Apple");
+				} else if (centralItem.getItemMeta().getDisplayName().equalsIgnoreCase(resultMeta.getDisplayName())) {
+					resultMeta.setDisplayName(ChatColor.GOLD + "Super Golden Apple");
+				}
+			}
+			ItemStack finalItem = new ItemStack(Material.GOLDEN_APPLE, 1);
+			finalItem.setItemMeta(resultMeta);
+			event.getInventory().setResult(finalItem);
+		}
+	}
+
+	private void onGoldenAppleConsume(PlayerItemConsumeEvent event) {
+		String displayName = event.getItem().getItemMeta().getDisplayName();
+		Player player = event.getPlayer();
+		if (displayName.equalsIgnoreCase(ChatColor.GOLD + "Super Golden Apple")) {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.ABSORPTION, 120 * 20, 0));
+		} else if(displayName.equalsIgnoreCase(ChatColor.DARK_PURPLE + "Hyper Golden Apple") && player.getHealthScale() < 20 * 10) {
+			player.setHealthScale(player.getHealthScale() + configuration.getInt("hga.containers") * 2);
+			player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealthScale());
+		}
+		player.setFoodLevel(player.getFoodLevel() + Math.min(20 - player.getFoodLevel(), 4));
 	}
 	
 }
