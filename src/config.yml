@@ -8,6 +8,15 @@ final_radius: 150
 border_closing_episode: 8
 rotate_skins: true
 
+# If this feature is enabled, the plugin will give a shulkerbox to all alive players on the specified episode.
+# If the player has got no space in their inventory, a shulkerbox item will be dropped at their location.
 auto_shulker:
   enabled: true
   episode: 8
+
+# If this section is enabled ghast drops will be replaced by the following drops.
+# If the specified item type does not exist, ghasts will drop default ghast tears.
+custom_ghast_drops:
+  enabled: true
+  item: gold_ingot # Minecraft item id.
+  amount: 1 # Amount of the item

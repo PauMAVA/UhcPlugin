@@ -20,14 +20,18 @@ package me.PauMAVA.UhcPlugin.util;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.UhcChatManager;
+import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
 import me.PauMAVA.UhcPlugin.match.UhcDeathManager;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.advancement.Advancement;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Drowned;
+import org.bukkit.entity.Ghast;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -42,9 +46,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class EventsRegister implements Listener {
 	
 	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
+	private FileConfiguration configuration = UhcConfigCmd.getConfig();
 	
 	/*Listens for players joining the server and:
 	 * - Injects them to the pipeline*/
@@ -110,14 +119,9 @@ public class EventsRegister implements Listener {
 	@EventHandler
 	public void onEntityKill(EntityDeathEvent event) {
 		if(event.getEntity() instanceof Drowned && event.getEntity().getKiller() != null) {
-			Integer randomNum = new Range(0 , 100).getRandomInteger();
-			if(randomNum > 50) {
-				ItemStack item = new ItemStack(Material.TRIDENT, 1);
-				Damageable meta = (Damageable) item.getItemMeta();
-				meta.setDamage(new Range(100, 250).getRandomInteger());
-				item.setItemMeta((ItemMeta) meta);
-				event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
-			}
+			customizeDrownedDrop(event);
+		} else if (event.getEntity() instanceof Ghast && event.getEntity().getKiller() != null && configuration.getBoolean("custom_ghast_drops.enabled")) {
+			customizeGhastDrop(event);
 		}
 	}
 
@@ -125,6 +129,33 @@ public class EventsRegister implements Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		if(plugin.getMatchHandler().getMatchStatus() && event.getCause().equals(PlayerTeleportEvent.TeleportCause.SPECTATE)) {
 			event.setCancelled(true);
+		}
+	}
+
+	private void customizeDrownedDrop(EntityDeathEvent event) {
+		Integer randomNum = new Range(0 , 100).getRandomInteger();
+		if(randomNum > 50) {
+			ItemStack item = new ItemStack(Material.TRIDENT, 1);
+			Damageable meta = (Damageable) item.getItemMeta();
+			meta.setDamage(new Range(100, 250).getRandomInteger());
+			item.setItemMeta((ItemMeta) meta);
+			event.getEntity().getWorld().dropItem(event.getEntity().getLocation(), item);
+		}
+	}
+
+	private void customizeGhastDrop(EntityDeathEvent event) {
+		World world = event.getEntity().getWorld();
+		ItemStack item = null;
+		try {
+			item = new ItemStack(Material.valueOf(configuration.getString("custom_ghast_drops.item").toUpperCase()), configuration.getInt("custom_ghast_drops.amount"));
+			world.dropItem(event.getEntity().getLocation(), item);
+		} catch (IllegalArgumentException ignored) {}
+		if (event.getDrops().size() > 0 && item != null) {
+			List<ItemStack> copy = new ArrayList<>();
+			copy.addAll(event.getDrops());
+			for (ItemStack i: copy) {
+				event.getDrops().remove(i);
+			}
 		}
 	}
 	
