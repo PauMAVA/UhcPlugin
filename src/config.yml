@@ -6,3 +6,8 @@ border_radius: 1500
 closable_border: true
 final_radius: 150
 border_closing_episode: 8
+rotate_skins: true
+
+auto_shulker:
+  enabled: true
+  episode: 8

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>UhcPlugin</groupId>
 	<artifactId>UhcPlugin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.2</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -26,13 +26,21 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
 					<archive>
 						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib</classpathPrefix>
 							<mainClass>me.PauMAVA.UhcPlugin.UhcPluginCore</mainClass>
 						</manifest>
 					</archive>
@@ -52,8 +60,8 @@
 						<configuration>
 							<target>
 								<echo>Copying .jar to Development Server....</echo>
-								<copy todir="C:/Users/Pau/Desktop/TestServer/plugins" overwrite="true">
-									<fileset dir="target" includes="*.jar">
+								<copy todir="C:/Users/Pau/Desktop/Servers/1.15.2/TestServer/plugins" overwrite="true">
+									<fileset dir="target" includes="UhcPlugin-1.2-jar-with-dependencies.jar">
 										<include name="UhcPlugin.jar"/>
 									</fileset>
 								</copy>
@@ -76,6 +84,17 @@
 			<artifactId>craftbukkit</artifactId>
 			<version>1.15.2</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>me.PauMAVA</groupId>
+			<artifactId>MojangAPI</artifactId>
+			<version>2020-0.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
 		</dependency>
 	</dependencies>
 </project>

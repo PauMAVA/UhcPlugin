@@ -74,7 +74,7 @@ public class UhcChatManager {
 		/* Checks if the player doesn't belong to a team */
 		if(playersTeam == null)  {
 			for(Player checkPlayer: Bukkit.getServer().getOnlinePlayers()) {
-				if(checkPlayer.getName().contentEquals(playerName)) {
+				if(checkPlayer.getUniqueId().equals(player.getUniqueId())) {
 					checkPlayer.sendMessage(msg);
 				}
 			}

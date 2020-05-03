@@ -29,8 +29,11 @@ import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
 import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class UhcMatchHandler {
@@ -61,7 +64,8 @@ public class UhcMatchHandler {
         UhcWorldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
-        this.timer = new UhcMatchTimer();
+        this.timer = new UhcMatchTimer(this);
+        this.timer.scheduleAsyncSkinRoll();
         this.timerTaskID = timer.runTaskTimer(plugin, 0L, 20L).getTaskId();
         this.tabTaskID = new UhcTabList().runTaskTimer(plugin, 0L, 20L).getTaskId();
     }
@@ -140,6 +144,20 @@ public class UhcMatchHandler {
 
     public UhcMatchTimer getTimer() {
         return this.timer;
+    }
+
+    void giveItemToAllPlayers(ItemStack item) {
+        for (UhcTeam team: getRemainingTeams()) {
+            for (Player p: team.alive()) {
+                Inventory inventory = p.getInventory();
+                HashMap<Integer, ItemStack> result = inventory.addItem(item);
+                for (Integer i: result.keySet()) {
+                    if (result.get(i).equals(item)) {
+                        p.getWorld().dropItem(p.getLocation(), item);
+                    }
+                }
+            }
+        }
     }
 
 }

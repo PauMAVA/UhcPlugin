@@ -35,7 +35,7 @@ public class UhcConfigCmd {
 	private static UhcPluginCore plugin = UhcPluginCore.getInstance();
 	private static CommandSender staticSender;
 	private static final List<String> canBeNegative = Arrays.asList("season");
-	private static final List<String> allConfigOptions = Arrays.asList("get","season","chapter_length","border_radius","difficulty","closable_border","final_radius","border_closing_episode");
+	private static final List<String> allConfigOptions = Arrays.asList("get","season","chapter_length","border_radius","difficulty","closable_border","final_radius","border_closing_episode","rotate_skins");
 	private static final List<String> legalDifficulties = Arrays.asList("peaceful","easy","normal","hard");
 	
 	public static FileConfiguration getConfig() {
@@ -81,6 +81,7 @@ public class UhcConfigCmd {
 				}
 				break;
 			}
+			case "rotate_skins":
 			case "closable_border": {
 				if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
 					setBoolean(option, value);
@@ -169,7 +170,11 @@ public class UhcConfigCmd {
 	public static String getLocale() {
 		return plugin.getConfig().getString("lang");
 	}
-	
+
+	public static boolean getSkinRotation() {
+		return plugin.getConfig().getBoolean("rotate_skins");
+	}
+
 	private static Set<String> printAllConfig() {
 		return plugin.getConfig().getKeys(false);
 	}

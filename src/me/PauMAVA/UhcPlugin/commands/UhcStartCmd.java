@@ -19,9 +19,7 @@
 package me.PauMAVA.UhcPlugin.commands;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
-import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.lang.PluginStrings;
-import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import net.minecraft.server.v1_15_R1.ChatComponentText;
 import net.minecraft.server.v1_15_R1.ChatMessageType;
 import net.minecraft.server.v1_15_R1.PacketPlayOutChat;
