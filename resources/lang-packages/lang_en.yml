@@ -124,7 +124,7 @@ teams:
       usage: "Usage of option register: /uhc teams register <teamName>"
     setmaxsize:
       notice: "Invalid arguments for the option setMaxSize in the command /uhc teams <option>!"
-      usage: "Usage of option setMaxSize: /uhc teams setMaxSize <teamName> <number>"
+      usage: "Usage of option setMaxSize: /uhc teams setMaxSize <teamName> <number> or /uhc teams setMaxSize <number>"
     nosuchoption: "No such option available for the command /uhc teams <option>!"
     availableoptions: "Available options are: register, add, kick, delete, setMaxSize."
 

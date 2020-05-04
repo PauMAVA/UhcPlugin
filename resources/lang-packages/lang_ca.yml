@@ -124,7 +124,7 @@ teams:
       usage: "Ús de l'opció eliminar: /uhc teams register <nom de l'equip>"
     setmaxsize:
       notice: "Arguments invàlids per a l'opció establirMidaMàxima del comandament /uhc teams <opció>!"
-      usage: "Ús de l'opció establirMidaMàxima: /uhc teams setMaxSize <nom de l'equip> <número>"
+      usage: "Ús de l'opció establirMidaMàxima: /uhc teams setMaxSize <nom de l'equip> <número> o /uhc teams setMaxSize <número>"
     nosuchoption: "No hi ha aquesta opció disponible per al comandament /uhc teams <opció>!"
     availableoptions: "Les opcions disponibles són: register, add, kick, delete, setMaxSize."
 

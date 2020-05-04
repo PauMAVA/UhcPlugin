@@ -31,6 +31,7 @@ import javax.annotation.Nullable;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import sun.security.krb5.Config;
 
 public class TeamsFile {
 	
@@ -197,7 +198,12 @@ public class TeamsFile {
 			e.printStackTrace();
 			return false;
 		}
-		teamsConfig.getConfigurationSection("teams." + teamName).set("teamSize", valueInt);
+		ConfigurationSection section = teamsConfig.getConfigurationSection("teams." + teamName);
+		if (section == null) {
+			return false;
+		} else {
+			section.set("teamSize", valueInt);
+		}
 		return true;
 	}
 

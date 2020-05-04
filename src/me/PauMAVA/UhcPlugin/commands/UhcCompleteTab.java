@@ -65,7 +65,7 @@ public class UhcCompleteTab implements TabCompleter {
 
 		}
 		if(subCommand.equalsIgnoreCase("teams")) {
-			return Arrays.asList("add","delete","get","kick","register");
+			return Arrays.asList("add","delete","get","kick","register","setMaxSize");
 		}
 		return new ArrayList<String>();
 	}

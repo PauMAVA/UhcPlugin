@@ -88,28 +88,12 @@ public class UhcTeamsManager {
 				break;
 			}	
 			case "setmaxsize": {
-				int newSize = Integer.parseInt(args[2]);
-				int actualSize = teamsConfig.getTeamMembers(args[1]).size();
-				if(newSize == actualSize) {
-					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + args[1] + PluginStrings.TEAMS_SAME_SIZE.toString() + newSize + PluginStrings.TEAMS_NO_CHANGES.toString());
-					break;
-				}
-				if(newSize < actualSize) {
-					List<String> ls = teamsConfig.settleNewSize(args[1] , actualSize - newSize);
-					sendMessage(theSender, PluginStrings.WARNING_PREFIX.toString() + PluginStrings.TEAMS_AUTOKICK_NOTICE.toString());
-					for(String kickedPlayer: ls) {
-						sendMessage(theSender, ChatColor.YELLOW + "  - " + kickedPlayer);
+				if (args.length == 2) {
+					for (String teamName: teamsConfig.getTeams()) {
+						resizeTeam(theSender, teamName, Integer.parseInt(args[1]));
 					}
-					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS.toString() + args[1] + ".");
-					teamsConfig.saveConfig();
-					break;
-				}
-				boolean check = teamsConfig.setMaxTeamSize(args[1],args[2]);
-				teamsConfig.saveConfig();
-				if(check) {
-					sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + args[1] +  PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS2.toString() + args[2] + ".");
-				} else {
-					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_UNEXPECTED_ERROR.toString());
+				} else if (args.length == 3){
+					resizeTeam(theSender, args[1], Integer.parseInt(args[2]));
 				}
 				break;
 			}
@@ -175,7 +159,7 @@ public class UhcTeamsManager {
 				break;
 			}
 			case "setmaxsize": {
-				if(length != 3 || isNotInt(args[2])) {
+				if((length == 2 && isNotInt(args[1])) || (length == 3 && isNotInt(args[2]))) {
 					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_MAXSIZE_NOTICE.toString());
 					sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_LEGAL_ARGS_MAXSIZE_USAGE.toString());
 					return false;
@@ -343,5 +327,30 @@ public class UhcTeamsManager {
 				}
 			}
 		}.runTaskLater(plugin, 40L);
+	}
+
+	private static void resizeTeam(CommandSender theSender, String teamName, int newSize) {
+		int actualSize = teamsConfig.getTeamMembers(teamName).size();
+		if(newSize == actualSize) {
+			sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_THE_TEAM.toString() + teamName + PluginStrings.TEAMS_SAME_SIZE.toString() + newSize + PluginStrings.TEAMS_NO_CHANGES.toString());
+			return;
+		}
+		if(newSize < actualSize) {
+			List<String> ls = teamsConfig.settleNewSize(teamName , actualSize - newSize);
+			sendMessage(theSender, PluginStrings.WARNING_PREFIX.toString() + PluginStrings.TEAMS_AUTOKICK_NOTICE.toString());
+			for(String kickedPlayer: ls) {
+				sendMessage(theSender, ChatColor.YELLOW + "  - " + kickedPlayer);
+			}
+			sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS.toString() + teamName + ".");
+			teamsConfig.saveConfig();
+			return;
+		}
+		boolean check = teamsConfig.setMaxTeamSize(teamName,String.valueOf(newSize));
+		teamsConfig.saveConfig();
+		if(check) {
+			sendMessage(theSender, PluginStrings.INFO_PREFIX.toString() + teamName +  PluginStrings.TEAMS_SIZE_CHANGE_SUCCESS2.toString() + newSize + ".");
+		} else {
+			sendMessage(theSender, PluginStrings.ERROR_PREFIX.toString() + PluginStrings.TEAMS_UNEXPECTED_ERROR.toString());
+		}
 	}
 }

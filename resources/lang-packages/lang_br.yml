@@ -124,7 +124,7 @@ teams:
       usage: "Uso da opção register: /uhc teams register <nomeDoTime>"
     setmaxsize:
       notice: "Argumentos invalidos para a opção setMaxSize no comando /uhc teams <opção>!"
-      usage: "Uso da opção setMaxSize: /uhc teams setMaxSize <nomeDoTime> <numero>"
+      usage: "Uso da opção setMaxSize: /uhc teams setMaxSize <nomeDoTime> <numero> ou /uhc teams setMaxSize <numero>"
     nosuchoption: "Nenhuma opção disponivel para o comando /uhc teams <opção>!"
     availableoptions: "Opções disponiveis são: register, add, kick, delete, setMaxSize."
 
