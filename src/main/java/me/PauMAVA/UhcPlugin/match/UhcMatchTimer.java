@@ -42,7 +42,9 @@ public class UhcMatchTimer extends BukkitRunnable {
     private String secondsString, minutesString, totalTimeString;
     private String season = UhcPluginCore.getInstance().getConfig().getString("season");
     private String seasonPrefix = PluginStrings.SEASON_PREFIX.toString();
-    private Integer chaptersToSkinRoll = 2;
+
+    private boolean doSkinRoll = UhcPluginCore.getInstance().getConfig().getBoolean("rotate_skins.enabled");
+    private Integer chaptersToSkinRoll = UhcPluginCore.getInstance().getConfig().getInt("rotate_skins.period");
 
     public UhcMatchTimer(UhcMatchHandler match) {
         this.match = match;
@@ -52,6 +54,16 @@ public class UhcMatchTimer extends BukkitRunnable {
     private void checkForShulkerGive(int episode) {
         if (configuration.getBoolean("auto_shulker.enabled") && episode == configuration.getInt("auto_shulker.episode")) {
             match.giveItemToAllPlayers(new ItemStack(Material.SHULKER_BOX, 1));
+        }
+    }
+
+    private void checkForSkinRoll() {
+        if (doSkinRoll) {
+            chaptersToSkinRoll--;
+            if (chaptersToSkinRoll <= 0) {
+                scheduleAsyncSkinRoll();
+                chaptersToSkinRoll = UhcPluginCore.getInstance().getConfig().getInt("rotate_skins.period");
+            }
         }
     }
 
@@ -67,11 +79,7 @@ public class UhcMatchTimer extends BukkitRunnable {
                 UhcPluginCore.getInstance().getMatchHandler().episodeAnnouncement(episode);
                 UhcWorldBorder.refreshBorder(episode);
                 checkForShulkerGive(episode);
-                chaptersToSkinRoll--;
-                if (chaptersToSkinRoll <= 0) {
-                    scheduleAsyncSkinRoll();
-                    chaptersToSkinRoll = 2;
-                }
+                checkForSkinRoll();
             }
         }
         if(seconds < 10) {

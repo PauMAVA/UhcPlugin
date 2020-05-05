@@ -6,7 +6,12 @@ border_radius: 1500
 closable_border: true
 final_radius: 150
 border_closing_episode: 8
-rotate_skins: true
+
+
+# If this feature is enabled all player's will be randomly disguised with other participant's skin and names periodically
+rotate_skins:
+  enabled: true
+  period: 2 # The period in episodes when a skin rotations cycle will be executed
 
 # If this feature is enabled, the plugin will give a shulkerbox to all alive players on the specified episode.
 # If the player has got no space in their inventory, a shulkerbox item will be dropped at their location.

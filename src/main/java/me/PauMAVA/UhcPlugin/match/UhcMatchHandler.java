@@ -70,7 +70,9 @@ public class UhcMatchHandler {
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
         this.timer = new UhcMatchTimer(this);
-        this.timer.scheduleAsyncSkinRoll();
+        if (UhcPluginCore.getInstance().getConfig().getBoolean("rotate_skins.enabled")) {
+            this.timer.scheduleAsyncSkinRoll();
+        }
         this.timerTaskID = timer.runTaskTimer(plugin, 0L, 20L).getTaskId();
         this.tabTaskID = new UhcTabList().runTaskTimer(plugin, 0L, 20L).getTaskId();
     }
