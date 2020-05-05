@@ -7,5 +7,3 @@ api-version: 1.15
 commands:
  uhc:
   description: This is the basic command of the plugin.
- skin:
-  description: TESTING CMD that changes the skin of the sender

@@ -20,14 +20,11 @@ package me.PauMAVA.UhcPlugin.match;
 
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
-import me.PauMAVA.UhcPlugin.gameplay.SkinChanger;
 import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.world.UhcWorldBorder;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -72,7 +69,7 @@ public class UhcMatchTimer extends BukkitRunnable {
                 checkForShulkerGive(episode);
                 chaptersToSkinRoll--;
                 if (chaptersToSkinRoll <= 0) {
-                    //scheduleAsyncSkinRoll();
+                    scheduleAsyncSkinRoll();
                     chaptersToSkinRoll = 2;
                 }
             }
@@ -142,7 +139,7 @@ public class UhcMatchTimer extends BukkitRunnable {
     }
 
     void scheduleAsyncSkinRoll() {
-        new SkinChanger().runTaskAsynchronously(UhcPluginCore.getInstance());
+        match.getSkinChanger().rotateSkinsAsync();
     }
 
 }

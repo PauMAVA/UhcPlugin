@@ -41,25 +41,41 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
-public class SkinChanger extends BukkitRunnable implements CommandExecutor {
+public class SkinChanger {
 
     private MojangAPI mojangAPI;
 
     private HashMap<Player, Player> playerMapping = new HashMap<>();
 
+    private HashMap<UUID, String> originalPlayerNames = new HashMap<>();
+
     public SkinChanger() {
         this.mojangAPI = new MojangAPI();
     }
 
-    @Override
-    public void run() {
-        rotateSkins();
-        this.cancel();
+    public String getOriginalName(UUID uuid) {
+        for (UUID key: originalPlayerNames.keySet()) {
+            if (key.equals(uuid)) {
+                return originalPlayerNames.get(uuid);
+            }
+        }
+        return "";
     }
 
-    private GameProfile buildProfile(CraftPlayer cPlayer, String userName) {
-        GameProfile profile = new GameProfile(cPlayer.getUniqueId(), userName);
-        RawPlayerProfileJson rawProfile = this.mojangAPI.getPlayerInfoHandler().getRawPlayerProfile(this.mojangAPI.getPlayerInfoHandler().fetchUUID(userName));
+    public void cachePlayerInfo() {
+        for (Player p: Bukkit.getServer().getOnlinePlayers()) {
+            originalPlayerNames.put(p.getUniqueId(), p.getName());
+        }
+    }
+
+    private GameProfile buildProfile(CraftPlayer cPlayer, UUID uuid) {
+        GameProfile profile = new GameProfile(cPlayer.getUniqueId(), getOriginalName(uuid));
+        RawPlayerProfileJson rawProfile;
+        if (this.mojangAPI.getMojangAPICache().hasCachedRawProfile(uuid)) {
+            rawProfile = this.mojangAPI.getMojangAPICache().getRawProfile(uuid);
+        } else {
+            rawProfile = this.mojangAPI.getPlayerInfoHandler().getRawPlayerProfile(uuid);
+        }
         String skinUrl = rawProfile.getProperties().get(0).getValue();
         String signature = rawProfile.getProperties().get(0).getSignature();
         profile.getProperties().removeAll("textures");
@@ -67,8 +83,8 @@ public class SkinChanger extends BukkitRunnable implements CommandExecutor {
         return profile;
     }
 
-    private void changeSkin(CraftPlayer cPlayer, String requestedSkinName) {
-        GameProfile gProfile = buildProfile(cPlayer, requestedSkinName);
+    private void changeSkin(CraftPlayer cPlayer, UUID requestedSkinUUID) {
+        GameProfile gProfile = buildProfile(cPlayer, requestedSkinUUID);
         try {
             Field profileField = cPlayer.getHandle().getClass().getSuperclass().getDeclaredField("bT");
             profileField.setAccessible(true);
@@ -104,52 +120,29 @@ public class SkinChanger extends BukkitRunnable implements CommandExecutor {
         }
     }
 
-    public void rotateSkins() {
-        mapPlayers();
-        for (Player target: Bukkit.getServer().getOnlinePlayers()) {
-            UhcPluginCore.getInstance().getLogger().info("Target player: " + target.getName());
-            Player random = pickRandomPlayer(target);
-            UhcPluginCore.getInstance().getLogger().info("Random player: " + random.getName());
-            changeSkin((CraftPlayer) target, random.getName());
-            sendTitle(target, random);
-        }
-    }
-
-    private void mapPlayers() {
-        Player[] playerArray = new Player[Bukkit.getServer().getOnlinePlayers().size()];
-        int i = 0;
-        for (Player player: Bukkit.getServer().getOnlinePlayers()) {
-            playerArray[i] = player;
-            i++;
-        }
-        List<Player> players = Arrays.asList(playerArray);
-        List<Player> shuffledPlayers = new ArrayList<>();
-        Collections.copy(players, shuffledPlayers);
-        Collections.shuffle(shuffledPlayers);
-        for (int j = 0; j < players.size(); j++) {
-            this.playerMapping.put(players.get(j), shuffledPlayers.get(j));
-        }
-    }
-
-    private Player pickRandomPlayer(Player original) {
-        for (Player p: playerMapping.keySet()) {
-            if (p.getUniqueId().equals(original.getUniqueId())) {
-                return playerMapping.get(p);
+    public void rotateSkinsAsync() {
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                mapPlayers(Bukkit.getServer().getOnlinePlayers());
+                for (Player p: playerMapping.keySet()) {
+                    changeSkin((CraftPlayer) p, playerMapping.get(p).getUniqueId());
+                    sendTitle(p, playerMapping.get(p));
+                }
             }
+        }.runTaskAsynchronously(UhcPluginCore.getInstance());
+    }
+
+    private void mapPlayers(Collection<? extends Player> players) {
+        List<? extends Player> shuffledPlayers = new ArrayList<>(players);
+        Collections.shuffle(shuffledPlayers);
+        Player[] originalPlayers = players.toArray(new Player[0]);
+        for (int j = 0; j < players.size(); j++) {
+            this.playerMapping.put(originalPlayers[j], shuffledPlayers.get(j));
         }
-        return original;
     }
 
     private void sendTitle(Player original, Player disguise) {
-        original.sendTitle(ChatColor.GREEN + "◆"+ ChatColor.RESET + ChatColor.AQUA + "" + ChatColor.BOLD + " SKIN ROLL " + ChatColor.RESET + ChatColor.GREEN + "◆", ChatColor.GRAY + "Your disguise: " + disguise.getName(), 0, 5*20,1*20);
+        original.sendTitle(ChatColor.GREEN + "◆"+ ChatColor.RESET + ChatColor.AQUA + "" + ChatColor.BOLD + " SKIN ROLL " + ChatColor.RESET + ChatColor.GREEN + "◆", ChatColor.GRAY + "Your disguise: " + originalPlayerNames.get(disguise.getUniqueId()), 0, 5*20,1*20);
     }
-
-    @Override
-    public boolean onCommand(CommandSender theSender, Command command, String s, String[] args) {
-        changeSkin((CraftPlayer) theSender, args[0]);
-        return false;
-    }
-
-
-
 }

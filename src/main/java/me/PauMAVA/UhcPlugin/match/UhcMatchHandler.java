@@ -21,6 +21,7 @@ package me.PauMAVA.UhcPlugin.match;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import me.PauMAVA.UhcPlugin.chat.Prefix;
 import me.PauMAVA.UhcPlugin.commands.UhcConfigCmd;
+import me.PauMAVA.UhcPlugin.gameplay.SkinChanger;
 import me.PauMAVA.UhcPlugin.lang.PluginStrings;
 import me.PauMAVA.UhcPlugin.teams.UhcTeam;
 import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
@@ -46,15 +47,19 @@ public class UhcMatchHandler {
     private List<UhcTeam> teams = new ArrayList<UhcTeam>();
     private UhcMatchTimer timer;
 
+    private SkinChanger skinChanger;
+
     /**
     * UhcMatchHandler constructor
     * @param plugin - the instance of the plugin core */
     public UhcMatchHandler(UhcPluginCore plugin) {
         this.plugin = plugin;
+        this.skinChanger = new SkinChanger();
     }
 
     public void start() {
         this.isRunning = true;
+        skinChanger.cachePlayerInfo();
         for(String teamName: UhcTeamsManager.getTeamsManagementFile().getTeams()) {
             teams.add(UhcTeamsManager.getTeamObject(teamName));
         }
@@ -144,6 +149,10 @@ public class UhcMatchHandler {
 
     public UhcMatchTimer getTimer() {
         return this.timer;
+    }
+
+    public SkinChanger getSkinChanger() {
+        return skinChanger;
     }
 
     void giveItemToAllPlayers(ItemStack item) {

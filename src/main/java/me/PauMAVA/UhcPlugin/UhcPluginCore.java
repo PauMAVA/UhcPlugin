@@ -18,7 +18,6 @@
 
 package me.PauMAVA.UhcPlugin;
 
-import javafx.scene.control.Skin;
 import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
@@ -35,10 +34,6 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class UhcPluginCore extends JavaPlugin {
@@ -64,7 +59,6 @@ public class UhcPluginCore extends JavaPlugin {
 			this.getServer().getPluginManager().registerEvents(new EventsRegister(), this);
 			this.getCommand("uhc").setExecutor(new UhcCmdHub());
 			this.getCommand("uhc").setTabCompleter(new UhcCompleteTab());
-			this.getCommand("skin").setExecutor(new SkinChanger());
 			//this.getCommand("abort").setExecutor(new AbortCmd(this));
 			CustomRecipes recipes = new CustomRecipes(true);
 		}

@@ -4,16 +4,16 @@
 	<artifactId>UhcPlugin</artifactId>
 	<version>1.2</version>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
+				<directory>src/main/resources</directory>
 				<includes>
 					<include>**/*.yml</include>
 				</includes>
 			</resource>
 			<resource>
-				<directory>resources/lang-packages</directory>
+				<directory>src/main/resources/lang-packages</directory>
 			</resource>
 		</resources>
 		<plugins>
@@ -88,13 +88,19 @@
 		<dependency>
 			<groupId>me.PauMAVA</groupId>
 			<artifactId>MojangAPI</artifactId>
-			<version>2020-0.3</version>
+			<version>2020-0.4</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>RELEASE</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>
