@@ -178,5 +178,9 @@ public class UhcConfigCmd {
 	private static Set<String> printAllConfig() {
 		return plugin.getConfig().getKeys(false);
 	}
+
+	public static double getDrownedDropRate(){
+		return plugin.getConfig().getDouble("trident_drop");
+	}
 	
 }

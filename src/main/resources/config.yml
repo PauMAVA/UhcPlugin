@@ -30,3 +30,6 @@ custom_ghast_drops:
 # Hyper golden apple settings
 hga:
   containers: 2 # 1 container = 2 hp (1 heart)
+
+# Probability of a drowned dropping a trident
+trident_drop: 0.5 # Probability from 0 (0%) to 1 (100%)
