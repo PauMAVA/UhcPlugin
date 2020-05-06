@@ -153,7 +153,7 @@ public class EventsRegister implements Listener {
 
 	private void customizeDrownedDrop(EntityDeathEvent event) {
 		Integer randomNum = new Range(0 , 100).getRandomInteger();
-		if(randomNum > 50) {
+		if(randomNum < UhcConfigCmd.getDrownedDropRate()*100) {
 			ItemStack item = new ItemStack(Material.TRIDENT, 1);
 			Damageable meta = (Damageable) item.getItemMeta();
 			meta.setDamage(new Range(100, 250).getRandomInteger());
