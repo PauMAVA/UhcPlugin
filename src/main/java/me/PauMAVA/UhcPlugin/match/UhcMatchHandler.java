@@ -46,6 +46,7 @@ public class UhcMatchHandler {
     private List<Player> matchPlayers = new ArrayList<>();
     private List<UhcTeam> teams = new ArrayList<UhcTeam>();
     private UhcMatchTimer timer;
+    private UhcWorldConfig worldConfig;
 
     private SkinChanger skinChanger;
 
@@ -55,6 +56,7 @@ public class UhcMatchHandler {
     public UhcMatchHandler(UhcPluginCore plugin) {
         this.plugin = plugin;
         this.skinChanger = new SkinChanger();
+        this.worldConfig = plugin.getWorldConfig();
     }
 
     public void start() {
@@ -63,10 +65,11 @@ public class UhcMatchHandler {
         for(String teamName: UhcTeamsManager.getTeamsManagementFile().getTeams()) {
             teams.add(UhcTeamsManager.getTeamObject(teamName));
         }
-        UhcWorldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
-        UhcWorldConfig.setRules(UhcWorldConfig.getRules());
-        UhcWorldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
-        UhcWorldConfig.setTime(0L);
+        worldConfig.cacheCurrentRules();
+        worldConfig.setBorder(plugin.getConfig().getDouble("border_radius"));
+        worldConfig.setUhcRules();
+        worldConfig.setDifficulty(UhcConfigCmd.getDifficultyObject());
+        worldConfig.setTime(0L);
         RandomTeleporter.teleportPlayers();
         UhcScoreboardManager.setUp();
         this.timer = new UhcMatchTimer(this);
@@ -82,6 +85,7 @@ public class UhcMatchHandler {
         Bukkit.getScheduler().cancelTask(this.timerTaskID);
         Bukkit.getScheduler().cancelTask(this.tabTaskID);
         UhcWorldBorder.stopWarningTask();
+        worldConfig.restoreRules();
     }
 
     /**

@@ -18,22 +18,50 @@
 
 package me.PauMAVA.UhcPlugin.world;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
-
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.Difficulty;
 import org.bukkit.GameRule;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-public class UhcWorldConfig {
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+
+public class UhcWorldConfig<T> {
 	
-	private static final UhcPluginCore plugin = UhcPluginCore.getInstance();
-	private static final List<World> dimensions = plugin.getServer().getWorlds();
-	
-	public static void setBorder(double radius) {
+	private final UhcPluginCore plugin;
+	private final List<World> dimensions;
+
+	private HashMap<World, HashMap<GameRule<T>, T>> cachedRules;
+
+	public void cacheCurrentRules() {
+		cachedRules = new HashMap<>();
+		for (World world: dimensions) {
+			HashMap<GameRule<T>, T> ruleSet = new HashMap<>();
+			for (String ruleName: world.getGameRules()) {
+				GameRule<T> gameRule = (GameRule<T>) GameRule.getByName(ruleName);
+				ruleSet.put(gameRule, world.getGameRuleValue(gameRule));
+			}
+			cachedRules.put(world, ruleSet);
+		}
+	}
+
+	public void restoreRules() {
+		for (World world: cachedRules.keySet()) {
+			HashMap<GameRule<T>, T> rules = cachedRules.get(world);
+			for (GameRule<T> rule: rules.keySet()) {
+				world.setGameRule(rule, rules.get(rule));
+			}
+		}
+	}
+
+	public UhcWorldConfig(UhcPluginCore plugin) {
+		this.plugin = plugin;
+		this.dimensions = plugin.getServer().getWorlds();
+	}
+
+	public void setBorder(double radius) {
 		double diameter = radius * 2;
 		for(World dimension: dimensions) {
 			dimension.getWorldBorder().setCenter(new Location(dimension, 0, 0, 0));
@@ -41,8 +69,13 @@ public class UhcWorldConfig {
 			UhcWorldBorder.startWarningTask();
 		}
 	}
-	
-	public static <T> void setRules(HashMap<GameRule<T>, T> rules) {
+
+	public void setUhcRules() {
+		setRules(getRules());
+	}
+
+
+	public <T> void setRules(HashMap<GameRule<T>, T> rules) {
 		Set<GameRule<T>> gameRuleList = rules.keySet();
 		for(GameRule<T> gm: gameRuleList) {
 			T value = rules.get(gm);
@@ -52,21 +85,19 @@ public class UhcWorldConfig {
 		}
 	}
 	
-	public static void setDifficulty(Difficulty d) {
+	public void setDifficulty(Difficulty d) {
 		for(World dimension: dimensions) {
 			dimension.setDifficulty(d);
 		}
-		return;
-	} 
+	}
 	
-	public static void setTime(Long time) {
+	public void setTime(Long time) {
 		for(World dimension: dimensions) {
 			dimension.setTime(time);
 		}
-		return;
 	}
 	
-	public static HashMap<GameRule<Boolean>, Boolean> getRules() {
+	public HashMap<GameRule<Boolean>, Boolean> getRules() {
 		HashMap<GameRule<Boolean>, Boolean> rulesMap = new HashMap<GameRule<Boolean>, Boolean>();
 		rulesMap.put(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 		rulesMap.put(GameRule.DO_DAYLIGHT_CYCLE, true);

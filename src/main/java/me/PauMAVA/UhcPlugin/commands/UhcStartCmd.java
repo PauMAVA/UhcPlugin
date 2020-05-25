@@ -40,7 +40,7 @@ class UhcStartCmd {
 	
 	/* initiates uhc start countdown
 	* @param args - the command arguments */
-	public static <T> void start(String[] args) {
+	public static void start(String[] args) {
 		Bukkit.getScheduler().cancelTasks(plugin);
 		try {
 			counter = Integer.parseInt(args[1]);

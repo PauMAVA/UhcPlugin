@@ -35,6 +35,7 @@ public class PacketIntercepter {
 	public static void rmPlayer(Player player) {
 		Channel channel = ((CraftPlayer) player).getHandle().playerConnection.networkManager.channel;
 		channel.eventLoop().submit(() -> {
+			// TODO Fix player name comparison
 			channel.pipeline().remove(player.getName());
 			return null;
 		});
@@ -82,6 +83,7 @@ public class PacketIntercepter {
 	
 		ChannelPipeline pipe = ((CraftPlayer)player).getHandle().playerConnection.networkManager.channel.pipeline();
 		try{
+			// TODO Fix player name usage
 			pipe.addBefore("packet_handler", player.getName(), channelDuplexHandler);
 		} catch (IllegalArgumentException ignored) {
 			System.out.println("EXCEPTION CAUSED WHEN ADDING PLAYER TO PIPELINE");

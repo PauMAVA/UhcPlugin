@@ -80,6 +80,7 @@ public class UhcChatManager {
 			}
 			return;
 		}
+		//TODO Fix player name comparison
 		List<String> recievers = UhcTeamsManager.getTeamMembers(playersTeam);
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			if(recievers.contains(p.getName())) {

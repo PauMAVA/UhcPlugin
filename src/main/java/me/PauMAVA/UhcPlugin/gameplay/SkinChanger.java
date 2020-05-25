@@ -23,21 +23,16 @@ import com.mojang.authlib.properties.Property;
 import me.PauMAVA.MojangAPI.MojangAPI;
 import me.PauMAVA.MojangAPI.RawPlayerProfileJson;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
-import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import net.minecraft.server.v1_15_R1.Packet;
 import net.minecraft.server.v1_15_R1.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_15_R1.PacketPlayOutNamedEntitySpawn;
 import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -69,7 +64,7 @@ public class SkinChanger {
     }
 
     private GameProfile buildProfile(CraftPlayer cPlayer, UUID uuid) {
-        GameProfile profile = new GameProfile(cPlayer.getUniqueId(), getOriginalName(uuid));
+        GameProfile profile = new GameProfile(cPlayer.getUniqueId(), cPlayer.getName());
         RawPlayerProfileJson rawProfile;
         if (this.mojangAPI.getMojangAPICache().hasCachedRawProfile(uuid)) {
             rawProfile = this.mojangAPI.getMojangAPICache().getRawProfile(uuid);
@@ -84,6 +79,7 @@ public class SkinChanger {
     }
 
     private void changeSkin(CraftPlayer cPlayer, UUID requestedSkinUUID) {
+        Bukkit.getServer().broadcastMessage("Changing skin for Player: name=" + cPlayer.getName() + ",displayName=" + cPlayer.getDisplayName() + ",UUID=" + cPlayer.getUniqueId());
         GameProfile gProfile = buildProfile(cPlayer, requestedSkinUUID);
         try {
             Field profileField = cPlayer.getHandle().getClass().getSuperclass().getDeclaredField("bT");
@@ -93,6 +89,8 @@ public class SkinChanger {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+        cPlayer.setDisplayName(getOriginalName(requestedSkinUUID));
+        Bukkit.getServer().broadcastMessage("    - Modified Player: name=" + cPlayer.getName() + ",displayName=" + cPlayer.getDisplayName() + ",UUID=" + cPlayer.getUniqueId());
         reloadPlayer(cPlayer);
     }
 
@@ -102,11 +100,13 @@ public class SkinChanger {
         PacketPlayOutPlayerInfo removeInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, cPlayer.getHandle());
         PacketPlayOutPlayerInfo addInfo = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, cPlayer.getHandle());
         for (Player p: Bukkit.getServer().getOnlinePlayers()) {
-            if (p.getUniqueId() != cPlayer.getPlayer().getUniqueId() && !UhcTeamsManager.getTeamObject(UhcTeamsManager.getPlayerTeam(cPlayer.getName())).isInTeam(p.getName())) {
-                dispatchPackets(p, destroy, entitySpawn, removeInfo, addInfo);
+            // && !UhcTeamsManager.getTeamObject(UhcTeamsManager.getPlayerTeam(cPlayer.getName())).isInTeam(p.getName())
+            if (p.getUniqueId() != cPlayer.getPlayer().getUniqueId()) {
+                dispatchPackets(p, destroy, entitySpawn);
                 Bukkit.getServer().getScheduler().runTask(UhcPluginCore.getInstance(), () -> p.hidePlayer(cPlayer.getPlayer()));
                 Bukkit.getServer().getScheduler().runTaskLater(UhcPluginCore.getInstance(), () -> p.showPlayer(cPlayer.getPlayer()), 5);
             }
+            dispatchPackets(p, removeInfo, addInfo);
         }
     }
 
@@ -125,6 +125,7 @@ public class SkinChanger {
             @Override
             public void run() {
                 mapPlayers(Bukkit.getServer().getOnlinePlayers());
+                Bukkit.getServer().broadcastMessage(playerMapping.toString());
                 for (Player p: playerMapping.keySet()) {
                     changeSkin((CraftPlayer) p, playerMapping.get(p).getUniqueId());
                     sendTitle(p, playerMapping.get(p));
@@ -144,5 +145,23 @@ public class SkinChanger {
 
     private void sendTitle(Player original, Player disguise) {
         original.sendTitle(ChatColor.GREEN + "◆"+ ChatColor.RESET + ChatColor.AQUA + "" + ChatColor.BOLD + " SKIN ROLL " + ChatColor.RESET + ChatColor.GREEN + "◆", ChatColor.GRAY + "Your disguise: " + originalPlayerNames.get(disguise.getUniqueId()), 0, 5*20,1*20);
+    }
+
+    public HashMap<UUID, String> getOriginalPlayerNames() {
+        return originalPlayerNames;
+    }
+
+    public UUID getPlayerUUID(String playerName) {
+        for (UUID uuid: originalPlayerNames.keySet()) {
+            if (originalPlayerNames.get(uuid).equals(playerName)) {
+                return uuid;
+            }
+        }
+        return null;
+    }
+
+    public String getRealName(Player player) {
+        UUID playerUUID = player.getUniqueId();
+        return originalPlayerNames.get(playerUUID);
     }
 }

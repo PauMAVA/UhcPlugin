@@ -91,6 +91,7 @@ public class UhcCompleteTab implements TabCompleter {
 	}
 	
 	private List<String> playerNamesList() {
+		//TODO Fix player name usage by UUID
 		List<String> returnList = new ArrayList<String>();
 		for(Player p: Bukkit.getServer().getOnlinePlayers()) {
 			returnList.add(p.getName());

@@ -21,7 +21,6 @@ package me.PauMAVA.UhcPlugin;
 import me.PauMAVA.UhcPlugin.commands.UhcCmdHub;
 import me.PauMAVA.UhcPlugin.commands.UhcCompleteTab;
 import me.PauMAVA.UhcPlugin.gameplay.CustomRecipes;
-import me.PauMAVA.UhcPlugin.gameplay.SkinChanger;
 import me.PauMAVA.UhcPlugin.lang.LanguageManager;
 import me.PauMAVA.UhcPlugin.match.UhcMatchHandler;
 import me.PauMAVA.UhcPlugin.match.UhcScoreboardManager;
@@ -29,6 +28,7 @@ import me.PauMAVA.UhcPlugin.teams.UhcTeamsManager;
 import me.PauMAVA.UhcPlugin.util.EventsRegister;
 import me.PauMAVA.UhcPlugin.util.PacketIntercepter;
 import me.PauMAVA.UhcPlugin.util.UhcTabList;
+import me.PauMAVA.UhcPlugin.world.UhcWorldConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -38,20 +38,22 @@ import java.util.logging.Logger;
 
 public class UhcPluginCore extends JavaPlugin {
 
-		/*Logger to handle plugin's output*/
-		private static final Logger UhcLogger = Bukkit.getServer().getLogger();
-		private static UhcPluginCore instance;
-		private Boolean matchStatus = false;
-		private UhcMatchHandler matchHandler;
-		private LanguageManager languageManager;
-		
-		@Override
+	/*Logger to handle plugin's output*/
+	private static final Logger UhcLogger = Bukkit.getServer().getLogger();
+	private static UhcPluginCore instance;
+	private Boolean matchStatus = false;
+	private UhcMatchHandler matchHandler;
+	private UhcWorldConfig uhcWorldConfig;
+	private LanguageManager languageManager;
+
+	@Override
 		public void onEnable() {
 			instance = this;
 			if(!this.getDataFolder().exists()) {
 				this.getDataFolder().mkdirs();
 			}
 			this.matchHandler = new UhcMatchHandler(this);
+			this.uhcWorldConfig = new UhcWorldConfig(this);
 			this.languageManager = new LanguageManager();
 			UhcLogger.info("Enabled UhcPlugin!");
 			this.saveDefaultConfig();
@@ -92,4 +94,7 @@ public class UhcPluginCore extends JavaPlugin {
 			return this.languageManager;
 		}
 
+	public UhcWorldConfig getWorldConfig() {
+		return uhcWorldConfig;
+	}
 }
