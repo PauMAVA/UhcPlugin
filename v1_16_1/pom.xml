@@ -37,6 +37,25 @@
                         <configuration>
                             <descriptorRefs>jar-with-dependencies</descriptorRefs>
                             <appendAssemblyId>false</appendAssemblyId>
+                            <outputDirectory>${bukkit.server.plugins}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>me.PauMAVA</groupId>
+                <artifactId>DBAR.maven</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>request-reload</goal>
+                        </goals>
+                        <configuration>
+                            <address>127.0.0.1</address>
+                            <port>25678</port>
+                            <password>12345</password>
                         </configuration>
                     </execution>
                 </executions>
@@ -49,6 +68,10 @@
             <id>PauMAVen</id>
             <url>https://raw.githubusercontent.com/PauMAVA/PauMAVen/master</url>
         </repository>
+        <repository>
+            <id>github</id>
+            <url>https://pkg.github.com/PauMAVA/PauMAVen</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -56,6 +79,7 @@
             <groupId>me.PauMAVA</groupId>
             <artifactId>craftbukkit</artifactId>
             <version>1.16.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.PauMAVA</groupId>
