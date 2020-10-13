@@ -5,6 +5,9 @@ With this plugin you will be able to host UHC matches with your friends.
 Plugin Version: 1.0
 Supported Minecraft Version: 1.15.2
 
+#### As of 13-10-2020
+This plugin needs to be fully recoded in order to improve efficiency and to fix some bugs which would require a huge replacement of code in certain files. This repository is not discontinued but will probably not be updated in the near future.
+
 ### IMPORTANT NOTE
 The version 1.1 of this plugin may contain bugs that affect the gameplay or produce unexpected exceptions. Please, note that if you found a bug I encourage you to report it in order to improve this plugin.
 
