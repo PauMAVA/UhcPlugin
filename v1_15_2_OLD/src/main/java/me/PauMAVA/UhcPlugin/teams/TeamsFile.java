@@ -31,7 +31,6 @@ import javax.annotation.Nullable;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import sun.security.krb5.Config;
 
 public class TeamsFile {
 	

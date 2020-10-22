@@ -3,6 +3,17 @@
 	<groupId>UhcPlugin</groupId>
 	<artifactId>UhcPlugin</artifactId>
 	<version>1.2</version>
+
+	<parent>
+		<groupId>me.PauMAVA</groupId>
+		<version>1.2</version>
+		<artifactId>UhcPlugin</artifactId>
+	</parent>
+
+	<properties>
+		<project.build.finalName>UhcPlugin-${project.version}-1.16branch.jar</project.build.finalName>
+	</properties>
+
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
@@ -17,14 +28,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
