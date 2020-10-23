@@ -5,5 +5,5 @@ description: A Uhc Plugin for Bukkit 1.16.X to play UHC matches.
 api-version: 1.16
 
 commands:
-  salto:
-    description: Teleport to a random location.
+  uhc:
+    description: Main plugin command

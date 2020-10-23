@@ -3,7 +3,6 @@ package me.PauMAVA.UhcPlugin.teams;
 import me.PauMAVA.UhcPlugin.UhcPluginCore;
 
 import java.util.List;
-import java.util.Objects;
 
 public class UhcTeamManager {
 
